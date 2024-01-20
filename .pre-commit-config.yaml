@@ -26,6 +26,12 @@ repos:
     rev: V3.23.5
     hooks:
       - id: latexindent
+        args:
+          - --overwriteIfDifferent
+          - --silent
+          - --local
+          - --cruft=/tmp/latexindent
+          - --GCString
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v3.13.0
     hooks:
