@@ -26,15 +26,11 @@
 
 \begin{figure}
   \centering
-  \subcaptionbox{分图 A\label{fig:subfig-a}}
-  {\includegraphics[width=0.35\linewidth]{example-image-a.pdf}}
-  \subcaptionbox{分图 B\label{fig:subfig-b}}
-  {\includegraphics[width=0.35\linewidth]{example-image-b.pdf}}
+  \subcaptionbox{分图 A\label{fig:subfig-a}}{\includegraphics[width=0.35\linewidth]{example-image-a.pdf}}
+  \subcaptionbox{分图 B\label{fig:subfig-b}}{\includegraphics[width=0.35\linewidth]{example-image-b.pdf}}
   \caption{多个分图的示例}
   \label{fig:multi-image}
 \end{figure}
-
-
 
 \section{表格}
 
@@ -46,11 +42,11 @@
   \caption{三线表示例}
   \begin{tabular}{ll}
     \toprule
-    文件名             & 描述               \\
+    文件名          & 描述                         \\
     \midrule
-    thuthesis.dtx   & 模板的源文件，包括文档和注释   \\
-    thuthesis.cls   & 模板文件             \\
-    thuthesis-*.bst & BibTeX 参考文献表样式文件 \\
+    thuthesis.dtx   & 模板的源文件，包括文档和注释 \\
+    thuthesis.cls   & 模板文件                     \\
+    thuthesis-*.bst & BibTeX 参考文献表样式文件    \\
     \bottomrule
   \end{tabular}
   \label{tab:three-line}
@@ -66,11 +62,11 @@
     \label{tab:three-part-table}
     \begin{tabular}{ll}
       \toprule
-      文件名                    & 描述               \\
+      文件名                 & 描述                         \\
       \midrule
-      thuthesis.dtx\tnote{a} & 模板的源文件，包括文档和注释   \\
-      thuthesis.cls\tnote{b} & 模板文件             \\
-      thuthesis-*.bst        & BibTeX 参考文献表样式文件 \\
+      thuthesis.dtx\tnote{a} & 模板的源文件，包括文档和注释 \\
+      thuthesis.cls\tnote{b} & 模板文件                     \\
+      thuthesis-*.bst        & BibTeX 参考文献表样式文件    \\
       \bottomrule
     \end{tabular}
     \begin{tablenotes}
@@ -86,31 +82,29 @@
 
 \begin{longtable}{cccc}
   \caption{跨页长表格的表题}
-  \label{tab:longtable}                 \\
+  \label{tab:longtable}                           \\
   \toprule
-  表头 1   & 表头 2 & 表头 3 & 表头 4           \\
+  表头 1 & 表头 2 & 表头 3 & 表头 4               \\
   \midrule
   \endfirsthead
   \caption*{续表~\thetable\quad 跨页长表格的表题} \\
   \toprule
-  表头 1   & 表头 2 & 表头 3 & 表头 4           \\
+  表头 1 & 表头 2 & 表头 3 & 表头 4               \\
   \midrule
   \endhead
   \bottomrule
   \endfoot
-  Row 1  &      &      &                \\
-  Row 2  &      &      &                \\
-  Row 3  &      &      &                \\
-  Row 4  &      &      &                \\
-  Row 5  &      &      &                \\
-  Row 6  &      &      &                \\
-  Row 7  &      &      &                \\
-  Row 8  &      &      &                \\
-  Row 9  &      &      &                \\
-  Row 10 &      &      &                \\
+  Row 1  &        &        &                      \\
+  Row 2  &        &        &                      \\
+  Row 3  &        &        &                      \\
+  Row 4  &        &        &                      \\
+  Row 5  &        &        &                      \\
+  Row 6  &        &        &                      \\
+  Row 7  &        &        &                      \\
+  Row 8  &        &        &                      \\
+  Row 9  &        &        &                      \\
+  Row 10 &        &        &                      \\
 \end{longtable}
-
-
 
 \section{算法}
 

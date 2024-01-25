@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://github.com/cmhughes/latexindent.pl/raw/main/documentation/latexindent-yaml-schema.json
+
+# 5. defaultSettings.yaml
+
+# 5.3 filecontents and preamble
+indentPreamble: 1
+
+# 5.4. Indentation and horizontal space
+defaultIndent: "  "
