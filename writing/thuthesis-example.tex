@@ -19,7 +19,7 @@
 \begin{document}
 
 % 封面
-% \maketitle
+\maketitle
 
 % 学位论文指导小组、公开评阅人和答辩委员会名单
 % 本科生不需要
@@ -31,10 +31,10 @@
 % \copyrightpage[file=scan-copyright.pdf]
 
 \frontmatter
-% \input{data/abstract}
+% \input{data/abstract.tex}
 
 % 目录
-% \tableofcontents
+\tableofcontents
 
 % 插图和附表清单
 % 本科生的插图索引和表格索引需要移至正文之后、参考文献前
@@ -43,20 +43,26 @@
 % \listoftables            % 附表清单
 
 % 符号对照表
-% \input{data/denotation}
+% \input{data/denotation.tex}
 
 % 正文部分
 \mainmatter
-% \input{data/chap01}
-% \input{data/chap02}
-% \input{data/chap03}
-% \input{data/chap04}
+\input{data/chap01.tex}
+\input{data/chap02.tex}
+% \input{data/chap03.tex}
+% \input{data/chap04.tex}
 
 % 其他部分
 \backmatter
 
+% 插图和附表清单
+% 本科生的插图索引和表格索引需要移至正文之后、参考文献前
+% \listoffiguresandtables  % 插图和附表清单（仅限研究生）
+% \listoffigures           % 插图清单
+% \listoftables            % 附表清单
+
 % 参考文献
-% \bibliography{ref/refs}  % 参考文献使用 BibTeX 编译
+\bibliography{ref/refs.bib}  % 参考文献使用 BibTeX 编译
 % \printbibliography       % 参考文献使用 BibLaTeX 编译
 
 % 附录
@@ -67,7 +73,7 @@
 % \input{data/appendix}
 
 % 致谢
-% \input{data/acknowledgements}
+% \input{data/acknowledgements.tex}
 
 % 声明
 % \statement

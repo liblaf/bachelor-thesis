@@ -22,7 +22,8 @@
 %% through LaTeX.
 %%
 \NeedsTeXFormat{LaTeX2e}[2017/04/15]
-\ProvidesClass{thuthesis}[2023/05/15 7.4.0 Tsinghua University Thesis Template]
+\ProvidesClass{thuthesis}
+[2023/05/15 7.4.0 Tsinghua University Thesis Template]
 \newcommand\thu@error[1]{%
   \ClassError{thuthesis}{#1}{}%
 }
@@ -126,167 +127,167 @@
 }
 \thu@define@key{
   thesis-type = {
-      name = thesis@type,
-      choices = {
-          thesis,
-          proposal,
-        },
-      default = thesis,
+    name = thesis@type,
+    choices = {
+      thesis,
+      proposal,
     },
+    default = thesis,
+  },
   degree = {
-      choices = {
-          bachelor,
-          master,
-          doctor,
-          postdoc,
-        },
-      default = doctor,
+    choices = {
+      bachelor,
+      master,
+      doctor,
+      postdoc,
     },
+    default = doctor,
+  },
   degree-type = {
-      choices = {
-          academic,
-          professional,
-        },
-      name = degree@type,
+    choices = {
+      academic,
+      professional,
     },
+    name = degree@type,
+  },
   main-language = {
-      name = main@language,
-      choices = {
-          chinese,
-          english,
-        },
+    name = main@language,
+    choices = {
+      chinese,
+      english,
     },
+  },
   language = {
-      choices = {
-          chinese,
-          english,
-        },
+    choices = {
+      chinese,
+      english,
     },
+  },
   system = {
-      choices = {
-          auto,
-          mac,
-          unix,
-          windows,
-        },
-      default = auto,
+    choices = {
+      auto,
+      mac,
+      unix,
+      windows,
     },
+    default = auto,
+  },
   fontset = {
-      choices = {
-          auto,
-          windows,
-          mac,
-          ubuntu,
-          fandol,
-          none,
-        },
-      default = auto,
+    choices = {
+      auto,
+      windows,
+      mac,
+      ubuntu,
+      fandol,
+      none,
     },
+    default = auto,
+  },
   font = {
-      choices = {
-          auto,
-          times,
-          termes,
-          stix,
-          xits,
-          libertinus,
-          newcm,
-          lm,
-          newtx,
-          none,
-        },
-      default = auto,
+    choices = {
+      auto,
+      times,
+      termes,
+      stix,
+      xits,
+      libertinus,
+      newcm,
+      lm,
+      newtx,
+      none,
     },
+    default = auto,
+  },
   cjk-font = {
-      name = cjk@font,
-      choices = {
-          auto,
-          windows,
-          mac,
-          mac-word,
-          noto,
-          fandol,
-          none,
-        },
-      default = auto,
+    name = cjk@font,
+    choices = {
+      auto,
+      windows,
+      mac,
+      mac-word,
+      noto,
+      fandol,
+      none,
     },
+    default = auto,
+  },
   math-font = {
-      name = math@font,
-      choices = {
-          auto,
-          stix,
-          xits,
-          libertinus,
-          newcm,
-          lm,
-          newtx,
-          none,
-        },
-      default = auto,
+    name = math@font,
+    choices = {
+      auto,
+      stix,
+      xits,
+      libertinus,
+      newcm,
+      lm,
+      newtx,
+      none,
     },
+    default = auto,
+  },
   math-style = {
-      name = math@style,
-      choices = {
-          GB,
-          ISO,
-          TeX,
-        },
+    name = math@style,
+    choices = {
+      GB,
+      ISO,
+      TeX,
     },
+  },
   uppercase-greek = {
-      name = uppercase@greek,
-      choices = {
-          italic,
-          upright,
-        },
+    name = uppercase@greek,
+    choices = {
+      italic,
+      upright,
     },
+  },
   less-than-or-equal = {
-      name = leq,
-      choices = {
-          slanted,
-          horizontal,
-        },
+    name = leq,
+    choices = {
+      slanted,
+      horizontal,
     },
+  },
   integral = {
-      choices = {
-          upright,
-          slanted,
-        },
+    choices = {
+      upright,
+      slanted,
     },
+  },
   integral-limits = {
-      name = integral@limits,
-      choices = {
-          true,
-          false,
-        },
+    name = integral@limits,
+    choices = {
+      true,
+      false,
     },
+  },
   partial = {
-      choices = {
-          upright,
-          italic,
-        },
+    choices = {
+      upright,
+      italic,
     },
+  },
   math-ellipsis = {
-      name = math@ellipsis,
-      choices = {
-          centered,
-          lower,
-          AMS,
-        },
+    name = math@ellipsis,
+    choices = {
+      centered,
+      lower,
+      AMS,
     },
+  },
   real-part = {
-      name = real@part,
-      choices = {
-          roman,
-          fraktur,
-        },
+    name = real@part,
+    choices = {
+      roman,
+      fraktur,
     },
+  },
   output = {
-      choices = {
-          print,
-          electronic,
-        },
-      default = print,
+    choices = {
+      print,
+      electronic,
     },
+    default = print,
+  },
 }
 \newif\ifthu@degree@graduate
 \newcommand\thu@set@graduate{%
@@ -622,7 +623,7 @@
 }
 \normalsize
 \ifx\MakeRobust\@undefined \else
-  \MakeRobust\normalsize
+    \MakeRobust\normalsize
 \fi
 \def\thu@def@fontsize#1#2{%
   \expandafter\newcommand\csname #1\endcsname[1][1.3]{%
@@ -890,7 +891,9 @@
   \RequirePackage{newtxtext}%
 }
 \ExplSyntaxOn
-\@ifpackageloaded { xeCJK }{ \msg_redirect_name:nnn { fontspec } { no-script } { info } }{ }
+\@ifpackageloaded { xeCJK }
+  { \msg_redirect_name:nnn { fontspec } { no-script } { info } }
+  { }
 \ExplSyntaxOff
 \ifthu@cjk@font@auto
   \ifthu@fontset@mac
@@ -1458,7 +1461,7 @@
       \else
         \MakeUppercase{\leftmark}%
       \fi
-    }%
+      }%
     \fancyfoot[C]{\wuhao\thepage}%
     \let\@mkboth\markboth
     \def\chaptermark##1{%
@@ -1507,34 +1510,34 @@
 \Urlmuskip=0mu plus 0.1mu
 \partopsep=\z@skip
 \def\@listi{\leftmargin\leftmargini
-  \parsep \z@skip
-  \topsep \z@skip
-  \itemsep\z@skip}
+            \parsep \z@skip
+            \topsep \z@skip
+            \itemsep\z@skip}
 \let\@listI\@listi
 \@listi
 \def\@listii {\leftmargin\leftmarginii
-  \labelwidth\leftmarginii
-  \advance\labelwidth-\labelsep
-  \topsep    \z@skip
-  \parsep    \z@skip
-  \itemsep   \z@skip}
+              \labelwidth\leftmarginii
+              \advance\labelwidth-\labelsep
+              \topsep    \z@skip
+              \parsep    \z@skip
+              \itemsep   \z@skip}
 \def\@listiii{\leftmargin\leftmarginiii
-  \labelwidth\leftmarginiii
-  \advance\labelwidth-\labelsep
-  \topsep    \z@skip
-  \parsep    \z@skip
-  \partopsep \z@skip
-  \itemsep   \z@skip}
+              \labelwidth\leftmarginiii
+              \advance\labelwidth-\labelsep
+              \topsep    \z@skip
+              \parsep    \z@skip
+              \partopsep \z@skip
+              \itemsep   \z@skip}
 \setlist{nosep}
 \interfootnotelinepenalty=10000
 \newcommand\thu@circled[1]{%
-\ifnum#1 >10\relax
-  \thu@warning{%
-    Too many footnotes in this page.
-    Keep footnote less than 10%
-  }%
-\fi
-{\symbol{\the\numexpr#1+"245F\relax}}%
+  \ifnum#1 >10\relax
+    \thu@warning{%
+      Too many footnotes in this page.
+      Keep footnote less than 10%
+    }%
+  \fi
+  {\symbol{\the\numexpr#1+"245F\relax}}%
 }
 \renewcommand{\thefootnote}{\thu@circled{\c@footnote}}
 \renewcommand{\thempfootnote}{\thu@circled{\c@mpfootnote}}
@@ -1542,47 +1545,47 @@
 \footnotemargin=13.5bp
 \long\def\@makefntext#1{%
   \begingroup
-  % 序号取消上标
-  \def\@makefnmark{\hbox{\normalfont\@thefnmark}}%
-  \xiaowu
-  \ifFN@hangfoot
-    \bgroup
-    \setbox\@tempboxa\hbox{%
-      \ifdim\footnotemargin>\z@
-        \hb@xt@\footnotemargin{\@makefnmark\hss}%
-      \else
-        \@makefnmark
-      \fi
-    }%
-    \leftmargin\wd\@tempboxa
-    \rightmargin\z@
-    \linewidth \columnwidth
-    \advance \linewidth -\leftmargin
-    \parshape \@ne \leftmargin \linewidth
-    % \footnotesize
+    % 序号取消上标
+    \def\@makefnmark{\hbox{\normalfont\@thefnmark}}%
     \xiaowu
-    \@setpar{{\@@par}}%
-    \leavevmode
-    \llap{\box\@tempboxa}%
-    \parskip\hangfootparskip\relax
-    \parindent\hangfootparindent\relax
-  \else
-    \parindent1em%
-    \noindent
-    \ifdim\footnotemargin>\z@
-      \hb@xt@ \footnotemargin{\hss\@makefnmark}%
+    \ifFN@hangfoot
+      \bgroup
+      \setbox\@tempboxa\hbox{%
+        \ifdim\footnotemargin>\z@
+          \hb@xt@\footnotemargin{\@makefnmark\hss}%
+        \else
+          \@makefnmark
+        \fi
+      }%
+      \leftmargin\wd\@tempboxa
+      \rightmargin\z@
+      \linewidth \columnwidth
+      \advance \linewidth -\leftmargin
+      \parshape \@ne \leftmargin \linewidth
+      % \footnotesize
+      \xiaowu
+      \@setpar{{\@@par}}%
+      \leavevmode
+      \llap{\box\@tempboxa}%
+      \parskip\hangfootparskip\relax
+      \parindent\hangfootparindent\relax
     \else
-      \ifdim\footnotemargin=\z@
-        \llap{\@makefnmark}%
+      \parindent1em%
+      \noindent
+      \ifdim\footnotemargin>\z@
+        \hb@xt@ \footnotemargin{\hss\@makefnmark}%
       \else
-        \llap{\hb@xt@ -\footnotemargin{\@makefnmark\hss}}%
+        \ifdim\footnotemargin=\z@
+          \llap{\@makefnmark}%
+        \else
+          \llap{\hb@xt@ -\footnotemargin{\@makefnmark\hss}}%
+        \fi
       \fi
     \fi
-  \fi
-  \footnotelayout#1%
-  \ifFN@hangfoot
-    \par\egroup
-  \fi
+    \footnotelayout#1%
+    \ifFN@hangfoot
+      \par\egroup
+    \fi
   \endgroup
 }
 \allowdisplaybreaks[4]
@@ -1610,46 +1613,53 @@
 \setlength{\@fptop}{0bp \@plus1.0fil}
 \setlength{\@fpsep}{12bp \@plus2.0fil}
 \setlength{\@fpbot}{0bp \@plus1.0fil}
-\patchcmd{\@addtocurcol}{\vskip \intextsep}{\edef\save@first@penalty{\the\lastpenalty}\unpenalty%%
-  \ifnum \lastpenalty = \@M  % hopefully the OR penalty
-    \unpenalty
-  \else
-    \penalty \save@first@penalty \relax % put it back
-  \fi
-  \ifnum\outputpenalty <-\@Mii
-    \addvspace\intextsep
-    \vskip\parskip
-  \else
-    \addvspace\intextsep
-  \fi}{}{\thu@patch@error{\@addtocurcol}}%
-\patchcmd{\@addtocurcol}{\vskip\intextsep \ifnum\outputpenalty <-\@Mii \vskip -\parskip\fi}{\ifnum\outputpenalty <-\@Mii%%
-    \aftergroup\vskip\aftergroup\intextsep
-    \aftergroup\nointerlineskip
-  \else
-    \vskip\intextsep
-  \fi}{}{\thu@patch@error{\@addtocurcol}}%
-\patchcmd{\@getpen}{\@M}{\@Mi}{}{\thu@patch@error{\@getpen}}
+\patchcmd{\@addtocurcol}%
+  {\vskip \intextsep}%
+  {\edef\save@first@penalty{\the\lastpenalty}\unpenalty
+   \ifnum \lastpenalty = \@M  % hopefully the OR penalty
+     \unpenalty
+   \else
+     \penalty \save@first@penalty \relax % put it back
+   \fi
+   \ifnum\outputpenalty <-\@Mii
+     \addvspace\intextsep
+     \vskip\parskip
+   \else
+     \addvspace\intextsep
+   \fi}%
+  {}{\thu@patch@error{\@addtocurcol}}
+\patchcmd{\@addtocurcol}%
+  {\vskip\intextsep \ifnum\outputpenalty <-\@Mii \vskip -\parskip\fi}%
+  {\ifnum\outputpenalty <-\@Mii
+     \aftergroup\vskip\aftergroup\intextsep
+     \aftergroup\nointerlineskip
+   \else
+     \vskip\intextsep
+   \fi}%
+  {}{\thu@patch@error{\@addtocurcol}}
+\patchcmd{\@getpen}{\@M}{\@Mi}
+  {}{\thu@patch@error{\@getpen}}
 \renewcommand{\textfraction}{0.15}
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\bottomfraction}{0.65}
 \renewcommand{\floatpagefraction}{0.60}
 \thu@define@key{
   figure-number-separator = {
-      name    = figure@number@separator,
-      default = {.},
-    },
+    name    = figure@number@separator,
+    default = {.},
+  },
   table-number-separator = {
-      name    = table@number@separator,
-      default = {.},
-    },
+    name    = table@number@separator,
+    default = {.},
+  },
   equation-number-separator = {
-      name    = equation@number@separator,
-      default = {.},
-    },
+    name    = equation@number@separator,
+    default = {.},
+  },
   number-separator = {
-      name    = number@separator,
-      default = {.},
-    },
+    name    = number@separator,
+    default = {.},
+  },
 }
 \renewcommand\thefigure{%
   \ifnum\c@chapter>\z@
@@ -1745,16 +1755,16 @@
     afterindent  = true,
     lofskip      = 0pt,
     lotskip      = 0pt,
-   },
+  },
   section = {
     afterindent  = true,
-   },
+  },
   subsection = {
-      afterindent  = true,
-    },
+    afterindent  = true,
+  },
   subsubsection = {
-      afterindent  = true,
-    },
+    afterindent  = true,
+  },
   paragraph/afterindent = true,
   subparagraph/afterindent = true,
 }
@@ -1766,39 +1776,39 @@
         aftername  = \quad,
         beforeskip = 30bp,
         afterskip  = 20bp,
-       },
+      },
       section = {
         format     = \sffamily\fontsize{14bp}{18bp}\selectfont,
         aftername  = \quad,
         beforeskip = 25bp,
         afterskip  = 12bp,
-       },
+      },
       subsection = {
-          format     = \sffamily\fontsize{13bp}{15bp}\selectfont,
-          aftername  = \quad,
-          beforeskip = 12bp,
-          afterskip  = 6bp,
-        },
+        format     = \sffamily\fontsize{13bp}{15bp}\selectfont,
+        aftername  = \quad,
+        beforeskip = 12bp,
+        afterskip  = 6bp,
+      },
       subsubsection = {
-          format     = \sffamily\fontsize{12bp}{14bp}\selectfont,
-          aftername  = \quad,
-          beforeskip = 12bp,
-          afterskip  = 6bp,
-        },
+        format     = \sffamily\fontsize{12bp}{14bp}\selectfont,
+        aftername  = \quad,
+        beforeskip = 12bp,
+        afterskip  = 6bp,
+      },
     }%
     \ifthu@main@language@chinese
       \ctexset{
         chapter = {
           name   = {第,章},
           number = \thechapter,
-         },
+        },
       }%
     \else
       \ctexset{
         chapter = {
           name   = \chaptername\space,
           number = \thu@english@number{chapter},
-         },
+        },
       }%
     \fi
   \else
@@ -1807,19 +1817,19 @@
         beforeskip = 27bp,
         afterskip  = 27bp,
         number     = \thechapter,
-       },
+      },
       section = {
         beforeskip = 24bp,
         afterskip  = 6bp,
-       },
+      },
       subsection = {
-          beforeskip = 12bp,
-          afterskip  = 6bp,
-        },
+        beforeskip = 12bp,
+        afterskip  = 6bp,
+      },
       subsubsection = {
-          beforeskip = 12bp,
-          afterskip  = 6bp,
-        },
+        beforeskip = 12bp,
+        afterskip  = 6bp,
+      },
     }%
     \ifthu@main@language@chinese
       \ctexset{%
@@ -1829,19 +1839,19 @@
           titleformat = {},
           name        = {第,章},
           aftername   = \quad,
-         },
+        },
         section = {
           format     = \sffamily\fontsize{14bp}{20bp}\selectfont,
           aftername  = \quad,
-         },
+        },
         subsection = {
-            format     = \sffamily\fontsize{13bp}{20bp}\selectfont,
-            aftername  = \quad,
-          },
+          format     = \sffamily\fontsize{13bp}{20bp}\selectfont,
+          aftername  = \quad,
+        },
         subsubsection = {
-            format     = \sffamily\fontsize{12bp}{20bp}\selectfont,
-            aftername  = \quad,
-          },
+          format     = \sffamily\fontsize{12bp}{20bp}\selectfont,
+          aftername  = \quad,
+        },
       }%
     \else
       \ctexset{%
@@ -1851,19 +1861,19 @@
           titleformat = \MakeUppercase,
           name        = \chaptername\space,
           aftername   = \space,
-         },
+        },
         section = {
           format     = \sffamily\bfseries\fontsize{14bp}{20bp}\selectfont,
           aftername  = \space,
-         },
+        },
         subsection = {
-            format     = \sffamily\bfseries\fontsize{13bp}{20bp}\selectfont,
-            aftername  = \space,
-          },
+          format     = \sffamily\bfseries\fontsize{13bp}{20bp}\selectfont,
+          aftername  = \space,
+        },
         subsubsection = {
-            format     = \sffamily\bfseries\fontsize{12bp}{20bp}\selectfont,
-            aftername  = \space,
-          },
+          format     = \sffamily\bfseries\fontsize{12bp}{20bp}\selectfont,
+          aftername  = \space,
+        },
       }%
     \fi
   \fi
@@ -1940,44 +1950,80 @@
 }
 \thu@define@key{
   toc-chapter-style = {
-      name = toc@chapter@style,
-      choices = {
-          arial,
-          times,
-        },
-      default = arial,
+    name = toc@chapter@style,
+    choices = {
+      arial,
+      times,
     },
+    default = arial,
+  },
 }
 \newcommand\thu@leaders{\titlerule*[4bp]{.}}
 \newcommand\thu@set@toc@format{%
   \contentsmargin{\z@}%
   \ifthu@degree@bachelor
     \ifthu@main@language@chinese
-      \titlecontents{chapter}[\z@]{\addvspace{6bp}
-        \ifthu@toc@chapter@style@arial
-          \sffamily
-        \else
-          \heiti
-        \fi
-      }{\contentspush{\thecontentslabel\quad}}{}{\rmfamily\thu@leaders\thecontentspage}%
-      \titlecontents{section}[1em]{}{\contentspush{\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}%
-      \titlecontents{subsection}[1.5em]{}{\contentspush{\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}%
+      \titlecontents{chapter}
+        [\z@]{\addvspace{6bp}
+          \ifthu@toc@chapter@style@arial
+            \sffamily
+          \else
+            \heiti
+          \fi
+        }
+        {\contentspush{\thecontentslabel\quad}}{}
+        {\rmfamily\thu@leaders\thecontentspage}%
+      \titlecontents{section}
+        [1em]{}
+        {\contentspush{\thecontentslabel\quad}}{}
+        {\thu@leaders\thecontentspage}%
+      \titlecontents{subsection}
+        [1.5em]{}
+        {\contentspush{\thecontentslabel\quad}}{}
+        {\thu@leaders\thecontentspage}%
     \else
       \ifthu@main@language@english
-        \titlecontents{chapter}[\z@]{\addvspace{6bp}\sffamily}{\contentspush{\thecontentslabel\quad}}{}{\rmfamily\thu@leaders\thecontentspage}%
-        \titlecontents{section}[0.5cm]{}{\contentspush{\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}%
-        \titlecontents{subsection}[1cm]{}{\contentspush{\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}%
+        \titlecontents{chapter}
+          [\z@]{\addvspace{6bp}\sffamily}
+          {\contentspush{\thecontentslabel\quad}}{}
+          {\rmfamily\thu@leaders\thecontentspage}%
+        \titlecontents{section}
+          [0.5cm]{}
+          {\contentspush{\thecontentslabel\quad}}{}
+          {\thu@leaders\thecontentspage}%
+        \titlecontents{subsection}
+          [1cm]{}
+          {\contentspush{\thecontentslabel\quad}}{}
+          {\thu@leaders\thecontentspage}%
       \fi
     \fi
   \else
     \ifthu@main@language@chinese
-      \titlecontents{chapter}[\z@]{\addvspace{6bp}\sffamily}{\contentspush{\thecontentslabel\quad}}{}{\rmfamily\thu@leaders\thecontentspage}%
-      \titlecontents{section}[1em]{}{\contentspush{\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}%
-      \titlecontents{subsection}[2em]{}{\contentspush{\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}%
+      \titlecontents{chapter}
+        [\z@]{\addvspace{6bp}\sffamily}
+        {\contentspush{\thecontentslabel\quad}}{}
+        {\rmfamily\thu@leaders\thecontentspage}%
+      \titlecontents{section}
+        [1em]{}
+        {\contentspush{\thecontentslabel\quad}}{}
+        {\thu@leaders\thecontentspage}%
+      \titlecontents{subsection}
+        [2em]{}
+        {\contentspush{\thecontentslabel\quad}}{}
+        {\thu@leaders\thecontentspage}%
     \else
-      \titlecontents{chapter}[\z@]{\addvspace{6bp}\heiti}{\contentspush{\MakeUppercase{\thecontentslabel}\space}\MakeUppercase}{\MakeUppercase}{\rmfamily\thu@leaders\thecontentspage}%
-      \titlecontents{section}[1em]{}{\contentspush{\thecontentslabel\space}}{}{\thu@leaders\thecontentspage}%
-      \titlecontents{subsection}[2em]{}{\contentspush{\thecontentslabel\space}}{}{\thu@leaders\thecontentspage}%
+      \titlecontents{chapter}
+        [\z@]{\addvspace{6bp}\heiti}
+        {\contentspush{\MakeUppercase{\thecontentslabel}\space}\MakeUppercase}{\MakeUppercase}
+        {\rmfamily\thu@leaders\thecontentspage}%
+      \titlecontents{section}
+        [1em]{}
+        {\contentspush{\thecontentslabel\space}}{}
+        {\thu@leaders\thecontentspage}%
+      \titlecontents{subsection}
+        [2em]{}
+        {\contentspush{\thecontentslabel\space}}{}
+        {\thu@leaders\thecontentspage}%
     \fi
   \fi
 }
@@ -1986,69 +2032,69 @@
 \thu@option@hook{main-language}{\thu@set@toc@format}
 \thu@define@key{
   secret-level = {
-      name = secret@level,
-    },
+    name = secret@level,
+  },
   secret-year = {
-      name = secret@year,
-    },
+    name = secret@year,
+  },
   title = {
-      default = {标题},
-    },
+    default = {标题},
+  },
   title* = {
-      default = {Title},
-      name    = title@en,
-    },
+    default = {Title},
+    name    = title@en,
+  },
   author = {
-      default = {姓名},
-    },
+    default = {姓名},
+  },
   author* = {
-      default = {Name of author},
-      name    = author@en,
-    },
+    default = {Name of author},
+    name    = author@en,
+  },
   student-id = {
-      name = student@id,
-    },
+    name = student@id,
+  },
   supervisor = {
-      default = {导师姓名},
-    },
+    default = {导师姓名},
+  },
   supervisor* = {
-      default = {Name of supervisor},
-      name    = supervisor@en,
-    },
+    default = {Name of supervisor},
+    name    = supervisor@en,
+  },
   associate-supervisor = {
-      name = associate@supervisor,
-    },
+    name = associate@supervisor,
+  },
   associate-supervisor* = {
-      name = associate@supervisor@en,
-    },
+    name = associate@supervisor@en,
+  },
   co-supervisor = {
-      name = co@supervisor,
-    },
+    name = co@supervisor,
+  },
   co-supervisor* = {
-      name = co@supervisor@en,
-    },
+    name = co@supervisor@en,
+  },
   % Reserved for compatibility
   joint-supervisor = {
-      name = co@supervisor,
-    },
+    name = co@supervisor,
+  },
   joint-supervisor* = {
-      name = co@supervisor@en,
-    },
+    name = co@supervisor@en,
+  },
   degree-category = {
-      default = {工学博士},
-      name    = degree@category,
-    },
+    default = {工学博士},
+    name    = degree@category,
+  },
   degree-category* = {
-      default = {Doctor of Philosophy},
-      name    = degree@category@en,
-    },
+    default = {Doctor of Philosophy},
+    name    = degree@category@en,
+  },
   % 为了向后兼容
   degree-name = {
-      name    = degree@category,
-    },
+    name    = degree@category,
+  },
   degree-name* = {
-      name    = degree@category@en,
-    },
+    name    = degree@category@en,
+  },
 }
 \thu@option@hook{degree-name}{%
   \thu@warning{`degree-name' is deprecated. Use `degree-category' instead.}
@@ -2058,15 +2104,15 @@
 }
 \thu@define@key{
   department = {
-      default = {计算机科学与技术系},
-    },
+    default = {计算机科学与技术系},
+  },
   discipline = {
-      % default = {计算机科学与技术},
-    },
+    % default = {计算机科学与技术},
+  },
   discipline* = {
-      % default = {Computer Science and Technology},
-      name    = discipline@en,
-    },
+    % default = {Computer Science and Technology},
+    name    = discipline@en,
+  },
 }
 \thu@option@hook{discipline}{%
   \ifthu@degree@type@professional
@@ -2084,47 +2130,47 @@
 }
 \thu@define@key{
   professional-field = {
-      name    = professional@field,
-    },
+    name    = professional@field,
+  },
   professional-field* = {
-      name    = professional@field@en,
-    },
+    name    = professional@field@en,
+  },
   engineering-field = {
-      name    = engineering@field,
-    },
+    name    = engineering@field,
+  },
   engineering-field* = {
-      name    = engineering@field@en,
-    },
+    name    = engineering@field@en,
+  },
   date = {
-      default = {\the\year-\two@digits{\month}-\two@digits{\day}},
-    },
+    default = {\the\year-\two@digits{\month}-\two@digits{\day}},
+  },
   clc,
   udc,
   id,
   discipline-level-1 = {
-      default = {一级学科名称},
-      name    = discipline@level@i,
-    },
+    default = {一级学科名称},
+    name    = discipline@level@i,
+  },
   discipline-level-2 = {
-      default = {二级学科名称},
-      name    = discipline@level@ii,
-    },
+    default = {二级学科名称},
+    name    = discipline@level@ii,
+  },
   start-date = {
-      name    = start@date,
-      default = {\the\year-\two@digits{\month}-\two@digits{\day}},
-    },
+    name    = start@date,
+    default = {\the\year-\two@digits{\month}-\two@digits{\day}},
+  },
   end-date = {
-      name    = end@date,
-      default = {\the\year-\two@digits{\month}-\two@digits{\day}},
-    },
+    name    = end@date,
+    default = {\the\year-\two@digits{\month}-\two@digits{\day}},
+  },
   include-spine = {
-      name = include@spine,
-      choices = {
-          false,
-          true,
-        },
-      default = false,
+    name = include@spine,
+    choices = {
+      false,
+      true,
     },
+    default = false,
+  },
 }
 \newcommand\thu@format@date[2]{%
   \edef\thu@@date{#2}%
@@ -2147,12 +2193,12 @@
 \newcommand\thu@uline[2][6em]{\uline{\hb@xt@ #1{\hss#2\hss}}}
 \newcommand\thu@fixed@box[2]{%
   \begingroup
-  \ifLuaTeX
-    \ltjsetparameter{kanjiskip = {0pt plus 2filll minus 1filll}}%
-  \else
-    \renewcommand\CJKglue{\hspace{0pt plus 2filll minus 1filll}}%
-  \fi
-  \makebox[#1][l]{#2}%
+    \ifLuaTeX
+      \ltjsetparameter{kanjiskip = {0pt plus 2filll minus 1filll}}%
+    \else
+      \renewcommand\CJKglue{\hspace{0pt plus 2filll minus 1filll}}%
+    \fi
+    \makebox[#1][l]{#2}%
   \endgroup
 }
 \newbox\thu@stretch@box
@@ -2160,12 +2206,12 @@
   \sbox\thu@stretch@box{#2}%
   \ifdim \wd\thu@stretch@box < #1\relax
     \begingroup
-    \ifLuaTeX
-      \ltjsetparameter{kanjiskip = {0pt plus 2filll}}%
-    \else
-      \renewcommand\CJKglue{\hspace{0pt plus 2filll}}%
-    \fi
-    \makebox[#1][l]{#2}%
+      \ifLuaTeX
+        \ltjsetparameter{kanjiskip = {0pt plus 2filll}}%
+      \else
+        \renewcommand\CJKglue{\hspace{0pt plus 2filll}}%
+      \fi
+      \makebox[#1][l]{#2}%
     \endgroup
   \else
     \box\thu@stretch@box
@@ -2196,8 +2242,8 @@
     \hspace{9.8bp}%
     % 字距 6bp
     \begingroup
-    \renewcommand\CJKglue{\hspace{9.8bp}}%
-    #2%
+      \renewcommand\CJKglue{\hspace{9.8bp}}%
+      #2%
     \endgroup
   \else
     \thu@pad{3cm}{\thu@stretch{4em}{#1}}%
@@ -2279,32 +2325,32 @@
   \thispagestyle{empty}%
   \null\vskip 8.1pt%
   \begingroup
-  \centering
-  \parbox[t][2cm][t]{\textwidth}{%
-    \hskip -21.5pt%
-    \thu@titlepage@secret
-  }\par
-  \vskip 40.5pt%
-  \begingroup
-  \sffamily\fontsize{26bp}{46.8bp}\selectfont
-  \thu@title\par
-  \endgroup
-  \ifthu@main@language@english
-    \vskip 5.4pt%
+    \centering
+    \parbox[t][2cm][t]{\textwidth}{%
+      \hskip -21.5pt%
+      \thu@titlepage@secret
+    }\par
+    \vskip 40.5pt%
     \begingroup
-    \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
-    \thu@title@en\par
+      \sffamily\fontsize{26bp}{46.8bp}\selectfont
+      \thu@title\par
     \endgroup
-    \vskip -9.2pt%
-  \fi
-  \vskip 24.1pt%
-  \thu@titlepage@degree\par
-  \vfill
-  \parbox[t][7.25cm][t]{\textwidth}{%
-    \fangsong\fontsize{16bp}{31.2bp}\selectfont
-    \thu@titlepage@info
-  }\par
-  \parbox[t][1.03cm][t]{\textwidth}{\centering\thu@titlepage@date}\par
+    \ifthu@main@language@english
+      \vskip 5.4pt%
+      \begingroup
+        \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
+        \thu@title@en\par
+      \endgroup
+      \vskip -9.2pt%
+    \fi
+    \vskip 24.1pt%
+    \thu@titlepage@degree\par
+    \vfill
+    \parbox[t][7.25cm][t]{\textwidth}{%
+      \fangsong\fontsize{16bp}{31.2bp}\selectfont
+      \thu@titlepage@info
+    }\par
+    \parbox[t][1.03cm][t]{\textwidth}{\centering\thu@titlepage@date}\par
   \endgroup
   \clearpage
   \restoregeometry
@@ -2318,34 +2364,34 @@
   \thispagestyle{empty}%
   \null\vskip 0.45cm%
   \begingroup
-  \centering
-  \parbox[t][1.52cm][t]{\textwidth}{%
-    \hskip -0.69cm%
-    \thu@titlepage@secret
-  }\par
-  \vskip 1.5cm%
-  \begingroup
-  % 1.21 倍行距，无网格
-  \sffamily\fontsize{26bp}{40.9bp}\selectfont
-  \thu@title\par
-  \endgroup
-  \ifthu@main@language@english
-    \vskip 5.4pt%
+    \centering
+    \parbox[t][1.52cm][t]{\textwidth}{%
+      \hskip -0.69cm%
+      \thu@titlepage@secret
+    }\par
+    \vskip 1.5cm%
     \begingroup
-    \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
-    \thu@title@en\par
+      % 1.21 倍行距，无网格
+      \sffamily\fontsize{26bp}{40.9bp}\selectfont
+      \thu@title\par
     \endgroup
-    \vskip -9.2pt%
-  \fi
-  \vskip 25.5pt%
-  \thu@titlepage@degree
-  \vfill
-  \parbox[b][5.24cm][b]{\textwidth}{%
-    \fangsong\fontsize{16bp}{1cm}\selectfont
-    \thu@titlepage@info
-  }\par
-  \vskip 2.22cm%
-  \parbox[t][1.0cm][t]{\textwidth}{\centering\thu@titlepage@date}\par
+    \ifthu@main@language@english
+      \vskip 5.4pt%
+      \begingroup
+        \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
+        \thu@title@en\par
+      \endgroup
+      \vskip -9.2pt%
+    \fi
+    \vskip 25.5pt%
+    \thu@titlepage@degree
+    \vfill
+    \parbox[b][5.24cm][b]{\textwidth}{%
+      \fangsong\fontsize{16bp}{1cm}\selectfont
+      \thu@titlepage@info
+    }\par
+    \vskip 2.22cm%
+    \parbox[t][1.0cm][t]{\textwidth}{\centering\thu@titlepage@date}\par
   \endgroup
   \clearpage
   \restoregeometry
@@ -2359,34 +2405,34 @@
   \thispagestyle{empty}%
   \null\vskip 10bp%
   \begingroup
-  \centering
-  \parbox[t][55bp][t]{\textwidth}{%
-    \hskip -23bp%
-    \thu@titlepage@secret
-  }\par
-  \vskip 34pt%
-  \begingroup
-  % 1.21 倍行距
-  \sffamily\fontsize{26bp}{40.898bp}\selectfont
-  \thu@title\par
-  \endgroup
-  \ifthu@main@language@english
-    \vskip 5.4pt%
+    \centering
+    \parbox[t][55bp][t]{\textwidth}{%
+      \hskip -23bp%
+      \thu@titlepage@secret
+    }\par
+    \vskip 34pt%
     \begingroup
-    \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
-    \thu@title@en\par
+      % 1.21 倍行距
+      \sffamily\fontsize{26bp}{40.898bp}\selectfont
+      \thu@title\par
     \endgroup
-    \vskip -9.2pt%
-  \fi
-  \vskip 18pt%
-  \thu@titlepage@degree\par
-  \vfill
-  \parbox[t][7.05cm][t]{\textwidth}{%
-    % 表格行高 1cm = 28.35bp
-    \fangsong\fontsize{16bp}{28.35bp}\selectfont
-    \thu@titlepage@info
-  }\par
-  \parbox[t][37bp][t]{\textwidth}{\centering\thu@titlepage@date}\par
+    \ifthu@main@language@english
+      \vskip 5.4pt%
+      \begingroup
+        \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
+        \thu@title@en\par
+      \endgroup
+      \vskip -9.2pt%
+    \fi
+    \vskip 18pt%
+    \thu@titlepage@degree\par
+    \vfill
+    \parbox[t][7.05cm][t]{\textwidth}{%
+      % 表格行高 1cm = 28.35bp
+      \fangsong\fontsize{16bp}{28.35bp}\selectfont
+      \thu@titlepage@info
+    }\par
+    \parbox[t][37bp][t]{\textwidth}{\centering\thu@titlepage@date}\par
   \endgroup
   \clearpage
   \restoregeometry
@@ -2400,34 +2446,34 @@
   \thispagestyle{empty}%
   \null\vskip 15bp%
   \begingroup
-  \centering
-  \parbox[t][41bp][t]{\textwidth}{%
-    \hskip -23bp%
-    \thu@titlepage@secret
-  }\par
-  \vskip 1.5cm%
-  \begingroup
-  % 1.21 倍行距，无网格
-  \sffamily\fontsize{26bp}{40.9bp}\selectfont
-  \thu@title\par
-  \endgroup
-  \ifthu@main@language@english
-    \vskip 5.4pt%
+    \centering
+    \parbox[t][41bp][t]{\textwidth}{%
+      \hskip -23bp%
+      \thu@titlepage@secret
+    }\par
+    \vskip 1.5cm%
     \begingroup
-    \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
-    \thu@title@en\par
+      % 1.21 倍行距，无网格
+      \sffamily\fontsize{26bp}{40.9bp}\selectfont
+      \thu@title\par
     \endgroup
-    \vskip -9.2pt%
-  \fi
-  \vskip 25.5pt%
-  \thu@titlepage@degree
-  \vfill
-  \parbox[b][5.24cm][b]{\textwidth}{%
-    \fangsong\fontsize{16bp}{1cm}\selectfont
-    \thu@titlepage@info
-  }\par
-  \vskip 2.22cm%
-  \parbox[t][35.5bp][t]{\textwidth}{\centering\thu@titlepage@date}\par
+    \ifthu@main@language@english
+      \vskip 5.4pt%
+      \begingroup
+        \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
+        \thu@title@en\par
+      \endgroup
+      \vskip -9.2pt%
+    \fi
+    \vskip 25.5pt%
+    \thu@titlepage@degree
+    \vfill
+    \parbox[b][5.24cm][b]{\textwidth}{%
+      \fangsong\fontsize{16bp}{1cm}\selectfont
+      \thu@titlepage@info
+    }\par
+    \vskip 2.22cm%
+    \parbox[t][35.5bp][t]{\textwidth}{\centering\thu@titlepage@date}\par
   \endgroup
   \clearpage
   \restoregeometry
@@ -2441,59 +2487,59 @@
   \thispagestyle{empty}%
   \null\vskip 10bp%
   \begingroup
-  \centering
-  \parbox[t][46bp][t]{\textwidth}{%
-    \hskip -23bp%
-    \thu@titlepage@secret
-  }\par
-  \vskip 1.5cm%
-  \begingroup
-  % 1.21 倍行距，无网格
-  \sffamily\fontsize{26bp}{40.9bp}\selectfont
-  \thu@title\par
-  \endgroup
-  \ifthu@main@language@english
-    \vskip 5.4pt%
-    \begingroup
-    \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
-    \thu@title@en\par
-    \endgroup
-    \vskip -9.2pt%
-  \fi
-  \vskip 25.5pt%
-  \thu@titlepage@degree
-  \vskip 119bp%
-  \parbox[b][5.24cm][b]{\textwidth}{%
-    \fangsong\fontsize{16bp}{31bp}\selectfont
-    \renewcommand\thu@info@item@format[2]{%
-      \begingroup
-      \renewcommand\CJKglue{\hspace{##1}}%
-      ##2%
-      \endgroup
-    }%
-    \renewcommand\thu@name@title@format[2]{%
-      % 字距 9bp，共 16bp * 3 + 9bp * 2 = 66bp
-      \thu@stretch{66bp}{##1}%
-      \hspace{22bp}%
-      % 字距 6bp
-      \begingroup
-      \renewcommand\CJKglue{\hspace{16bp}}%
-      ##2%
-      \endgroup
-    }%
-    \thu@titlepage@info@tabular{65bp}{86.5bp}{81bp}{30.5bp}{%
-      \thu@info@item{培养单位}{\thu@info@item@format{1bp}}{\thu@department}%
-      \thu@info@item{专业领域}{\thu@info@item@format{2bp}}{\thu@professional@field}%
-      \thu@info@item{工程领域}{\thu@info@item@format{2bp}}{\thu@engineering@field}%
-      \thu@info@item{申请人}{\thu@name@title}{\thu@author}%
-      \thu@info@item{学号}{}{\thu@student@id}%
-      \thu@info@item{指导教师}{\thu@name@title}{\thu@supervisor}%
-      \thu@info@item{副指导教师}{\thu@name@title}{\thu@associate@supervisor}%
-      \thu@info@item{联合指导教师}{\thu@name@title}{\thu@co@supervisor}%
+    \centering
+    \parbox[t][46bp][t]{\textwidth}{%
+      \hskip -23bp%
+      \thu@titlepage@secret
     }\par
-  }\par
-  \vfill
-  \parbox[t][33.5bp][t]{\textwidth}{\centering\thu@titlepage@date}\par
+    \vskip 1.5cm%
+    \begingroup
+      % 1.21 倍行距，无网格
+      \sffamily\fontsize{26bp}{40.9bp}\selectfont
+      \thu@title\par
+    \endgroup
+    \ifthu@main@language@english
+      \vskip 5.4pt%
+      \begingroup
+        \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
+        \thu@title@en\par
+      \endgroup
+      \vskip -9.2pt%
+    \fi
+    \vskip 25.5pt%
+    \thu@titlepage@degree
+    \vskip 119bp%
+    \parbox[b][5.24cm][b]{\textwidth}{%
+      \fangsong\fontsize{16bp}{31bp}\selectfont
+      \renewcommand\thu@info@item@format[2]{%
+        \begingroup
+          \renewcommand\CJKglue{\hspace{##1}}%
+          ##2%
+        \endgroup
+      }%
+      \renewcommand\thu@name@title@format[2]{%
+        % 字距 9bp，共 16bp * 3 + 9bp * 2 = 66bp
+        \thu@stretch{66bp}{##1}%
+        \hspace{22bp}%
+        % 字距 6bp
+        \begingroup
+          \renewcommand\CJKglue{\hspace{16bp}}%
+          ##2%
+        \endgroup
+      }%
+      \thu@titlepage@info@tabular{65bp}{86.5bp}{81bp}{30.5bp}{%
+        \thu@info@item{培养单位}{\thu@info@item@format{1bp}}{\thu@department}%
+        \thu@info@item{专业领域}{\thu@info@item@format{2bp}}{\thu@professional@field}%
+        \thu@info@item{工程领域}{\thu@info@item@format{2bp}}{\thu@engineering@field}%
+        \thu@info@item{申请人}{\thu@name@title}{\thu@author}%
+        \thu@info@item{学号}{}{\thu@student@id}%
+        \thu@info@item{指导教师}{\thu@name@title}{\thu@supervisor}%
+        \thu@info@item{副指导教师}{\thu@name@title}{\thu@associate@supervisor}%
+        \thu@info@item{联合指导教师}{\thu@name@title}{\thu@co@supervisor}%
+      }\par
+    }\par
+    \vfill
+    \parbox[t][33.5bp][t]{\textwidth}{\centering\thu@titlepage@date}\par
   \endgroup
   \clearpage
   \restoregeometry
@@ -2506,30 +2552,30 @@
   }%
   \thispagestyle{empty}%
   \begingroup
-  % \vspace*{0.1cm}%
-  \centering
-  % {\thu@titlepage@title}%
-  \parbox[t][3cm]{\textwidth}{%
-    \vskip 0.1cm%
+    % \vspace*{0.1cm}%
     \centering
-    \sffamily\fontsize{26bp}{46.8bp}\selectfont
-    \thu@title\par
-  }%
-  \vskip 0.85cm%
-  \thu@titlepage@degree
-  \vfill
-  \parbox[t][8.5cm][t]{\textwidth}{%
-    \centering
-    \fangsong
-    \ifLuaTeX
-      \fontspec{\CJK@family}%
-    \else
-      \CJKfamily+{}%
-    \fi
-    \sanhao[1.95]%
-    \thu@titlepage@info
-  }\par
-  \parbox[t][2.5cm][t]{\textwidth}{\centering\thu@titlepage@date}\par
+    % {\thu@titlepage@title}%
+    \parbox[t][3cm]{\textwidth}{%
+      \vskip 0.1cm%
+      \centering
+      \sffamily\fontsize{26bp}{46.8bp}\selectfont
+      \thu@title\par
+    }%
+    \vskip 0.85cm%
+    \thu@titlepage@degree
+    \vfill
+    \parbox[t][8.5cm][t]{\textwidth}{%
+      \centering
+      \fangsong
+      \ifLuaTeX
+        \fontspec{\CJK@family}%
+      \else
+        \CJKfamily+{}%
+      \fi
+      \sanhao[1.95]%
+      \thu@titlepage@info
+    }\par
+    \parbox[t][2.5cm][t]{\textwidth}{\centering\thu@titlepage@date}\par
   \endgroup
   \clearpage
   \restoregeometry
@@ -2553,34 +2599,34 @@
 }
 \newcommand\thu@titlepage@degree{%
   \begingroup
-  \xiaoer
-  \ifLuaTeX
-    \fontspec{\CJK@family}%
-    \ltjsetparameter{kanjiskip = {1bp}}%
-  \else
-    \CJKfamily+{}%
-    \renewcommand\CJKglue{\hspace{1bp}}%
-  \fi
-  \ifthu@thesis@type@thesis
-    (申请清华大学\thu@degree@category
-    \ifthu@degree@type@professional
-      专业%
+    \xiaoer
+    \ifLuaTeX
+      \fontspec{\CJK@family}%
+      \ltjsetparameter{kanjiskip = {1bp}}%
+    \else
+      \CJKfamily+{}%
+      \renewcommand\CJKglue{\hspace{1bp}}%
     \fi
-    学位论文)%
-  \else
-    \ifthu@thesis@type@proposal
-      (清华大学%
-      \ifthu@degree@doctor
-        博士%
-      \else
-        \ifthu@degree@master
-          硕士%
-        \fi
+    \ifthu@thesis@type@thesis
+      (申请清华大学\thu@degree@category
+      \ifthu@degree@type@professional
+        专业%
       \fi
-      学位论文选题报告)%
+      学位论文)%
+    \else
+      \ifthu@thesis@type@proposal
+        (清华大学%
+        \ifthu@degree@doctor
+          博士%
+        \else
+          \ifthu@degree@master
+            硕士%
+          \fi
+        \fi
+        学位论文选题报告)%
+      \fi
     \fi
-  \fi
-  \par
+    \par
   \endgroup
 }
 \newcommand\thu@titlepage@info{%
@@ -2618,8 +2664,7 @@
   \begin{tabular}{l}%
     \renewcommand\arraystretch{1}%
     #5%
-  \end{tabular}
-  %
+  \end{tabular}%
 }
 \newcommand\thu@info@item@format[1]{#1}
 \newcommand\thu@titlepage@info@doctor@academic{%
@@ -2646,8 +2691,8 @@
 \newcommand\thu@titlepage@info@master@academic{%
   \renewcommand\thu@info@item@format[2]{%
     \begingroup
-    \renewcommand\CJKglue{\hspace{##1}}%
-    ##2%
+      \renewcommand\CJKglue{\hspace{##1}}%
+      ##2%
     \endgroup
   }
   \renewcommand\thu@name@title@format[2]{%
@@ -2656,8 +2701,8 @@
     \hspace{9.8bp}%
     % 字距 6bp
     \begingroup
-    \renewcommand\CJKglue{\hspace{6bp}}%
-    ##2%
+      \renewcommand\CJKglue{\hspace{6bp}}%
+      ##2%
     \endgroup
   }%
   \thu@titlepage@info@tabular{58bp}{3.59cm}{5.5em}{0.82cm}{%
@@ -2673,8 +2718,8 @@
 \newcommand\thu@titlepage@info@master@professional@without@field{%
   \renewcommand\thu@info@item@format[2]{%
     \begingroup
-    \renewcommand\CJKglue{\hspace{##1}}%
-    ##2%
+      \renewcommand\CJKglue{\hspace{##1}}%
+      ##2%
     \endgroup
   }
   \renewcommand\thu@name@title@format[2]{%
@@ -2683,8 +2728,8 @@
     \hspace{9.8bp}%
     % 字距 6bp
     \begingroup
-    \renewcommand\CJKglue{\hspace{6bp}}%
-    ##2%
+      \renewcommand\CJKglue{\hspace{6bp}}%
+      ##2%
     \endgroup
   }%
   \thu@titlepage@info@tabular{58bp}{3.28cm}{5em}{1.52cm}{%
@@ -2700,13 +2745,13 @@
 }
 \newcommand\thu@titlepage@date{%
   \begingroup
-  \sanhao
-  \ifLuaTeX
-    \ltjsetparameter{kanjiskip = {1bp}}%
-  \else
-    \renewcommand\CJKglue{\hspace{1bp}}%
-  \fi
-  \thu@format@date{\thu@date@zh@short}{\thu@date}\par
+    \sanhao
+    \ifLuaTeX
+      \ltjsetparameter{kanjiskip = {1bp}}%
+    \else
+      \renewcommand\CJKglue{\hspace{1bp}}%
+    \fi
+    \thu@format@date{\thu@date@zh@short}{\thu@date}\par
   \endgroup
 }
 \newcommand{\thu@titlepage@en}{%
@@ -2728,58 +2773,63 @@
 }
 \newcommand\thu@titlepage@en@graduate@academic{%
   \begingroup
-  \centering
-  \null\vskip -0.31cm%
-  \parbox[t][143bp][t]{\textwidth}{%
-    \centering\thu@titlepage@en@title
-  }\par
-  \sanhao[1.725]%
-  \thu@titlepage@en@degree
-  \vskip 3bp%
-  in\par
-  \vskip 3.5bp{\bfseries\sffamily\thu@discipline@en\par}%
-  \vfill{\sffamily by\par}
-  \vskip 0.24cm{\sffamily\bfseries\thu@author@en\par}%%
-  \vskip 0.18cm%
-  \parbox[t][3.0cm][t]{\textwidth}{%
-    \xiaosan[2.1]%
-    \thu@titlepage@en@supervisor
-  }\par
-  \thu@titlepage@en@date
-  \vskip 0.7cm%
+    \centering
+    \null\vskip -0.31cm%
+    \parbox[t][143bp][t]{\textwidth}{%
+      \centering\thu@titlepage@en@title
+    }\par
+    \sanhao[1.725]%
+    \thu@titlepage@en@degree
+    \vskip 3bp%
+    in\par
+    \vskip 3.5bp%
+    {\bfseries\sffamily\thu@discipline@en\par}
+    \vfill
+    {\sffamily by\par}
+    \vskip 0.24cm%
+    {\sffamily\bfseries\thu@author@en\par}%
+    \vskip 0.18cm%
+    \parbox[t][3.0cm][t]{\textwidth}{%
+      \xiaosan[2.1]%
+      \thu@titlepage@en@supervisor
+    }\par
+    \thu@titlepage@en@date
+    \vskip 0.7cm%
   \endgroup
 }
 \newcommand\thu@titlepage@en@graduate@professional{%
   \begingroup
-  \centering
-  \null\vskip -0.31cm%
-  \parbox[t][143bp][t]{\textwidth}{%
-    \centering\thu@titlepage@en@title
-  }\par
-  \sanhao[1.725]%
-  \thu@titlepage@en@degree
-  \vfill{\sffamily by\par}
-  \vskip 0.24cm{\sffamily\bfseries\thu@author@en\par}%%
-  \ifx\thu@professional@field@en\empty
-    \vskip 1.95cm%
-  \else
-    \vskip -0.1cm%
-    {\sffamily\bfseries(\thu@professional@field@en)\par}%
-    \vskip 1.1cm%
-  \fi
-  \parbox[t][3.37cm][t]{\textwidth}{%
-    \xiaosan[1.82]%
-    \thu@titlepage@en@supervisor
-  }\par
-  \thu@titlepage@en@date
-  \vskip 0.3cm%
+    \centering
+    \null\vskip -0.31cm%
+    \parbox[t][143bp][t]{\textwidth}{%
+      \centering\thu@titlepage@en@title
+    }\par
+    \sanhao[1.725]%
+    \thu@titlepage@en@degree
+    \vfill
+    {\sffamily by\par}
+    \vskip 0.24cm%
+    {\sffamily\bfseries\thu@author@en\par}%
+    \ifx\thu@professional@field@en\empty
+      \vskip 1.95cm%
+    \else
+      \vskip -0.1cm%
+      {\sffamily\bfseries(\thu@professional@field@en)\par}%
+      \vskip 1.1cm%
+    \fi
+    \parbox[t][3.37cm][t]{\textwidth}{%
+      \xiaosan[1.82]%
+      \thu@titlepage@en@supervisor
+    }\par
+    \thu@titlepage@en@date
+    \vskip 0.3cm%
   \endgroup
 }
 \newcommand\thu@titlepage@en@title{%
   \begingroup
-  % 对齐到网格，每行 15.6bp
-  \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
-  \thu@title@en\par
+    % 对齐到网格，每行 15.6bp
+    \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
+    \thu@title@en\par
   \endgroup
 }
 \newcommand\thu@thesis@name@en{%
@@ -2790,32 +2840,33 @@
   \fi
 }
 \newcommand\thu@titlepage@en@degree{%
-  \thu@thesis@name@en{} submitted to\par{\bfseries Tsinghua University\par}%
+  \thu@thesis@name@en{} submitted to\par
+  {\bfseries Tsinghua University\par}%
   in partial fulfillment of the requirement\par
   for the
   \ifthu@degree@type@professional
     professional
   \fi
-  degree of\par{\sffamily\bfseries\thu@degree@category@en\par}%
+  degree of\par
+  {\sffamily\bfseries\thu@degree@category@en\par}%
 }
 \newcommand\thu@titlepage@en@supervisor{%
   \hspace{1.27cm}%
   \begin{tabular}{r@{\makebox[20.5bp][l]{\hspace{2bp}:}}l}%
     \renewcommand\arraystretch{1}%
-    \thu@thesis@name@en{} Supervisor & \thu@supervisor@en           \\
+    \thu@thesis@name@en{} Supervisor & \thu@supervisor@en \\
     \ifx\thu@associate@supervisor@en\@empty\else
-    Associate Supervisor             & \thu@associate@supervisor@en \\
+      Associate Supervisor           & \thu@associate@supervisor@en \\
     \fi
     \ifx\thu@co@supervisor@en\@empty\else
-    Co-supervisor                    & \thu@co@supervisor@en        \\
+      Co-supervisor                  & \thu@co@supervisor@en \\
     \fi
-  \end{tabular}
-  %
+  \end{tabular}%
 }
 \newcommand\thu@titlepage@en@date{%
   \begingroup
-  \sffamily\bfseries\sanhao
-  \thu@format@date{\thu@date@en@short}{\thu@date}\par
+    \sffamily\bfseries\sanhao
+    \thu@format@date{\thu@date@en@short}{\thu@date}\par
   \endgroup
 }
 \newcommand\thu@titlepage@bachelor{%
@@ -2825,77 +2876,78 @@
   }%
   \thispagestyle{empty}%
   \begingroup
-  \centering
-  \parbox[t][0cm][t]{\textwidth}{%
-    \hfill
-    \xiaosi
-    \ifx\thu@secret@level\@empty\else
-      \thu@secret@level\space\thu@secret@year 年\par
-    \fi
-  }%
+    \centering
+    \parbox[t][0cm][t]{\textwidth}{%
+      \hfill
+      \xiaosi
+      \ifx\thu@secret@level\@empty\else
+        \thu@secret@level\space\thu@secret@year 年\par
+      \fi
+    }%
   \endgroup
   \vfill
   \begingroup
-  \centering
-  \includegraphics{tsinghua-name-bachelor.pdf}%
-  \vskip 0.94cm{\sffamily\bfseries\xiaochu\ziju{0.5}综合论文训练\par}%%
+    \centering
+    \includegraphics{tsinghua-name-bachelor.pdf}%
+    \vskip 0.94cm%
+    {\sffamily\bfseries\xiaochu\ziju{0.5}综合论文训练\par}%
   \endgroup
   \vskip 1.8cm%
   \begingroup
-  \heiti
-  % 21.0cm - 0.2cm - 3cm * 2 - 18bp * 4 = 347bp
-  \noindent\hspace{1em}\makebox[54bp]{\xiaoer[1.2]题目：}%
-  \parbox[t]{347bp}{%
-    \ifthu@main@language@chinese
-      \yihao[1.56]%
-    \else
-      \fontsize{26bp}{32bp}\selectfont
-    \fi
-    \renewcommand\ULthickness{0.05em}%
-    \renewcommand\ULdepth{0.17em}%
-    \expandafter\uline\expandafter{\thu@title}\par
-    \ifthu@main@language@english
-      \thusetup{language=english}%
-      \expandafter\uline\expandafter{\thu@title@en}\par
-      \thusetup{language=chinese}%
-    \fi
-  }\par
+    \heiti
+    % 21.0cm - 0.2cm - 3cm * 2 - 18bp * 4 = 347bp
+    \noindent\hspace{1em}\makebox[54bp]{\xiaoer[1.2]题目：}%
+    \parbox[t]{347bp}{%
+      \ifthu@main@language@chinese
+        \yihao[1.56]%
+      \else
+        \fontsize{26bp}{32bp}\selectfont
+      \fi
+      \renewcommand\ULthickness{0.05em}%
+      \renewcommand\ULdepth{0.17em}%
+      \expandafter\uline\expandafter{\thu@title}\par
+      \ifthu@main@language@english
+        \thusetup{language=english}%
+        \expandafter\uline\expandafter{\thu@title@en}\par
+        \thusetup{language=chinese}%
+      \fi
+    }\par
   \endgroup
   \vskip 1.9cm%
   \begingroup
-  \fangsong\sanhao[2.32]%
-  \leftskip=2.5cm%
-  \parindent=\z@
-  \def\thu@info@item##1##2##3{%
-    \ifx##3\@empty\else
-      \thu@fixed@box{%
-        \ifx\thu@co@supervisor\@empty
-          4em%
-        \else
-          5.5em%
-        \fi
-      }{##1}：##2{##3}\par
-    \fi
-  }%
-  \def\thu@name@title@format##1##2{%
-    \thu@stretch{3em}{##1}\quad ##2%
-  }%
-  \thu@info@item{系别}{}{\thu@department}%
-  \thu@info@item{专业}{}{\thu@discipline}%
-  \thu@info@item{姓名}{\thu@name@title}{\thu@author}%
-  \thu@info@item{指导教师}{\thu@name@title}{\thu@supervisor}%
-  \thu@info@item{辅导教师}{\thu@name@title}{\thu@associate@supervisor}%
-  \thu@info@item{联合指导教师}{\thu@name@title}{\thu@co@supervisor}%
+    \fangsong\sanhao[2.32]%
+    \leftskip=2.5cm%
+    \parindent=\z@
+    \def\thu@info@item##1##2##3{%
+      \ifx##3\@empty\else
+        \thu@fixed@box{%
+          \ifx\thu@co@supervisor\@empty
+            4em%
+          \else
+            5.5em%
+          \fi
+        }{##1}：##2{##3}\par
+      \fi
+    }%
+    \def\thu@name@title@format##1##2{%
+      \thu@stretch{3em}{##1}\quad ##2%
+    }%
+    \thu@info@item{系别}{}{\thu@department}%
+    \thu@info@item{专业}{}{\thu@discipline}%
+    \thu@info@item{姓名}{\thu@name@title}{\thu@author}%
+    \thu@info@item{指导教师}{\thu@name@title}{\thu@supervisor}%
+    \thu@info@item{辅导教师}{\thu@name@title}{\thu@associate@supervisor}%
+    \thu@info@item{联合指导教师}{\thu@name@title}{\thu@co@supervisor}%
   \endgroup
   \vskip 1.4cm%
   \begingroup
-  \centering
-  \ifLuaTeX
-    \fontspec{\CJK@family}%
-  \else
-    \CJKfamily+{}%
-  \fi
-  \xiaosi\thu@format@date{\thu@date@zh@digit}{\thu@date}\par
+    \centering
+    \ifLuaTeX
+      \fontspec{\CJK@family}%
+    \else
+      \CJKfamily+{}%
+    \fi
+    \xiaosi\thu@format@date{\thu@date@zh@digit}{\thu@date}\par
   \endgroup
   \vfill
   \clearpage
@@ -2905,36 +2957,43 @@
   \thispagestyle{empty}%
   \begin{center}%
     \renewcommand\ULthickness{0.7pt}%
-    \vspace*{0.35cm}{\sihao[2.6]%%
+    \vspace*{0.35cm}%
+    {\sihao[2.6]%
       \thu@stretch{3.1em}{分类号}\thu@underline[3.7cm]{\thu@clc}\hfill
       密级\thu@underline[3.7cm]{\thu@secret@level}\par
       \thu@stretch{3.1em}{U D C}\thu@underline[3.7cm]{\thu@udc}\hfill
       编号\thu@underline[3.7cm]{\thu@id}\par
     }%
-    \vskip 3.15cm{\sffamily\bfseries\xiaoer[2.6]{\ziju{1.5}清华大学\par}{\ziju{0.5}博士后研究工作报告\par}%%%%
-      }%
+    \vskip 3.15cm%
+    {\sffamily\bfseries\xiaoer[2.6]%
+      {\ziju{1.5}清华大学\par}%
+      {\ziju{0.5}博士后研究工作报告\par}%
+    }%
     \vskip 0.2cm%
     \parbox[t][4.0cm][c]{\textwidth}{%
       \centering\sihao[3.46]%
       \renewcommand\ULdepth{1em}%
       \expandafter\uline\expandafter{\thu@title}\par
     }\par
-    \vskip 0.4cm{\xiaosi\thu@author\par}%%
-    \vskip 1.4cm{\xiaosi[1.58]%%
-        \renewcommand\ULdepth{0.9em}%
-        工作完成日期\quad
-        \thu@uline[5.9cm]{%
-          \thu@format@date{\thu@date@zh@digit@short}{\thu@start@date}—%
-          \thu@format@date{\thu@date@zh@digit@short}{\thu@end@date}
-        }\par
-        \vskip 0.55cm%
-        报告提交日期\quad
-        \thu@uline[5.9cm]{\thu@format@date{\thu@date@zh@digit@short}{\thu@date}}\par
-      }%
-    \vskip 0.45cm{\xiaosi[2]{\ziju{1}清华大学}\quad （北京）\par}%%
-    \vskip 0.25cm{\xiaosi[2]\thu@format@date{\thu@date@zh@digit@short}{\thu@date}\par}%%
-  \end{center}
-  %
+    \vskip 0.4cm%
+    {\xiaosi\thu@author\par}%
+    \vskip 1.4cm%
+    {\xiaosi[1.58]%
+      \renewcommand\ULdepth{0.9em}%
+      工作完成日期\quad
+      \thu@uline[5.9cm]{%
+        \thu@format@date{\thu@date@zh@digit@short}{\thu@start@date}—%
+        \thu@format@date{\thu@date@zh@digit@short}{\thu@end@date}
+      }\par
+      \vskip 0.55cm%
+      报告提交日期\quad
+      \thu@uline[5.9cm]{\thu@format@date{\thu@date@zh@digit@short}{\thu@date}}\par
+    }%
+    \vskip 0.45cm%
+    {\xiaosi[2]{\ziju{1}清华大学}\quad （北京）\par}%
+    \vskip 0.25cm%
+    {\xiaosi[2]\thu@format@date{\thu@date@zh@digit@short}{\thu@date}\par}%
+  \end{center}%
 }
 \newcommand\thu@titlepage@postdoc{%
   \thispagestyle{empty}%
@@ -2947,24 +3006,26 @@
     \parbox[t][3cm][c]{\textwidth}{%
       \centering\sihao[1.36]\thu@title@en\par
     }\par
-    \vskip 0.4cm{\xiaosi[2.6]%%
-        \begin{tabular}{l@{\quad}l}%
-          \renewcommand\arraystretch{1}%
-          \thu@stretch{11em}{博士后姓名}                  & \thu@author              \\
-          \thu@stretch{11em}{流动站（一级学科）名称}      & \thu@discipline@level@i  \\
-          \thu@stretch{11em}{专\quad{}业（二级学科）名称} & \thu@discipline@level@ii \\
-        \end{tabular}
-        \par
-      }%
-    \vskip 2.7cm{\xiaosi[2.6]%%
-        研究工作起始时间\quad\thu@format@date{\thu@date@zh@digit}{\thu@start@date}\par
-        \vskip 0.1cm%
-        研究工作期满时间\quad\thu@format@date{\thu@date@zh@digit}{\thu@end@date}\par
-      }%
-    \vskip 2.1cm{\xiaosi[2.6]清华大学人事处（北京）\par}%%
-    \vskip 0.6cm{\wuhao\thu@format@date{\thu@date@zh@digit@short}{\thu@date}\par}%%
-  \end{center}
-  %
+    \vskip 0.4cm%
+    {\xiaosi[2.6]%
+      \begin{tabular}{l@{\quad}l}%
+        \renewcommand\arraystretch{1}%
+        \thu@stretch{11em}{博士后姓名}                  & \thu@author           \\
+        \thu@stretch{11em}{流动站（一级学科）名称}      & \thu@discipline@level@i  \\
+        \thu@stretch{11em}{专\quad{}业（二级学科）名称} & \thu@discipline@level@ii \\
+      \end{tabular}\par
+    }%
+    \vskip 2.7cm%
+    {\xiaosi[2.6]%
+      研究工作起始时间\quad\thu@format@date{\thu@date@zh@digit}{\thu@start@date}\par
+      \vskip 0.1cm%
+      研究工作期满时间\quad\thu@format@date{\thu@date@zh@digit}{\thu@end@date}\par
+    }%
+    \vskip 2.1cm%
+    {\xiaosi[2.6]清华大学人事处（北京）\par}%
+    \vskip 0.6cm%
+    {\wuhao\thu@format@date{\thu@date@zh@digit@short}{\thu@date}\par}%
+  \end{center}%
 }
 \def\thu@committee@name{学位论文指导小组、公开评阅人和答辩委员会名单}
 \NewEnviron{committee}[1][]{%
@@ -2983,24 +3044,24 @@
     \kvsetkeys{thu@committee}{#1}%
     \ifx\thu@committee@file\@empty
       \begingroup
-      \ctexset{
-        chapter = {
-          format    = \centering\sffamily\fontsize{16bp}{20bp}\selectfont,
-          afterskip = 49bp,
-         },
-        section = {
-          beforeskip  =  26bp,
-          afterskip   =  9.5bp,
-          format      += \centering,
-          numbering   =  false,
-          afterindent =  false,
-         },
-      }%
-      \thu@chapter*[]{\thu@committee@name}%
-      \thispagestyle{empty}%
-      \thusetup{language=chinese}%
-      \BODY\clearpage
-      \thu@reset@main@language
+        \ctexset{
+          chapter = {
+            format    = \centering\sffamily\fontsize{16bp}{20bp}\selectfont,
+            afterskip = 49bp,
+          },
+          section = {
+            beforeskip  =  26bp,
+            afterskip   =  9.5bp,
+            format      += \centering,
+            numbering   =  false,
+            afterindent =  false,
+          },
+        }%
+        \thu@chapter*[]{\thu@committee@name}%
+        \thispagestyle{empty}%
+        \thusetup{language=chinese}%
+        \BODY\clearpage
+        \thu@reset@main@language
       \endgroup
     \else
       \thu@pdfbookmark{0}{\thu@committee@name}%
@@ -3040,56 +3101,56 @@
   日\ifthu@degree@bachelor\hspace{1em}\else\hspace{2em}\fi 期：}
 \newcommand\thu@copyright@page@graduate{%
   \begingroup
-  \ctexset{
-    chapter = {
-      format     = {\centering\sffamily\erhao},
-      beforeskip = 40bp,
-      afterskip  = 36bp,
-     },
-  }%
-  \thu@chapter*[]{关于学位论文使用授权的说明}%
-  \thispagestyle{empty}%
+    \ctexset{
+      chapter = {
+        format     = {\centering\sffamily\erhao},
+        beforeskip = 40bp,
+        afterskip  = 36bp,
+      },
+    }%
+    \thu@chapter*[]{关于学位论文使用授权的说明}%
+    \thispagestyle{empty}%
   \endgroup
   \vskip 13bp%
   \begingroup
-  \fontsize{14bp}{26bp}\selectfont
-  本人完全了解清华大学有关保留、使用学位论文的规定，即：\par
-  清华大学拥有在著作权法规定范围内学位论文的使用权，其中包括：%
-  （1）\nobreak 已获学位的研究生必须按学校规定提交学位论文，%
-  学校可以采用影印、缩印或其他复制手段保存研究生上交的学位论文；\allowbreak
-  （2）\nobreak 为教学和科研目的，学校可以将公开的学位论文作为资料在图书馆、资料室等场所供校内师生阅读，%
-  或在校园网上供校内师生浏览部分内容；\allowbreak
-  \ifthu@degree@doctor
-    （3）\nobreak 根据《中华人民共和国学位条例暂行实施办法》及上级教育主管部门具体要求，向国家图书馆报送相应的学位论文。%
-  \else
-    （3）\nobreak 按照上级教育主管部门督导、抽查等要求，报送相应的学位论文。%
-  \fi
-  \par
-  本人保证遵守上述规定。\par
+    \fontsize{14bp}{26bp}\selectfont
+    本人完全了解清华大学有关保留、使用学位论文的规定，即：\par
+    清华大学拥有在著作权法规定范围内学位论文的使用权，其中包括：%
+    （1）\nobreak 已获学位的研究生必须按学校规定提交学位论文，%
+    学校可以采用影印、缩印或其他复制手段保存研究生上交的学位论文；\allowbreak
+    （2）\nobreak 为教学和科研目的，学校可以将公开的学位论文作为资料在图书馆、资料室等场所供校内师生阅读，%
+    或在校园网上供校内师生浏览部分内容；\allowbreak
+    \ifthu@degree@doctor
+      （3）\nobreak 根据《中华人民共和国学位条例暂行实施办法》及上级教育主管部门具体要求，向国家图书馆报送相应的学位论文。%
+    \else
+      （3）\nobreak 按照上级教育主管部门督导、抽查等要求，报送相应的学位论文。%
+    \fi
+    \par
+    本人保证遵守上述规定。\par
   \endgroup
   \vskip 33bp%
   \begingroup
-  \fontsize{12bp}{23.4bp}\selectfont
-  \parindent\z@
-  \leftskip 43bp%
-  作者签名：\hspace{4bp}\thu@underline[7em]{}\hspace{47bp}%
-  导师签名：\hspace{4bp}\thu@underline[7em]{}\par
-  \vskip 6bp%
-  日\hspace{2em}期：\hspace{4bp}\thu@underline[7em]{}\hspace{47bp}%
-  日\hspace{2em}期：\hspace{4bp}\thu@underline[7em]{}\par
+    \fontsize{12bp}{23.4bp}\selectfont
+    \parindent\z@
+    \leftskip 43bp%
+    作者签名：\hspace{4bp}\thu@underline[7em]{}\hspace{47bp}%
+    导师签名：\hspace{4bp}\thu@underline[7em]{}\par
+    \vskip 6bp%
+    日\hspace{2em}期：\hspace{4bp}\thu@underline[7em]{}\hspace{47bp}%
+    日\hspace{2em}期：\hspace{4bp}\thu@underline[7em]{}\par
   \endgroup
 }
 \newcommand\thu@copyright@page@bachelor{%
   \begingroup
-  \ctexset{
-    chapter = {
-      format     = {\centering\sffamily\erhao[1]},
-      beforeskip = 1bp,
-      afterskip  = 24bp,
-     },
-  }%
-  \thu@chapter*[]{关于学位论文使用授权的说明}%
-  \thispagestyle{empty}%
+    \ctexset{
+      chapter = {
+        format     = {\centering\sffamily\erhao[1]},
+        beforeskip = 1bp,
+        afterskip  = 24bp,
+      },
+    }%
+    \thu@chapter*[]{关于学位论文使用授权的说明}%
+    \thispagestyle{empty}%
   \endgroup
   \vskip 4bp%
   本人完全了解清华大学有关保留、使用学位论文的规定，即：%
@@ -3098,18 +3159,18 @@
   \textbf{(涉密的学位论文在解密后应遵守此规定)}\par
   \null\par
   \begingroup
-  \centering
-  签\quad 名：\thu@underline[6em]{}%
-  导师签名：\thu@underline[6em]{}%
-  日\quad 期：\thu@underline[6em]{}%
-  \par
+    \centering
+    签\quad 名：\thu@underline[6em]{}%
+    导师签名：\thu@underline[6em]{}%
+    日\quad 期：\thu@underline[6em]{}%
+    \par
   \endgroup
 }
 \thu@define@key{
   keywords,
   keywords* = {
-      name = keywords@en,
-    },
+    name = keywords@en,
+  },
 }
 \newcommand\thu@clist@use[2]{%
   \def\thu@@tmp{}%
@@ -3130,12 +3191,12 @@
   \thusetup{language = chinese}%
   \ifthu@degree@graduate
     \begingroup
-    \ifthu@main@language@english
-      \ctexset{%
-        chapter/format = \centering\sffamily\fontsize{16bp}{20bp}\selectfont,
-      }%
-    \fi
-    \thu@chapter*{\thu@abstract@name}%
+      \ifthu@main@language@english
+        \ctexset{%
+          chapter/format = \centering\sffamily\fontsize{16bp}{20bp}\selectfont,
+        }%
+      \fi
+      \thu@chapter*{\thu@abstract@name}%
     \endgroup
   \else
     \thu@chapter*[]{\thu@abstract@name}%
@@ -3191,9 +3252,8 @@
   \else
     \thu@chapter*[]{\thu@denotation@name}%
   \fi
-  \vskip-30bp\xiaosi[1.6]
-  \begin{thu@denotation}[labelwidth=#1]
-    }{%
+  \vskip-30bp\xiaosi[1.6]\begin{thu@denotation}[labelwidth=#1]
+}{%
   \end{thu@denotation}
 }
 \newlist{thu@denotation}{description}{1}
@@ -3227,22 +3287,22 @@
 }
 \thu@define@key{
   statement-page-style = {
-      name = statement@page@style,
-      choices = {
-          auto,
-          empty,
-          plain,
-        },
-      default = auto,
+    name = statement@page@style,
+    choices = {
+      auto,
+      empty,
+      plain,
     },
+    default = auto,
+  },
   statement-page-number = {
-      name = statement@page@number,
-      choices = {
-          false,
-          true,
-        },
-      default = false,
+    name = statement@page@number,
+    choices = {
+      false,
+      true,
     },
+    default = false,
+  },
 }
 \thu@option@hook{statement-page-number}{%
   \ifthu@statement@page@number@false
@@ -3295,14 +3355,14 @@
   \ifx\thu@statement@file\@empty
     \thusetup{language=chinese}%
     \begingroup
-    \ifthu@degree@graduate
-      \ifthu@main@language@english
-        \ctexset{%
-          chapter/format = \centering\sffamily\fontsize{16bp}{20bp}\selectfont,
-        }%
+      \ifthu@degree@graduate
+        \ifthu@main@language@english
+          \ctexset{%
+            chapter/format = \centering\sffamily\fontsize{16bp}{20bp}\selectfont,
+          }%
+        \fi
       \fi
-    \fi
-    \thu@chapter*{\thu@statement@name}%
+      \thu@chapter*{\thu@statement@name}%
     \endgroup
     \thispagestyle{\thu@statement@page@style}%
     \thu@statement@text\par
@@ -3312,15 +3372,15 @@
       \null\par
     \fi
     {\hfill\thu@signature\thu@underline[2.5cm]\relax
-    \thu@backdate\thu@underline[2.5cm]\relax}%
+      \thu@backdate\thu@underline[2.5cm]\relax}%
     \thu@reset@main@language
   \else
     \includepdf[pagecommand={%
-          \markboth{\thu@statement@name}{}%
-          \thu@phantomsection
-          \addcontentsline{toc}{chapter}{\thu@statement@name}%
-          \thispagestyle{\thu@statement@page@style}%
-        }]{\thu@statement@file}%
+      \markboth{\thu@statement@name}{}%
+      \thu@phantomsection
+      \addcontentsline{toc}{chapter}{\thu@statement@name}%
+      \thispagestyle{\thu@statement@page@style}%
+    }]{\thu@statement@file}%
   \fi
   \ifthu@degree@bachelor
     \cleardoublepage
@@ -3330,7 +3390,9 @@
 \let\endacknowledgement\endacknowledgements
 \def\thu@listof#1{% #1: float type
   \setcounter{tocdepth}{2} % restore tocdepth in case being modified
-  \@ifstar{\thu@chapter*[]{\csname list#1name\endcsname}\@starttoc{\csname ext@#1\endcsname}}{\thu@chapter*{\csname list#1name\endcsname}\@starttoc{\csname ext@#1\endcsname}}%
+  \@ifstar
+    {\thu@chapter*[]{\csname list#1name\endcsname}\@starttoc{\csname ext@#1\endcsname}}
+    {\thu@chapter*{\csname list#1name\endcsname}\@starttoc{\csname ext@#1\endcsname}}%
 }
 \renewcommand\listoffigures{%
   \ifthu@degree@bachelor
@@ -3340,7 +3402,10 @@
   \fi
   \thu@listof{figure}%
 }
-\titlecontents{figure}[\z@]{}{\contentspush{\figurename~\thecontentslabel\quad}}{}{\nobreak\thu@leaders\nobreak\hfil\thecontentspage}
+\titlecontents{figure}
+  [\z@]{}
+  {\contentspush{\figurename~\thecontentslabel\quad}}{}
+  {\nobreak\thu@leaders\nobreak\hfil\thecontentspage}
 \renewcommand\listoftables{%
   \ifthu@degree@bachelor
     \ifthu@backmatter\else
@@ -3349,7 +3414,10 @@
   \fi
   \thu@listof{table}%
 }
-\titlecontents{table}[\z@]{}{\contentspush{\tablename~\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}
+\titlecontents{table}
+  [\z@]{}
+  {\contentspush{\tablename~\thecontentslabel\quad}}{}
+  {\thu@leaders\thecontentspage}
 \newcommand\listoffiguresandtables{%
   \ifthu@degree@bachelor
     \thu@warning{The list of figures and tables are for graduates only}%
@@ -3365,29 +3433,33 @@
 }
 \def\ext@equation{loe}
 \def\equcaption#1{%
-  \addcontentsline{\ext@equation}{equation}{\protect\numberline{#1}}}%
+  \addcontentsline{\ext@equation}{equation}%
+                  {\protect\numberline{#1}}}
 \newcommand\listofequations{\thu@listof{equation}}
-\titlecontents{equation}[0pt]{\addvspace{6bp}}{\thu@equation@name~\thecontentslabel}{}{\nobreak\thu@leaders\nobreak\thecontentspage}
+\titlecontents{equation}
+  [0pt]{\addvspace{6bp}}
+  {\thu@equation@name~\thecontentslabel}{}
+  {\nobreak\thu@leaders\nobreak\thecontentspage}
 \contentsuse{equation}{loe}
 \thu@define@key{
   cite-style = {
-      name = cite@style,
-      choices = {
-          super,
-          inline,
-          author-year,
-        }
+    name = cite@style,
+    choices = {
+      super,
+      inline,
+      author-year,
     }
+  }
 }
 \def\bibliographystyle#1{%
-\gdef\bu@bibstyle{#1}%
-\ifx\@begindocumenthook\@undefined\else
-  \expandafter\AtBeginDocument
-\fi
-{\if@filesw
-  \immediate\write\@auxout{\string\bibstyle{#1}}%
-  \immediate\write\@auxout{\string\gdef\string\bu@bibstyle{#1}}%
-\fi}%
+  \gdef\bu@bibstyle{#1}%
+  \ifx\@begindocumenthook\@undefined\else
+    \expandafter\AtBeginDocument
+  \fi
+    {\if@filesw
+       \immediate\write\@auxout{\string\bibstyle{#1}}%
+       \immediate\write\@auxout{\string\gdef\string\bu@bibstyle{#1}}%
+     \fi}%
 }
 \def\bibliography#1{%
   \if@filesw
@@ -3398,68 +3470,71 @@
   \@input@{\jobname.bbl}}
 \PassOptionsToPackage{compress}{natbib}
 \AtEndOfPackageFile*{natbib}{
-\DeclareRobustCommand\inlinecite{\@inlinecite}
-\def\@inlinecite#1{\begingroup\let\@cite\NAT@citenum\citep{#1}\endgroup}
-\let\onlinecite\inlinecite
-\newcommand\bibstyle@super{%
-\bibpunct{[}{]}{,}{s}{,}{\textsuperscript{,}}}
-\newcommand\bibstyle@inline{%
-\bibpunct{[}{]}{,}{n}{,}{,}}
-\@namedef{bibstyle@author-year}{%
-  \bibpunct{(}{)}{;}{a}{,}{,}}
-\thu@option@hook{cite-style}{\@nameuse{bibstyle@\thu@cite@style}}
-\@namedef{bibstyle@thuthesis-numeric}{\citestyle{super}}
-\@namedef{bibstyle@thuthesis-author-year}{\citestyle{author-year}}
-\@namedef{bibstyle@thuthesis-bachelor}{\citestyle{super}}
-\renewcommand\NAT@citesuper[3]{%
-  \ifNAT@swa
-  \if*#2*\else
-  #2\NAT@spacechar
-  \fi
-  % \unskip\kern\p@\textsuperscript{\NAT@@open#1\NAT@@close}%
-  %  \if*#3*\else\NAT@spacechar#3\fi\else #1\fi\endgroup}
-  \unskip\kern\p@
-  \textsuperscript{%
-    \NAT@@open#1\NAT@@close
-    \if*#3*\else#3\fi
-  }%
-  \kern\p@
-  \else
-  #1%
-  \fi
-  \endgroup
-}
-\renewcommand\NAT@citenum[3]{%
-  \ifNAT@swa
-  \NAT@@open
-  \if*#2*\else
-  #2\NAT@spacechar
-  \fi
-  % #1\if*#3*\else\NAT@cmt#3\fi\NAT@@close
-  #1\NAT@@close
-  \if*#3*\else
-  \textsuperscript{#3}%
-  \fi
-  \else
-  #1%
-  \fi
-  \endgroup
-}
-\def\NAT@citexnum[#1][#2]#3{%
-  \NAT@reset@parser
-  \NAT@sort@cites{#3}%
-  \NAT@reset@citea
-  \@cite{\def\NAT@num{-1}\let\NAT@last@yr\relax\let\NAT@nm\@empty
-    \@for\@citeb:=\NAT@cite@list\do{\@safe@activestrue
+  \DeclareRobustCommand\inlinecite{\@inlinecite}
+  \def\@inlinecite#1{\begingroup\let\@cite\NAT@citenum\citep{#1}\endgroup}
+  \let\onlinecite\inlinecite
+  \newcommand\bibstyle@super{%
+    \bibpunct{[}{]}{,}{s}{,}{\textsuperscript{,}}}
+  \newcommand\bibstyle@inline{%
+    \bibpunct{[}{]}{,}{n}{,}{,}}
+  \@namedef{bibstyle@author-year}{%
+    \bibpunct{(}{)}{;}{a}{,}{,}}
+  \thu@option@hook{cite-style}{\@nameuse{bibstyle@\thu@cite@style}}
+  \@namedef{bibstyle@thuthesis-numeric}{\citestyle{super}}
+  \@namedef{bibstyle@thuthesis-author-year}{\citestyle{author-year}}
+  \@namedef{bibstyle@thuthesis-bachelor}{\citestyle{super}}
+  \renewcommand\NAT@citesuper[3]{%
+    \ifNAT@swa
+      \if*#2*\else
+        #2\NAT@spacechar
+      \fi
+      % \unskip\kern\p@\textsuperscript{\NAT@@open#1\NAT@@close}%
+      %  \if*#3*\else\NAT@spacechar#3\fi\else #1\fi\endgroup}
+      \unskip\kern\p@
+      \textsuperscript{%
+        \NAT@@open#1\NAT@@close
+        \if*#3*\else#3\fi
+      }%
+      \kern\p@
+    \else
+      #1%
+    \fi
+    \endgroup
+  }
+  \renewcommand\NAT@citenum[3]{%
+    \ifNAT@swa
+      \NAT@@open
+      \if*#2*\else
+        #2\NAT@spacechar
+      \fi
+      % #1\if*#3*\else\NAT@cmt#3\fi\NAT@@close
+      #1\NAT@@close
+      \if*#3*\else
+        \textsuperscript{#3}%
+      \fi
+    \else
+      #1%
+    \fi
+    \endgroup
+  }
+  \def\NAT@citexnum[#1][#2]#3{%
+    \NAT@reset@parser
+    \NAT@sort@cites{#3}%
+    \NAT@reset@citea
+    \@cite{\def\NAT@num{-1}\let\NAT@last@yr\relax\let\NAT@nm\@empty
+      \@for\@citeb:=\NAT@cite@list\do
+      {\@safe@activestrue
       \edef\@citeb{\expandafter\@firstofone\@citeb\@empty}%
       \@safe@activesfalse
       \@ifundefined{b@\@citeb\@extra@b@citeb}{%
         {\reset@font\bfseries?}
-        \NAT@citeundefined\PackageWarning{natbib}{Citation `\@citeb' on page \thepage \space undefined}}{\let\NAT@last@num\NAT@num\let\NAT@last@nm\NAT@nm%%
+          \NAT@citeundefined\PackageWarning{natbib}%
+        {Citation `\@citeb' on page \thepage \space undefined}}%
+      {\let\NAT@last@num\NAT@num\let\NAT@last@nm\NAT@nm
         \NAT@parse{\@citeb}%
         \ifNAT@longnames\@ifundefined{bv@\@citeb\@extra@b@citeb}{%
-            \let\NAT@name=\NAT@all@names
-            \global\@namedef{bv@\@citeb\@extra@b@citeb}{}}{}%
+          \let\NAT@name=\NAT@all@names
+          \global\@namedef{bv@\@citeb\@extra@b@citeb}{}}{}%
         \fi
         \ifNAT@full\let\NAT@nm\NAT@all@names\else
           \let\NAT@nm\NAT@name\fi
@@ -3469,198 +3544,211 @@
           \NAT@hyper@{\@ifnum{\NAT@ctype=\tw@}{\NAT@test{\NAT@ctype}}{\NAT@alias}}%
         }{%
           \@ifnum{\NAT@cmprs>\z@}{%
-            \NAT@ifcat@num\NAT@num{\let\NAT@nm=\NAT@num}{\def\NAT@nm{-2}}%%
-            \NAT@ifcat@num\NAT@last@num{\@tempcnta=\NAT@last@num\relax}{\@tempcnta\m@ne}%%
-            \@ifnum{\NAT@nm=\@tempcnta}{%
-              \@ifnum{\NAT@merge>\@ne}{}{\NAT@last@yr@mbox}%
-            }{%
-              \advance\@tempcnta by\@ne
-              \@ifnum{\NAT@nm=\@tempcnta}{%
-                % \ifx\NAT@last@yr\relax
-                %   \def@NAT@last@yr{\@citea}%
-                % \else
-                %   \def@NAT@last@yr{--\NAT@penalty}%
-                % \fi
-                \def@NAT@last@yr{-\NAT@penalty}%
-              }{%
-                \NAT@last@yr@mbox
-              }%
-            }%
+          \NAT@ifcat@num\NAT@num
+            {\let\NAT@nm=\NAT@num}%
+            {\def\NAT@nm{-2}}%
+          \NAT@ifcat@num\NAT@last@num
+            {\@tempcnta=\NAT@last@num\relax}%
+            {\@tempcnta\m@ne}%
+          \@ifnum{\NAT@nm=\@tempcnta}{%
+            \@ifnum{\NAT@merge>\@ne}{}{\NAT@last@yr@mbox}%
           }{%
-            \@tempswatrue
-            \@ifnum{\NAT@merge>\@ne}{\@ifnum{\NAT@last@num=\NAT@num\relax}{\@tempswafalse}{}}{}%
-            \if@tempswa\NAT@citea@mbox\fi
+            \advance\@tempcnta by\@ne
+            \@ifnum{\NAT@nm=\@tempcnta}{%
+              % \ifx\NAT@last@yr\relax
+              %   \def@NAT@last@yr{\@citea}%
+              % \else
+              %   \def@NAT@last@yr{--\NAT@penalty}%
+              % \fi
+              \def@NAT@last@yr{-\NAT@penalty}%
+            }{%
+              \NAT@last@yr@mbox
+            }%
+          }%
+          }{%
+          \@tempswatrue
+          \@ifnum{\NAT@merge>\@ne}{\@ifnum{\NAT@last@num=\NAT@num\relax}{\@tempswafalse}{}}{}%
+          \if@tempswa\NAT@citea@mbox\fi
           }%
         }%
         \NAT@def@citea
         \else
-        \ifcase\NAT@ctype
-        \ifx\NAT@last@nm\NAT@nm \NAT@yrsep\NAT@penalty\NAT@space\else
-          \@citea \NAT@test{\@ne}\NAT@spacechar\NAT@mbox{\NAT@super@kern\NAT@@open}%
-        \fi
-        \if*#1*\else#1\NAT@spacechar\fi
-        \NAT@mbox{\NAT@hyper@{{\citenumfont{\NAT@num}}}}%
-        \NAT@def@citea@box
-        \or
-        \NAT@hyper@citea@space{\NAT@test{\NAT@ctype}}%
-        \or
-        \NAT@hyper@citea@space{\NAT@test{\NAT@ctype}}%
-        \or
-        \NAT@hyper@citea@space\NAT@alias
-        \fi
+          \ifcase\NAT@ctype
+            \ifx\NAT@last@nm\NAT@nm \NAT@yrsep\NAT@penalty\NAT@space\else
+              \@citea \NAT@test{\@ne}\NAT@spacechar\NAT@mbox{\NAT@super@kern\NAT@@open}%
+            \fi
+            \if*#1*\else#1\NAT@spacechar\fi
+            \NAT@mbox{\NAT@hyper@{{\citenumfont{\NAT@num}}}}%
+            \NAT@def@citea@box
+          \or
+            \NAT@hyper@citea@space{\NAT@test{\NAT@ctype}}%
+          \or
+            \NAT@hyper@citea@space{\NAT@test{\NAT@ctype}}%
+          \or
+            \NAT@hyper@citea@space\NAT@alias
+          \fi
         \fi
       }%
-    }%
-    \@ifnum{\NAT@cmprs>\z@}{\NAT@last@yr}{}%
-    \ifNAT@swa\else
-      % \@ifnum{\NAT@ctype=\z@}{%
-      %   \if*#2*\else\NAT@cmt#2\fi
-      % }{}%
-      \NAT@mbox{\NAT@@close}%
-      \@ifnum{\NAT@ctype=\z@}{%
-        \if*#2*\else
-        \textsuperscript{#2}%
+      }%
+        \@ifnum{\NAT@cmprs>\z@}{\NAT@last@yr}{}%
+        \ifNAT@swa\else
+          % \@ifnum{\NAT@ctype=\z@}{%
+          %   \if*#2*\else\NAT@cmt#2\fi
+          % }{}%
+          \NAT@mbox{\NAT@@close}%
+          \@ifnum{\NAT@ctype=\z@}{%
+            \if*#2*\else
+              \textsuperscript{#2}%
+            \fi
+          }{}%
+          \NAT@super@kern
         \fi
-      }{}%
-      \NAT@super@kern
-    \fi
-  }{#1}{#2}%
-}%
-\renewcommand\NAT@cite[3]{\ifNAT@swa\NAT@@open\if*#2*\else#2\NAT@spacechar\fi%
-  % #1\if*#3*\else\NAT@cmt#3\fi\NAT@@close\else#1\fi\endgroup}
-  #1\NAT@@close\if*#3*\else\textsuperscript{#3}\fi\else#1\fi\endgroup}
-\def\NAT@citex[#1][#2]#3{%%
-  \NAT@reset@parser
-  \NAT@sort@cites{#3}%
-  \NAT@reset@citea
-  \@cite{\let\NAT@nm\@empty\let\NAT@year\@empty
-    \@for\@citeb:=\NAT@cite@list\do{\@safe@activestrue
+    }{#1}{#2}%
+  }%
+  \renewcommand\NAT@cite%
+      [3]{\ifNAT@swa\NAT@@open\if*#2*\else#2\NAT@spacechar\fi
+          % #1\if*#3*\else\NAT@cmt#3\fi\NAT@@close\else#1\fi\endgroup}
+          #1\NAT@@close\if*#3*\else\textsuperscript{#3}\fi\else#1\fi\endgroup}
+  \def\NAT@citex%
+    [#1][#2]#3{%
+    \NAT@reset@parser
+    \NAT@sort@cites{#3}%
+    \NAT@reset@citea
+    \@cite{\let\NAT@nm\@empty\let\NAT@year\@empty
+      \@for\@citeb:=\NAT@cite@list\do
+      {\@safe@activestrue
       \edef\@citeb{\expandafter\@firstofone\@citeb\@empty}%
       \@safe@activesfalse
-      \@ifundefined{b@\@citeb\@extra@b@citeb}{\@citea{\reset@font\bfseries ?}\NAT@citeundefined%
-        \PackageWarning{natbib}{Citation `\@citeb' on page \thepage \space undefined}\def\NAT@date{}}{\let\NAT@last@nm=\NAT@nm\let\NAT@last@yr=\NAT@year%%
+      \@ifundefined{b@\@citeb\@extra@b@citeb}{\@citea%
+        {\reset@font\bfseries ?}\NAT@citeundefined
+                  \PackageWarning{natbib}%
+        {Citation `\@citeb' on page \thepage \space undefined}\def\NAT@date{}}%
+      {\let\NAT@last@nm=\NAT@nm\let\NAT@last@yr=\NAT@year
         \NAT@parse{\@citeb}%
         \ifNAT@longnames\@ifundefined{bv@\@citeb\@extra@b@citeb}{%
-            \let\NAT@name=\NAT@all@names
-            \global\@namedef{bv@\@citeb\@extra@b@citeb}{}}{}%
+          \let\NAT@name=\NAT@all@names
+          \global\@namedef{bv@\@citeb\@extra@b@citeb}{}}{}%
         \fi
-        \ifNAT@full\let\NAT@nm\NAT@all@names\else
-          \let\NAT@nm\NAT@name\fi
-        \ifNAT@swa\ifcase\NAT@ctype
-            \if\relax\NAT@date\relax
-              \@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}\NAT@date}%
-            \else
-              \ifx\NAT@last@nm\NAT@nm\NAT@yrsep
-                \ifx\NAT@last@yr\NAT@year
-                  \def\NAT@temp{{?}}%
-                  \ifx\NAT@temp\NAT@exlab\PackageWarningNoLine{natbib}{Multiple citation on page \thepage: same authors and%
-                      year\MessageBreak without distinguishing extra
-                      letter,\MessageBreak appears as question mark}\fi
-                  \NAT@hyper@{\NAT@exlab}%
-                \else\unskip\NAT@spacechar
-                  \NAT@hyper@{\NAT@date}%
-                \fi
-              \else
-                \@citea\NAT@hyper@{%
-                  \NAT@nmfmt{\NAT@nm}%
-                  \hyper@natlinkbreak{%
-                    \NAT@aysep\NAT@spacechar}{\@citeb\@extra@b@citeb
-                  }%
-                  \NAT@date
-                }%
-              \fi
-            \fi
-          \or\@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}}%
-          \or\@citea\NAT@hyper@{\NAT@date}%
-          \or\@citea\NAT@hyper@{\NAT@alias}%
-          \fi \NAT@def@citea
+      \ifNAT@full\let\NAT@nm\NAT@all@names\else
+        \let\NAT@nm\NAT@name\fi
+      \ifNAT@swa\ifcase\NAT@ctype
+        \if\relax\NAT@date\relax
+          \@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}\NAT@date}%
         \else
-          \ifcase\NAT@ctype
-            \if\relax\NAT@date\relax
-              \@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}}%
-            \else
-              \ifx\NAT@last@nm\NAT@nm\NAT@yrsep
-                \ifx\NAT@last@yr\NAT@year
-                  \def\NAT@temp{{?}}%
-                  \ifx\NAT@temp\NAT@exlab\PackageWarningNoLine{natbib}{Multiple citation on page \thepage: same authors and%
-                      year\MessageBreak without distinguishing extra
-                      letter,\MessageBreak appears as question mark}\fi
-                  \NAT@hyper@{\NAT@exlab}%
-                \else
-                  \unskip\NAT@spacechar
-                  \NAT@hyper@{\NAT@date}%
-                \fi
-              \else
-                \@citea\NAT@hyper@{%
-                  \NAT@nmfmt{\NAT@nm}%
-                  \hyper@natlinkbreak{\NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi}{\@citeb\@extra@b@citeb}%%
-                  \NAT@date
-                }%
+          \ifx\NAT@last@nm\NAT@nm\NAT@yrsep
+              \ifx\NAT@last@yr\NAT@year
+                \def\NAT@temp{{?}}%
+                \ifx\NAT@temp\NAT@exlab\PackageWarningNoLine{natbib}%
+                {Multiple citation on page \thepage: same authors and
+                year\MessageBreak without distinguishing extra
+                letter,\MessageBreak appears as question mark}\fi
+                \NAT@hyper@{\NAT@exlab}%
+              \else\unskip\NAT@spacechar
+                \NAT@hyper@{\NAT@date}%
               \fi
-            \fi
-          \or\@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}}%
-          \or\@citea\NAT@hyper@{\NAT@date}%
-          \or\@citea\NAT@hyper@{\NAT@alias}%
-          \fi
-          \if\relax\NAT@date\relax
-            \NAT@def@citea
           \else
-            \NAT@def@citea@close
+            \@citea\NAT@hyper@{%
+              \NAT@nmfmt{\NAT@nm}%
+              \hyper@natlinkbreak{%
+                \NAT@aysep\NAT@spacechar}{\@citeb\@extra@b@citeb
+              }%
+              \NAT@date
+            }%
           \fi
         \fi
+      \or\@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}}%
+      \or\@citea\NAT@hyper@{\NAT@date}%
+      \or\@citea\NAT@hyper@{\NAT@alias}%
+      \fi \NAT@def@citea
+      \else
+        \ifcase\NAT@ctype
+          \if\relax\NAT@date\relax
+            \@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}}%
+          \else
+          \ifx\NAT@last@nm\NAT@nm\NAT@yrsep
+              \ifx\NAT@last@yr\NAT@year
+                \def\NAT@temp{{?}}%
+                \ifx\NAT@temp\NAT@exlab\PackageWarningNoLine{natbib}%
+                {Multiple citation on page \thepage: same authors and
+                year\MessageBreak without distinguishing extra
+                letter,\MessageBreak appears as question mark}\fi
+                \NAT@hyper@{\NAT@exlab}%
+              \else
+                \unskip\NAT@spacechar
+                \NAT@hyper@{\NAT@date}%
+              \fi
+          \else
+            \@citea\NAT@hyper@{%
+              \NAT@nmfmt{\NAT@nm}%
+              \hyper@natlinkbreak{\NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi}%
+                {\@citeb\@extra@b@citeb}%
+              \NAT@date
+            }%
+          \fi
+          \fi
+        \or\@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}}%
+        \or\@citea\NAT@hyper@{\NAT@date}%
+        \or\@citea\NAT@hyper@{\NAT@alias}%
+        \fi
+        \if\relax\NAT@date\relax
+          \NAT@def@citea
+        \else
+          \NAT@def@citea@close
+        \fi
+      \fi
       }}\ifNAT@swa\else
-    % \if*#2*\else\NAT@cmt#2\fi
-    \if\relax\NAT@date\relax\else\NAT@@close\fi
-    \if*#2*\else\textsuperscript{#2}\fi
-    \fi}{#1}{#2}}
-\renewcommand\bibsection{\thu@chapter*{\bibname}}
-\newcommand\thu@set@bibliography@format{%
-  \ifthu@degree@bachelor
-    \renewcommand\bibfont{\fontsize{10.5bp}{17bp}\selectfont}%
-    \setlength{\bibsep}{6bp \@plus 3bp \@minus 3bp}%
-    \ifthu@main@language@chinese
-      \setlength{\bibhang}{21bp}%
+        % \if*#2*\else\NAT@cmt#2\fi
+        \if\relax\NAT@date\relax\else\NAT@@close\fi
+        \if*#2*\else\textsuperscript{#2}\fi
+      \fi}{#1}{#2}}
+  \renewcommand\bibsection{\thu@chapter*{\bibname}}
+  \newcommand\thu@set@bibliography@format{%
+    \ifthu@degree@bachelor
+      \renewcommand\bibfont{\fontsize{10.5bp}{17bp}\selectfont}%
+      \setlength{\bibsep}{6bp \@plus 3bp \@minus 3bp}%
+      \ifthu@main@language@chinese
+        \setlength{\bibhang}{21bp}%
+      \else
+        \setlength{\bibhang}{0.5in}%
+      \fi
     \else
-      \setlength{\bibhang}{0.5in}%
+      \renewcommand\bibfont{\fontsize{10.5bp}{16bp}\selectfont}%
+      \setlength{\bibsep}{3bp \@plus 3bp \@minus 3bp}%
+      \setlength{\bibhang}{21bp}%
     \fi
-  \else
-    \renewcommand\bibfont{\fontsize{10.5bp}{16bp}\selectfont}%
-    \setlength{\bibsep}{3bp \@plus 3bp \@minus 3bp}%
-    \setlength{\bibhang}{21bp}%
-  \fi
-}
-\thu@set@bibliography@format
-\thu@option@hook{degree}{\thu@set@bibliography@format}
-\thu@option@hook{main-language}{\thu@set@bibliography@format}
-\patchcmd\thebibliography{%
-  \clubpenalty4000%
-}{%
-  \interlinepenalty=5000\relax
-  \clubpenalty=10000\relax
-}{}{\thu@patch@error{\thebibliography}}
-\patchcmd\thebibliography{%
-  \widowpenalty4000%
-}{%
-  \widowpenalty=10000\relax
-}{}{\thu@patch@error{\thebibliography}}
-\def\@biblabel#1{[#1]\hfill}
-\renewcommand\NAT@bibsetnum[1]{%
-  % \settowidth\labelwidth{\@biblabel{#1}}%
-  % \setlength{\leftmargin}{\labelwidth}%
-  % \addtolength{\leftmargin}{\labelsep}%
-  \setlength{\leftmargin}{1cm}%
-  \setlength{\itemindent}{\z@}%
-  \setlength{\labelsep}{0.1cm}%
-  \setlength{\labelwidth}{0.9cm}%
-  \setlength{\itemsep}{\bibsep}
-  \setlength{\parsep}{\z@}%
-  \ifNAT@openbib
-    \addtolength{\leftmargin}{\bibindent}%
-    \setlength{\itemindent}{-\bibindent}%
-    \setlength{\listparindent}{\itemindent}%
-    \setlength{\parsep}{0pt}%
-  \fi
-}
+  }
+  \thu@set@bibliography@format
+  \thu@option@hook{degree}{\thu@set@bibliography@format}
+  \thu@option@hook{main-language}{\thu@set@bibliography@format}
+  \patchcmd\thebibliography{%
+    \clubpenalty4000%
+  }{%
+    \interlinepenalty=5000\relax
+    \clubpenalty=10000\relax
+  }{}{\thu@patch@error{\thebibliography}}
+  \patchcmd\thebibliography{%
+    \widowpenalty4000%
+  }{%
+    \widowpenalty=10000\relax
+  }{}{\thu@patch@error{\thebibliography}}
+  \def\@biblabel#1{[#1]\hfill}
+  \renewcommand\NAT@bibsetnum[1]{%
+    % \settowidth\labelwidth{\@biblabel{#1}}%
+    % \setlength{\leftmargin}{\labelwidth}%
+    % \addtolength{\leftmargin}{\labelsep}%
+    \setlength{\leftmargin}{1cm}%
+    \setlength{\itemindent}{\z@}%
+    \setlength{\labelsep}{0.1cm}%
+    \setlength{\labelwidth}{0.9cm}%
+    \setlength{\itemsep}{\bibsep}
+    \setlength{\parsep}{\z@}%
+    \ifNAT@openbib
+      \addtolength{\leftmargin}{\bibindent}%
+      \setlength{\itemindent}{-\bibindent}%
+      \setlength{\listparindent}{\itemindent}%
+      \setlength{\parsep}{0pt}%
+    \fi
+  }
 }
 \AtEndOfPackageFile*{biblatex}{
   \AtBeginDocument{
@@ -3722,8 +3810,8 @@
 }
 \thu@define@key{
   toc-depth = {
-      name = toc@depth,
-    },
+    name = toc@depth,
+  },
 }
 \thu@option@hook{toc-depth}{%
   \ifx\@begindocumenthook\@undefined
@@ -3743,13 +3831,13 @@
 }
 \thu@define@key{
   appendix-figure-in-lof = {
-      name = appendix@figure@in@lof,
-      choices = {
-          true,
-          false,
-        },
-      default = false,
+    name = appendix@figure@in@lof,
+    choices = {
+      true,
+      false,
     },
+    default = false,
+  },
 }
 \thu@option@hook{appendix-figure-in-lof}{%
   \ifthu@appendix@figure@in@lof@true
@@ -3805,7 +3893,7 @@
         \@tempcnta=\c@chapter
         \advance\@tempcnta\@ne
         \newrefcontext[labelprefix = {\@Alph\@tempcnta.}]{appendix}%
-       }{}{\thu@patch@error{\chapter}}%
+      }{}{\thu@patch@error{\chapter}}%
       \defbibheading{bibliography}[\bibname]{%
         \ctexset{section/numbering = false}%
         \section{#1}%
@@ -3845,11 +3933,10 @@
   \let\bibliographystyle\defaultbibliographystyle
   \let\bibliography\thu@appendix@bibliography
   \begin{bibunit}%
-    \startcontents[survey]%
-    }{%
-    \stopcontents[survey]%
-  \end{bibunit}
-  %
+  \startcontents[survey]%
+}{%
+  \stopcontents[survey]%
+  \end{bibunit}%
   \thu@reset@main@language % restore language
 }
 \newenvironment{translation}{%
@@ -3862,7 +3949,7 @@
       section = {
         format    += \centering,
         numbering  = false,
-       },
+      },
     }%
     \section{摘要}%
   }{%
@@ -3881,19 +3968,18 @@
   \let\appendix\thu@appendix@appendix
   \def\bibsection{%
     \begingroup
-    \ctexset{section/numbering=false}%
-    \section{\bibname}%
+      \ctexset{section/numbering=false}%
+      \section{\bibname}%
     \endgroup
   }%
   \renewcommand\@bibunitname{\jobname-translation}%
   \let\bibliographystyle\defaultbibliographystyle
   \let\bibliography\thu@appendix@bibliography
   \begin{bibunit}%
-    \startcontents[translation]%
-    }{%
-    \stopcontents[translation]%
-  \end{bibunit}
-  %
+  \startcontents[translation]%
+}{%
+  \stopcontents[translation]%
+  \end{bibunit}%
   \thu@reset@main@language % restore language
 }
 \newenvironment{translation-index}{%
@@ -3901,23 +3987,30 @@
     \renewcommand\@bibunitname{\jobname-index}%
     \renewcommand\bibname{书面翻译对应的原文索引}%
     \let\bibsection\thu@appendix@bibsection
-    }{%
-  \end{bibunit}
-  %
+}{%
+  \end{bibunit}%
 }
 \DeclareRobustCommand\thu@appendix@title[1]{\gdef\thu@appendix@@title{#1}}
 \newcommand\thu@appendix@maketitle{%
   \par
   \begin{center}%
     \xiaosi[1.667]\thu@appendix@@title
-  \end{center}
-  %
+  \end{center}%
   \par
 }
 \newcommand\thu@set@partial@toc@format{%
-  \titlecontents{section}[\z@]{}{\contentspush{\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}%
-  \titlecontents{subsection}[1em]{}{\contentspush{\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}%
-  \titlecontents{subsubsection}[2em]{}{\contentspush{\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}%
+  \titlecontents{section}
+    [\z@]{}
+    {\contentspush{\thecontentslabel\quad}}{}
+    {\thu@leaders\thecontentspage}%
+  \titlecontents{subsection}
+    [1em]{}
+    {\contentspush{\thecontentslabel\quad}}{}
+    {\thu@leaders\thecontentspage}%
+  \titlecontents{subsubsection}
+    [2em]{}
+    {\contentspush{\thecontentslabel\quad}}{}
+    {\thu@leaders\thecontentspage}%
 }
 \newcommand\thu@appendix@appendix{%
   \def\theHsection{\Hy@AlphNoErr{section}}%
@@ -3930,8 +4023,8 @@
   \vskip 20bp%
   \thu@pdfbookmark{1}{\bibname}%
   \begingroup
-  \centering
-  \xiaosi[1.667]\bibname\par
+    \centering
+    \xiaosi[1.667]\bibname\par
   \endgroup
   \vskip 6bp%
 }%
@@ -3944,15 +4037,15 @@
     section = {
       format    += \centering,
       numbering = false,
-     },
+    },
   }%
   \ifthu@language@chinese
     \ctexset{
       subsection = {
-          format     = \sffamily\fontsize{14bp}{20bp}\selectfont,
-          numbering  = false,
-          aftertitle = ：,
-        },
+        format     = \sffamily\fontsize{14bp}{20bp}\selectfont,
+        numbering  = false,
+        aftertitle = ：,
+      },
     }%
     \setlist[achievements]{
       topsep     = 6bp,
@@ -3961,10 +4054,10 @@
       labelwidth = 1cm,
       labelsep   = 0pt,
       first      = {
-          \ifthu@degree@graduate
-            \fontsize{12bp}{16bp}\selectfont
-          \fi
-        },
+        \ifthu@degree@graduate
+          \fontsize{12bp}{16bp}\selectfont
+        \fi
+      },
       align      = left,
       label      = [\arabic*],
       resume     = achievements,
@@ -3972,12 +4065,12 @@
   \else
     \ctexset{
       subsection = {
-          beforeskip = 0pt,
-          afterskip  = 0pt,
-          format     = \bfseries\normalsize,
-          indent     = \parindent,
-          numbering  = false,
-        },
+        beforeskip = 0pt,
+        afterskip  = 0pt,
+        format     = \bfseries\normalsize,
+        indent     = \parindent,
+        numbering  = false,
+      },
     }%
     \ifthu@degree@bachelor
       % 内容部分用Arial字体，字号15pt，行距采用固定值20pt， 段前后 0pt。
@@ -4015,9 +4108,8 @@
 \newenvironment{publications}{%
   \thu@deprecate{"publications" environment}{"achievements"}%
   \begin{achievements}%
-    }{%
-  \end{achievements}
-  %
+}{%
+  \end{achievements}%
 }
 \newcommand\publicationskip{%
   \thu@error{The "\protect\publicationskip" is obsolete. Do not use it}%
@@ -4135,10 +4227,8 @@
 }
 \AtEndOfPackageFile*{nomencl}{
   \let\nomname\thu@denotation@name
-  \def\thenomenclature{
-    \begin{denotation}[\nom@tempdim]}
-      \def\endthenomenclature{\end{denotation}
-  }
+  \def\thenomenclature{\begin{denotation}[\nom@tempdim]}
+  \def\endthenomenclature{\end{denotation}}
 }
 \AtEndOfPackageFile*{siunitx}{%
   \newcommand\thu@set@siunitx@language{%
@@ -4162,7 +4252,11 @@
   \thu@option@hook{language}{\thu@set@siunitx@language}
 }
 \AtEndOfPackageFile*{amsthm}{%
-  \newtheoremstyle{thu}{\z@}{\z@}{\normalfont}{\z@}{\normalfont\sffamily}{\thu@theorem@separator}{0.5em}{}
+  \newtheoremstyle{thu}
+    {\z@}{\z@}
+    {\normalfont}{\z@}
+    {\normalfont\sffamily}{\thu@theorem@separator}
+    {0.5em}{}
   \theoremstyle{thu}
   \newtheorem{assumption}{\thu@assumption@name}[chapter]%
   \newtheorem{definition}{\thu@definition@name}[chapter]%
@@ -4182,10 +4276,10 @@
     \normalfont \topsep\z@\relax
     \trivlist
     \item[\hskip\labelsep
-                %     \itshape
-                % #1\@addpunct{.}]\ignorespaces
-                \sffamily
-                #1]\ignorespaces
+      %     \itshape
+      % #1\@addpunct{.}]\ignorespaces
+      \sffamily
+      #1]\ignorespaces
   }{%
     \popQED\endtrivlist\@endpefalse
   }
@@ -4221,7 +4315,10 @@
   \renewcommand\listalgorithmname{\thu@list@algorithm@name}
   \def\ext@algorithm{loa}
   \contentsuse{algorithm}{loa}
-  \titlecontents{algorithm}[\z@]{}{\contentspush{\fname@algorithm~\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}
+  \titlecontents{algorithm}
+    [\z@]{}
+    {\contentspush{\fname@algorithm~\thecontentslabel\quad}}{}
+    {\thu@leaders\thecontentspage}
 }
 \PassOptionsToPackage{algochapter}{algorithm2e}
 \AtEndOfPackageFile*{algorithm2e}{
@@ -4236,7 +4333,10 @@
   \renewcommand\listalgorithmcfname{\thu@list@algorithm@name}
   \def\ext@algorithmcf{loa}
   \contentsuse{algocf}{loa}
-  \titlecontents{algocf}[\z@]{}{\contentspush{\algorithmcfname~\thecontentslabel\quad}}{}{\thu@leaders\thecontentspage}
+  \titlecontents{algocf}
+    [\z@]{}
+    {\contentspush{\algorithmcfname~\thecontentslabel\quad}}{}
+    {\thu@leaders\thecontentspage}
 }
 \AtEndOfPackageFile*{minted}{
   \newcommand\thu@set@listing@language{%
@@ -4251,14 +4351,14 @@
 }
 \thu@define@key{
   spine-font = {
-      name = spine@font,
-    },
+    name = spine@font,
+  },
   spine-title = {
-      name = spine@title,
-    },
+    name = spine@title,
+  },
   spine-author = {
-      name = spine@author,
-    },
+    name = spine@author,
+  },
 }
 \renewcommand\thu@spine@font{%
   \ifthu@degree@doctor
@@ -4274,14 +4374,14 @@
   \let\CJKpunctsymbol\CJKsymbol
 }
 \NewDocumentCommand{\spine}{
-  O{
+    O{
       \ifx\thu@spine@title\@empty
         \thu@title
       \else
         \thu@spine@title
       \fi
     }
-  O{
+    O{
       \ifx\thu@spine@author\@empty
         \thu@author
       \else
@@ -4307,17 +4407,17 @@
     \thu@pdfbookmark{0}{Spine}%
   \fi
   \begingroup
-  \noindent\hfill
-  \rotatebox[origin=lt]{-90}{%
-    \makebox[\textheight]{%
-      \fangsong
-      \addCJKfontfeatures*{RawFeature={vertical}}%
-      \thu@spine@font
-      \CJKmove
-      #1\hfill
-      \thu@stretch{4.5em}{#2}%
+    \noindent\hfill
+    \rotatebox[origin=lt]{-90}{%
+      \makebox[\textheight]{%
+        \fangsong
+        \addCJKfontfeatures*{RawFeature={vertical}}%
+        \thu@spine@font
+        \CJKmove
+        #1\hfill
+        \thu@stretch{4.5em}{#2}%
+      }%
     }%
-  }%
   \endgroup
   \clearpage
   \restoregeometry

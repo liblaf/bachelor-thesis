@@ -122,8 +122,8 @@
 }
 
 % 可以使用 nomencl 生成符号和缩略语说明
-% \usepackage{nomencl}
-% \makenomenclature
+\usepackage{nomencl}
+\makenomenclature
 
 % 表格加脚注
 \usepackage{threeparttable}
@@ -146,20 +146,21 @@
 
 % 参考文献使用 BibTeX + natbib 宏包
 % 顺序编码制
-\usepackage[sort]{natbib}
-\bibliographystyle{thuthesis-numeric}
+% \usepackage[sort]{natbib}
+% \bibliographystyle{thuthesis-numeric}
 
 % 著者-出版年制
 % \usepackage{natbib}
 % \bibliographystyle{thuthesis-author-year}
 
 % 本科生参考文献的著录格式
-% \usepackage[sort]{natbib}
-% \bibliographystyle{thuthesis-bachelor}
+\usepackage[sort]{natbib}
+\bibliographystyle{thuthesis-bachelor}
 
 % 参考文献使用 BibLaTeX 宏包
 % \usepackage[style=thuthesis-numeric]{biblatex}
 % \usepackage[style=thuthesis-author-year]{biblatex}
+% \usepackage[style=thuthesis-bachelor]{biblatex}
 % \usepackage[style=apa]{biblatex}
 % \usepackage[style=mla-new]{biblatex}
 % 声明 BibLaTeX 的数据库
