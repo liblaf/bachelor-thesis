@@ -49,8 +49,8 @@
 \mainmatter
 \input{data/chap01.tex}
 \input{data/chap02.tex}
-% \input{data/chap03.tex}
-% \input{data/chap04.tex}
+\input{data/chap03.tex}
+\input{data/chap04.tex}
 
 % 其他部分
 \backmatter
@@ -65,18 +65,11 @@
 \bibliography{ref/refs.bib}  % 参考文献使用 BibTeX 编译
 % \printbibliography       % 参考文献使用 BibLaTeX 编译
 
-% 附录
-% 本科生需要将附录放到声明之后，个人简历之前
-\appendix
-% \input{data/appendix-survey}       % 本科生：外文资料的调研阅读报告
-\input{data/appendix-translation.tex}  % 本科生：外文资料的书面翻译
-% \input{data/appendix}
-
 % 致谢
 % \input{data/acknowledgements.tex}
 
 % 声明
-% \statement
+\statement
 % 将签字扫描后的声明文件 scan-statement.pdf 替换原始页面
 % \statement[file=scan-statement.pdf]
 % 本科生编译生成的声明页默认不加页脚，插入扫描版时再补上；
@@ -84,6 +77,13 @@
 % 也可以手动控制是否加页眉页脚
 % \statement[page-style=empty]
 % \statement[file=scan-statement.pdf, page-style=plain]
+
+% 附录
+% 本科生需要将附录放到声明之后，个人简历之前
+\appendix
+% \input{data/appendix-survey}       % 本科生：外文资料的调研阅读报告
+\input{data/appendix-translation.tex}  % 本科生：外文资料的书面翻译
+% \input{data/appendix}
 
 % 个人简历、在学期间完成的相关学术成果
 % 本科生可以附个人简历，也可以不附个人简历

@@ -1,92 +1,144 @@
 % !TeX root = ../thuthesis-example.tex
 
-\chapter{数学符号和公式}
+\chapter{三维面部和骨骼模型重建}
 
-\section{数学符号}
-
-中文论文的数学符号默认遵循 GB/T 3102.11—1993《物理科学和技术中使用的数学符号》
-\footnote{原 GB 3102.11—1993，自 2017 年 3 月 23 日起，该标准转为推荐性标准。}。
-该标准参照采纳 ISO 31-11:1992 \footnote{目前已更新为 ISO 80000-2:2019。}，
-但是与 \TeX{} 默认的美国数学学会（AMS）的符号习惯有所区别。
-具体地来说主要有以下差异：
+为了进行准确高效的正颌手术模拟, 需要从医学影像数据中重建三维面部和骨骼模型.
+本章主要介绍了三维面部和骨骼模型重建的方法, 具体步骤包括:
 \begin{enumerate}
-  \item 大写希腊字母默认为斜体，如
-        \begin{equation*}
-          \Gamma \Delta \Theta \Lambda \Xi \Pi \Sigma \Upsilon \Phi \Psi \Omega.
-        \end{equation*}
-        注意有限增量符号 $\increment$ 固定使用正体，模板提供了 \cs{increment} 命令。
-  \item 小于等于号和大于等于号使用倾斜的字形 $\le$、$\ge$。
-  \item 积分号使用正体，比如 $\int$、$\oint$。
-  \item
-        偏微分符号 $\partial$ 使用正体。
-  \item
-        省略号 \cs{dots} 按照中文的习惯固定居中，比如
-        \begin{equation*}
-          1, 2, \dots, n \quad 1 + 2 + \dots + n.
-        \end{equation*}
-  \item
-        实部 $\Re$ 和虚部 $\Im$ 的字体使用罗马体。
+  \item 从 CT 数据中提取面部和骨骼表面模型的三角网格表示.
+  \item 将模板与患者数据进行刚性配准.
+  \item 通过非刚性配准将模板形变到患者数据上, 以获得更准确的模型.
+  \item 对表面模型进行体积分割, 生成患者软组织的四面体网格.
 \end{enumerate}
+由此, 我们可以获得手术前后同拓扑的三角形网格模型, 并在保留表面拓扑的条件下分割为高质量的四面体网格.
 
-以上数学符号样式的差异可以在模板中统一设置。
-另外国标还有一些与 AMS 不同的符号使用习惯，需要用户在写作时进行处理：
-\begin{enumerate}
-  \item 数学常数和特殊函数名用正体，如
-        \begin{equation*}
-          \uppi = 3.14\dots; \quad
-          \symup{i}^2 = -1; \quad
-          \symup{e} = \lim_{n \to \infty} \left( 1 + \frac{1}{n} \right)^n.
-        \end{equation*}
-  \item 微分号使用正体，比如 $\dif y / \dif x$。
-  \item 向量、矩阵和张量用粗斜体（\cs{symbf}），如 $\symbf{x}$、$\symbf{\Sigma}$、$\symbfsf{T}$。
-  \item 自然对数用 $\ln x$ 不用 $\log x$。
-\end{enumerate}
+本文使用的 CT 数据为 \numproduct{512 x 512 x 364} 的体素数据, 体素尺寸为 \qtyproduct{0.4395 x 0.4395 x 0.6000}{\milli\meter}. 骨骼和面部的模板来源于 SCULPTOR \cite{qiuSCULPTORSkeletonconsistentFace2022a}.
 
-英文论文的数学符号使用 \TeX{} 默认的样式。
-如果有必要，也可以通过设置 \verb|math-style| 选择数学符号样式。
+\section{数据预处理}
 
-关于量和单位推荐使用
-\href{http://mirrors.ctan.org/macros/latex/contrib/siunitx/siunitx.pdf}{\pkg{siunitx}}
-宏包，
-可以方便地处理希腊字母以及数字与单位之间的空白，
-比如：
-\SI{6.4e6}{m}，
-\SI{9}{\micro\meter}，
-\si{kg.m.s^{-1}}，
-\SIrange{10}{20}{\degreeCelsius}。
+本小节主要介绍从 CT 体素数据中提取三角网格表面模型, 并与模板进行刚性配准的方法.
 
-\section{数学公式}
+首先, 我们对体素数据进行高斯平滑, 以去除 CT 中由于散射或噪声引起的尖锐瑕疵.
+然后, 我们基于阈值分割, 使用 VTK Contour Filter 生成骨骼和面部的等值曲面, 其中骨骼的阈值为 \num{128}, 面部的阈值为 \num{-128}.
+从图 \ref{fig:isosurface} 中不难看出, 相较于 Marching Cubes \todo{cite}, 该方法能够使用更少的三角形数量生成更平滑的网格.
 
-数学公式可以使用 \env{equation} 和 \env{equation*} 环境。
-注意数学公式的引用应前后带括号，通常使用 \cs{eqref} 命令，比如式\eqref{eq:example}。
+\begin{figure}
+  \centering
+  \subcaptionbox{Contour}{\missingfigure[figwidth = 0.45 \linewidth]{Contour}}
+  \subcaptionbox{Marching Cubes}{\missingfigure[figwidth = 0.45 \linewidth]{Marching Cubes}}
+  \caption{等值曲面生成方法}
+  \label{fig:isosurface}
+\end{figure}
+
+接下来, 我们对模板和患者的模型进行刚性配准.
+我们在模板和患者的骨骼表面上分别标注 \todo{num of landmarks} 个特征点, 如图 \ref{fig:landmarks} 所示.
+
+\begin{figure}
+  \centering
+  \subcaptionbox{?? 个面部特征点 \label{fig:landmarks-face}}{\missingfigure[figwidth = 0.45 \linewidth]{Landmarks on face}}
+  \subcaptionbox{?? 个骨骼特征点 \label{fig:landmarks-skull}}{\missingfigure[figwidth = 0.45 \linewidth]{Landmarks on skull}}
+  \caption{特征点}
+  \label{fig:landmarks}
+\end{figure}
+
+然后使用 Procrustes' analysis \todo{cite} 计算两组特征点之间大致的刚性变换, 求解全局的平移、缩放和旋转, 使两组特征点的距离平方和最小.
+在此基础上, 我们进一步使用 ICP 方法 \todo{cite} 对模板和患者的模型进行准确的刚性配准, 以减小人工标注特征点带来的偏差, 结果如图 \ref{fig:align} 所示.
+
+\begin{figure}
+  \centering
+  \subcaptionbox{配准前}{\missingfigure[figwidth = 0.45 \linewidth]{Before alignment}}
+  \subcaptionbox{配准后}{\missingfigure[figwidth = 0.45 \linewidth]{After alignment}}
+  \caption{刚性配准}
+  \label{fig:align}
+\end{figure}
+
+\section{非刚性配准}
+
+在刚性配准的基础上, 我们基于 Amberg 等人提出的非刚性配准方法 \cite{ambergOptimalStepNonrigid2007} 进一步提高模型的准确性.
+该方法的大致思路是进行若干次迭代, 在每一次迭代中, 首先通过最近邻顶点初始化模板与患者模型之间的对应关系, 然后通过最小化损失函数 $E$ 来求解每个顶点的变换 $\bm{X}_i$.
+对应关系和优化参数是交替更新的, 在迭代过程中对应关系的准确性逐渐提高, 从而使得参数优化更加准确.
+
+\subsection{对应关系}
+
+由于模板和患者模型的结构并不相同.
+模板的面部模型包含了颈部和一部分肩膀, 而患者的模型只包含了面部和少部分的颈部.
+模板的骨骼模型中上下颌骨是分开的, 而患者的模型中上下颌骨是连在一起的, 并且包含了颈椎.
+因此我们需要对模板和患者的模型进行分割, 以便在非刚性配准中只考虑重合区域.
+对于包含区域相似 CT 数据, 我们仅需对模板的有效区域进行一次标记, 然后将标记传递到患者的模型上.
+即, 对于患者模型上与模板距离小于阈值的区域, 我们认为是有效的 $\mathcal{T}_v = \Bqty{\bm{u}_i \mid \dist(\mathcal{S}_v, \bm{u}_i) < \mathrm{threshold}}$, 其中 $\mathcal{S}_v$ 为模板的有效区域, $\mathcal{T}_v$ 为患者模型的有效区域, $\bm{u}_i$ 为患者模型上的顶点, $\mathrm{threshold}$ 为阈值, 我们取为患者模型边界框对角线长的 \SI{1}{\percent}.
+
+简单地使用最近邻顶点初始化对应关系, 会导致模板和患者模型之间的对应关系不准确.
+例如, 下颌骨的形状较为扁平, 使用最近邻顶点初始化对应关系会导致模板的下颌骨的顶点难以 ``穿过'' 狭长的区域与患者模型对应.
+因此, 我们在初始化对应关系时, 添加了法向作为依据, 即
 \begin{equation}
-  \frac{1}{2 \uppi \symup{i}} \int_\gamma f = \sum_{k=1}^m n(\gamma; a_k) \mathscr{R}(f; a_k).
-  \label{eq:example}
+  \mathrm{NN}(\bm{v}_i) = \argmin_{\bm{u}_j \in \mathcal{T}_v} \norm{\bm{v}_i - \bm{u}_j}^2 + \nu \norm{\bm{n}_{\bm{v}_i} - \bm{n}_{\bm{u}_j}}^2
+\end{equation}
+其中 $\mathrm{NN}(\bm{v}_i)$ 表示模板顶点 $\bm{v}_i$ 在患者模型上的对应点, $\bm{n}_{\bm{v}_i}$ 为模板顶点 $\bm{v}_i$ 的法向, $\bm{n}_{\bm{u}_j}$ 为患者模型上对应顶点 $\bm{u}_j$ 的法向, $\nu$ 为超参数, 用于调节法向的权重.
+反向的对应关系类似.
+我们使用 k-d tree ($k = 6$) 来加速对应关系的计算, k-d tree 可以在 $\mathcal{O}(n \log n)$ 的时间内确定所有的对应关系.
+
+\subsection{损失函数}
+
+模板含有 $n$ 个顶点 $\mathcal{S} = \Bqty{\bm{v}_i}$, 其中有效区域为 $\mathcal{S}_v$, 我们的目标是寻找一个合适的逐顶点变换 $\mathcal{X}$ 使得模板的有效区域 $\mathcal{S}_v$ 变形到患者的模型 $\mathcal{T}_v$ 上.
+我们将每个顶点的变换建模为平移和绕模型中心的旋转, 即
+\begin{equation}
+  \bm{v}_i' = \bm{X}_i \bm{v}_i
+\end{equation}
+其中 $\bm{X}_i \in \mathbb{R}^{3 \times 4}$ 为第 $i$ 个顶点的变换矩阵, $\bm{v}_i = \sbmqty{x_i & y_i & z_i & 1}^T$ 为第 $i$ 个顶点的齐次坐标.
+
+我们使用多种损失函数来衡量模板和患者模型之间的差异, 包括距离项、刚度项和特征点项.
+
+\paragraph{距离项}
+为了使模板和患者模型的顶点尽可能对齐, 我们使用如下的顶点距离损失函数
+\begin{equation}
+  E_d(\mathcal{X}) = \sum_{\bm{v}_i \in \mathcal{S}_v} w_{\bm{v}_i} \dist^2(\mathcal{T}_v, \bm{X}_i \bm{v}_i) + \sum_{\bm{u}_i \in \mathcal{T}_v} w_{\bm{u}_i} \dist^2(\mathcal{X} \mathcal{S}_v, \bm{u}_i)
+\end{equation}
+我们使用法向的内积作为对应关系的可信度用于加权距离, 即 $w_{\bm{v}_i} = \bm{n}_{\bm{v}_i} \cdot \bm{n}_{\bm{u}_j}$, 其中 $\bm{n}_{\bm{v}_i}$ 为模板顶点 $\bm{v}_i$ 的法向, $\bm{n}_{\bm{u}_j}$ 为患者模型上对应顶点 $\bm{u}_j$ 的法向, $w_{\bm{u}_i}$ 同理.
+
+\paragraph{刚度项}
+我们希望形变后的模型仍能在一定程度上保持原有的形状, 为此我们引入了刚度项 $E_s$. 刚度项的计算方法如下
+\begin{equation}
+  E_s(\mathcal{X}) = \sum_{(\bm{v}_i, \bm{v}_j) \in \mathcal{E}} \norm{(\bm{X}_i - \bm{X}_j) \bm{G}}_F^2
+\end{equation}
+其中 $\mathcal{E}$ 为模板所有边的集合, $\bm{G} = \diag(1, 1, 1, \gamma)$ 为权重矩阵, $\norm{\cdot}_F$ 为 Frobenius 范数.
+$\gamma$ 可用于加权变形的旋转部分相对于变形的平移部分的大小.
+我们取 $\gamma$ 设置为 1.
+
+\paragraph{特征点项}
+我们还引入了特征点项 $E_l$ 来保证模型的关键特征点对齐.
+它的计算方法非常简单, 即
+\begin{equation}
+  E_l(\mathcal{X}) = \sum_{(\bm{v}_i, \bm{l}_i) \in \mathcal{L}} \dist^2(\bm{l}_i, \bm{X}_i \bm{v}_i)
+\end{equation}
+其中 $\mathcal{L}$ 为人工标注的特征点对.
+
+将以上损失函数加权融合, 我们可以得到最终的优化目标:
+\begin{equation}
+  E(\mathcal{X}) = E_d(\mathcal{X}) + \alpha E_s(\mathcal{X}) + \beta E_l(\mathcal{X})
+\end{equation}
+其中, $\alpha$ 和 $\beta$ 为超参数, 用于调节不同损失函数的权重.
+
+不同于 Amberg 等人的方法, 为了确保配结果的质量能够满足后续的仿真需求, 我们需要保证结果不能出现自相交的瑕疵.
+损失函数中的刚度项可以有效地减小形变的幅度, 从而减小发生穿模的可能.
+为此, 我们设计了一种自动调节超参数 $\alpha$ 的方法, 使得在优化过程中, 模型始终保持没有自相交.
+即, 如果存在自相交, 则增大 $\alpha_{cur}$ 并重新尝试迭代:
+\begin{enumerate}
+  \item 初始化 $\mathcal{X}$
+  \item 对于给定的超参数 $\alpha^i \in \Bqty{\alpha^1, \dots, \alpha^n}, \alpha^i < \alpha^{i - 1}$, 尝试 $\alpha_{cur} \in \Alpha(\alpha^i, \alpha^{i - 1})$
+        \begin{enumerate}
+          \item 通过插值法计算 $\alpha = \alpha_{cur}$ 时, 其他超参数的取值 $\beta_{cur}$, $\nu_{cur}$ 等
+          \item 若 $E(\mathcal{X}^i) < \varepsilon$, 则停止迭代
+          \item 最小化 $E(\mathcal{X}^i)$, 得到 $\mathcal{X}^{i + 1}$
+          \item 检查 $\mathcal{X} \mathcal{S}$ 是否自相交, 若不存在自相交, 则更新 $\mathcal{X} \leftarrow \mathcal{X}^{i + 1}$
+        \end{enumerate}
+\end{enumerate}
+其中
+\begin{equation}
+  \Alpha(\alpha^i, \alpha^{i - 1}) = \Bqty{2^{-n} \alpha^i + (1 - 2^{-n}) \alpha^{i - 1} \mid n \in \mathcal{N}}
 \end{equation}
 
-多行公式尽可能在“=”处对齐，推荐使用 \env{align} 环境。
-\begin{align}
-  a & = b + c + d + e \\
-    & = f + g
-\end{align}
+\section{四面体网格生成}
 
-\section{数学定理}
-
-定理环境的格式可以使用 \pkg{amsthm} 或者 \pkg{ntheorem} 宏包配置。
-用户在导言区载入这两者之一后，模板会自动配置 \env{thoerem}、\env{proof} 等环境。
-
-\begin{theorem}[Lindeberg--Lévy 中心极限定理]
-  设随机变量 $X_1, X_2, \dots, X_n$ 独立同分布， 且具有期望 $\mu$ 和有限的方差 $\sigma^2 \ne 0$，
-  记 $\bar{X}_n = \frac{1}{n} \sum_{i+1}^n X_i$，则
-  \begin{equation}
-    \lim_{n \to \infty} P \left(\frac{\sqrt{n} \left( \bar{X}_n - \mu \right)}{\sigma} \le z \right) = \Phi(z),
-  \end{equation}
-  其中 $\Phi(z)$ 是标准正态分布的分布函数。
-\end{theorem}
-\begin{proof}
-  Trivial.
-\end{proof}
-
-同时模板还提供了 \env{assumption}、\env{definition}、\env{proposition}、
-\env{lemma}、\env{theorem}、\env{axiom}、\env{corollary}、\env{exercise}、
-\env{example}、\env{remar}、\env{problem}、\env{conjecture} 这些相关的环境。
+在得到了模板和患者的三角网格表面模型之后, 我们需要将其转换为四面体网格, 以便进行仿真.
+我们使用 TetGen \cite{siTetGenDelaunaybasedQuality2015} 进行这一工作.
+TetGen 能够在保持表面拓扑的情况下, 生成高质量的四面体网格.
