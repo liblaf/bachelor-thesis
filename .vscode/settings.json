@@ -2,7 +2,7 @@
   "latex-workshop.latex.recipes": [
     {
       "name": "latexmk (xelatex)",
-      "tools": ["unpack-thuthesis", "xelatexmk"]
+      "tools": ["xelatexmk"]
     },
     {
       "name": "latexmk (lualatex)",

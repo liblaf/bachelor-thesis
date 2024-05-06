@@ -1,26 +1,33 @@
 % !TeX root = ../thuthesis-example.tex
 
-\chapter{三维面部和骨骼模型重建}
+\chapter{三维面部和骨骼模型的重建}
 
-为了进行准确高效的正颌手术模拟, 需要从医学影像数据中重建三维面部和骨骼模型.
-本章主要介绍了三维面部和骨骼模型重建的方法, 具体步骤包括:
+精准且高效的正颌外科手术模拟, 依赖于从医疗成像数据中准确重建出三维面部和骨骼模型.
+本章详细说明了这类三维模型重建所采取的技术手段和步骤, 内容涉及:
 \begin{enumerate}
-  \item 从 CT 数据中提取面部和骨骼表面模型的三角网格表示.
-  \item 将模板与患者数据进行刚性配准.
-  \item 通过非刚性配准将模板形变到患者数据上, 以获得更准确的模型.
-  \item 对表面模型进行体积分割, 生成患者软组织的四面体网格.
+  \item 从 CT 图像中的数据提炼出面部与骨骼表面模型的三角网格形式.
+  \item 执行模板与病例数据间的刚性对准操作.
+  \item 采用非刚性对准方法, 令模板形变以契合病例数据, 从而得到更精确的模型.
+  \item 对表面模型实施体积分割处理, 进而生成病例的软组织四面体网格表示.
 \end{enumerate}
-由此, 我们可以获得手术前后同拓扑的三角形网格模型, 并在保留表面拓扑的条件下分割为高质量的四面体网格.
+通过以上步骤, 我们不仅在确保表面拓扑结构不变化的前提下, 获得了手术前后拓扑一致性的三角网格模型, 并且还实现了该模型向优质四面体网格的高质量分割.
 
-本文使用的 CT 数据为 \numproduct{512 x 512 x 364} 的体素数据, 体素尺寸为 \qtyproduct{0.4395 x 0.4395 x 0.6000}{\milli\meter}. 骨骼和面部的模板来源于 SCULPTOR \cite{qiuSCULPTORSkeletonconsistentFace2022a}.
+本研究所使用的 CT 数据为 \numproduct{512 x 512 x 364} 体素数据, 其中体素的尺寸为 \qtyproduct{0.4395 x 0.4395 x 0.6000}{\milli\meter}.
 
-\section{数据预处理}
+\section{模板模型的构建}
 
-本小节主要介绍从 CT 体素数据中提取三角网格表面模型, 并与模板进行刚性配准的方法.
+为了适应本研究框架, 我们以 SCULPTOR \cite{qiuSCULPTORSkeletonconsistentFace2022a} 公开提供的骨骼与面部模板作为基础, 构筑我们需求的模板模型.
+初始步骤是手动移去 SCULPTOR 模板中不必要的颈部以及复杂的口唇部分.
+其次, 运用 MeshFix \cite{atteneLightweightApproachRepairing2010} 工具, 填补模板中存在的空洞, 这些空洞主要分布在眼部、口部以及颈部等细节区域, 同时修正因自相交所导致的穿模问题.
+最终, 我们对于模型施加 Taubin 平滑处理 \cite{vollmerImprovedLaplacianSmoothing1999}, 旨在降低模型中的过锐瑕疵.
 
-首先, 我们对体素数据进行高斯平滑, 以去除 CT 中由于散射或噪声引起的尖锐瑕疵.
-然后, 我们基于阈值分割, 使用 VTK Contour Filter 生成骨骼和面部的等值曲面, 其中骨骼的阈值为 \num{128}, 面部的阈值为 \num{-128}.
-从图 \ref{fig:isosurface} 中不难看出, 相较于 Marching Cubes \todo{cite}, 该方法能够使用更少的三角形数量生成更平滑的网格.
+\section{刚性配准}
+
+接下来, 本节将主要阐述从 CT 体素数据中提取三角网格表面模型以及模型与模板间刚性配准过程.
+
+首先进行的操作是对体素数据进行高斯平滑处理, 目的是去除 CT 扫描数据中由于散射效应或者噪声问题而引入的过锐瑕疵.
+其后, 基于设定的阈值对 CT 值进行分割, 并利用 VTK Contour Filter 方法生成骨骼及面部等值曲面, 这里骨骼与面部的 CT 值阈值分别设定为 \num{128} 和 \num{-128}.
+正如图 \ref{fig:isosurface} 所示, 与经典的 Marching Cubes 技术 \cite{lorensenMarchingCubesHigh1998} 相比较, 上述方法能够在使用更少的三角形数量的同时, 得到更加平滑的网格.
 
 \begin{figure}
   \centering
@@ -30,115 +37,150 @@
   \label{fig:isosurface}
 \end{figure}
 
-接下来, 我们对模板和患者的模型进行刚性配准.
-我们在模板和患者的骨骼表面上分别标注 \todo{num of landmarks} 个特征点, 如图 \ref{fig:landmarks} 所示.
+在本文中, 我们首先对模板与患者的三维模型执行了刚性配准 (rigid alignment) 的步骤.
+具体而言, 在各自的模型骨骼表面上, 我们分别标注了 \todo{num of landmarks} 个特征点, 如图 \ref{fig:landmarks} 所示.
+这一步骤的目标是在模板与患者之间建立一个一一对应的特征点关系.
 
 \begin{figure}
   \centering
-  \subcaptionbox{?? 个面部特征点 \label{fig:landmarks-face}}{\missingfigure[figwidth = 0.45 \linewidth]{Landmarks on face}}
-  \subcaptionbox{?? 个骨骼特征点 \label{fig:landmarks-skull}}{\missingfigure[figwidth = 0.45 \linewidth]{Landmarks on skull}}
-  \caption{特征点}
+  \subcaptionbox{?? 个面部特征点\label{fig:landmarks-face}}{\missingfigure[figwidth = 0.45 \linewidth]{Landmarks on face}}
+  \subcaptionbox{?? 个骨骼特征点\label{fig:landmarks-skull}}{\missingfigure[figwidth = 0.45 \linewidth]{Landmarks on skull}}
+  \caption{特征点示意图}
   \label{fig:landmarks}
 \end{figure}
 
-然后使用 Procrustes' analysis \todo{cite} 计算两组特征点之间大致的刚性变换, 求解全局的平移、缩放和旋转, 使两组特征点的距离平方和最小.
-在此基础上, 我们进一步使用 ICP 方法 \todo{cite} 对模板和患者的模型进行准确的刚性配准, 以减小人工标注特征点带来的偏差, 结果如图 \ref{fig:align} 所示.
+为了得到一组初始的刚性变换参数, 即全局的平移、缩放和旋转, 我们采用了 Procrustes 分析方法 \cite{rossProcrustesAnalysis2004}.
+这一分析方法的核心目标是通过迭代计算得到两组特征点的平方和距离的最小化.
+建立在 Procrustes 分析的基础上, 我们进一步采用了迭代最近点 (Iterative Closest Point, ICP) 算法来对模型进行精确的刚性配准, 这一步骤旨在降低人工标注特征点可能引入的误差.
+刚性配准的效果展示如图 \ref{fig:align} 所示.
 
 \begin{figure}
   \centering
   \subcaptionbox{配准前}{\missingfigure[figwidth = 0.45 \linewidth]{Before alignment}}
   \subcaptionbox{配准后}{\missingfigure[figwidth = 0.45 \linewidth]{After alignment}}
-  \caption{刚性配准}
+  \caption{刚性配准效果图}
   \label{fig:align}
 \end{figure}
 
 \section{非刚性配准}
 
-在刚性配准的基础上, 我们基于 Amberg 等人提出的非刚性配准方法 \cite{ambergOptimalStepNonrigid2007} 进一步提高模型的准确性.
-该方法的大致思路是进行若干次迭代, 在每一次迭代中, 首先通过最近邻顶点初始化模板与患者模型之间的对应关系, 然后通过最小化损失函数 $E$ 来求解每个顶点的变换 $\bm{X}_i$.
-对应关系和优化参数是交替更新的, 在迭代过程中对应关系的准确性逐渐提高, 从而使得参数优化更加准确.
+在完成初步的刚性配准之后, 我们着手进行非刚性配准 (non-rigid registration) , 以进一步提升模型的准确性.
+此处, 我们参考了 Amberg 等人提出的非刚性配准算法 \cite{ambergOptimalStepNonrigid2007}.
+算法采用迭代策略来优化模型, 初始步骤中通过最邻近点算法确定模板与患者模型之间的对应关系.
+随后, 通过最小化能量函数 $E$ 来求解每个顶点的变换 $\bm{X}_i$.
+对应关系和变换参数的更新是交替进行的, 随着迭代次数的增加, 对应关系的准确性逐渐提升, 从而引导参数优化的结果趋于理想值.
 
-\subsection{对应关系}
+\subsection{对应关系的建立}
 
-由于模板和患者模型的结构并不相同.
-模板的面部模型包含了颈部和一部分肩膀, 而患者的模型只包含了面部和少部分的颈部.
-模板的骨骼模型中上下颌骨是分开的, 而患者的模型中上下颌骨是连在一起的, 并且包含了颈椎.
-因此我们需要对模板和患者的模型进行分割, 以便在非刚性配准中只考虑重合区域.
-对于包含区域相似 CT 数据, 我们仅需对模板的有效区域进行一次标记, 然后将标记传递到患者的模型上.
-即, 对于患者模型上与模板距离小于阈值的区域, 我们认为是有效的 $\mathcal{T}_v = \Bqty{\bm{u}_i \mid \dist(\mathcal{S}_v, \bm{u}_i) < \mathrm{threshold}}$, 其中 $\mathcal{S}_v$ 为模板的有效区域, $\mathcal{T}_v$ 为患者模型的有效区域, $\bm{u}_i$ 为患者模型上的顶点, $\mathrm{threshold}$ 为阈值, 我们取为患者模型边界框对角线长的 \SI{1}{\percent}.
+鉴于模板与患者模型所包含的区域存在差异: 模板的面部模型包括颈部至部分肩膀, 而患者模型仅包含面部区域及有限的颈部区域.
+因此, 需从模板和患者模型中提取彼此共有的部分, 即所谓的有效区域.
+首先, 进行模板有效区域的标注, 获得 $\mathcal{S}_v$.
+患者模型上的有效区域 $\mathcal{T}_v$ 可通过以下方式确定:
+\begin{equation}
+  \mathcal{T}_v = \Bqty{\bm{u}_i \mid \dist(\mathcal{S}_v, \bm{u}_i) < \mathrm{threshold}, \bm{u}_i \in \mathcal{T}}
+\end{equation}
+其中 $\mathrm{threshold}$ 表示设定的阈值, 此处取值为患者模型边界框对角线长度的 \SI{1}{\percent}.
+实际操作中, 由同一设备所得的 CT 数据集中各自的有效区域在位置及规模上均显示出相似性.
+因而, 在处理多组 CT 数据时, 可通过对模板有效区域进行单次标记, 随后将此标记信息传递至不同患者的模型中.
 
-简单地使用最近邻顶点初始化对应关系, 会导致模板和患者模型之间的对应关系不准确.
-例如, 下颌骨的形状较为扁平, 使用最近邻顶点初始化对应关系会导致模板的下颌骨的顶点难以 ``穿过'' 狭长的区域与患者模型对应.
-因此, 我们在初始化对应关系时, 添加了法向作为依据, 即
+仅通过最近邻顶点初始化对应关系的简化方法可能导致模板与患者模型之间对应关系的不精确.
+例如, 在形状扁平的下颌骨, 采用最近邻顶点策略可能会使得模板中下颌骨的顶点难以穿越狭窄空间与患者模型中的顶点相对应.
+为此, 在初始化对应关系时, 我们采用了额外的依据, 即顶点法向:
 \begin{equation}
   \mathrm{NN}(\bm{v}_i) = \argmin_{\bm{u}_j \in \mathcal{T}_v} \norm{\bm{v}_i - \bm{u}_j}^2 + \nu \norm{\bm{n}_{\bm{v}_i} - \bm{n}_{\bm{u}_j}}^2
 \end{equation}
-其中 $\mathrm{NN}(\bm{v}_i)$ 表示模板顶点 $\bm{v}_i$ 在患者模型上的对应点, $\bm{n}_{\bm{v}_i}$ 为模板顶点 $\bm{v}_i$ 的法向, $\bm{n}_{\bm{u}_j}$ 为患者模型上对应顶点 $\bm{u}_j$ 的法向, $\nu$ 为超参数, 用于调节法向的权重.
-反向的对应关系类似.
-我们使用 k-d tree ($k = 6$) 来加速对应关系的计算, k-d tree 可以在 $\mathcal{O}(n \log n)$ 的时间内确定所有的对应关系.
+这里 $\mathrm{NN}(\bm{v}_i)$ 指代模板顶点 $\bm{v}_i$ 在患者模型中的相应对应点, $\bm{n}_{\bm{v}_i}$ 和 $\bm{n}_{\bm{u}_j}$ 分别为模板顶点 $\bm{v}_i$ 与患者模型对应顶点 $\bm{u}_j$ 的法向向量, $\nu$ 作为一个超参数用于调节法向量权重.
+具体计算时, 我们利用 $k$-d 树 (其中 $k = 6$) 技术加快对应关系的求解, 若 $n$ 代表模板顶点数, $m$ 代表患者模型顶点数, 则 $k$-d 树能在 $\mathcal{O}(n \log{m})$ 时间复杂度内完成所有对应关系的确定.
+类似的方法也适用于反向对应关系的确定.
 
 \subsection{损失函数}
 
-模板含有 $n$ 个顶点 $\mathcal{S} = \Bqty{\bm{v}_i}$, 其中有效区域为 $\mathcal{S}_v$, 我们的目标是寻找一个合适的逐顶点变换 $\mathcal{X}$ 使得模板的有效区域 $\mathcal{S}_v$ 变形到患者的模型 $\mathcal{T}_v$ 上.
-我们将每个顶点的变换建模为平移和绕模型中心的旋转, 即
+在本研究中, 我们考虑一个含有 $n$ 个顶点的模板, 其顶点集为 $\mathcal{S} = \{\bm{v}_i\}$, 该模板上定义了一个有效区域 $\mathcal{S}_v$.
+我们的目标是确定一个逐顶点变换 $\mathcal{X}$, 使得该模板的有效区域 $\mathcal{S}_v$ 能够形变匹配到患者的模型 $\mathcal{T}_v$ 上.
+在此基础上, 每个顶点的变换将被建模为平移以及相对于模型中心的旋转过程, 可表示为:
 \begin{equation}
   \bm{v}_i' = \bm{X}_i \bm{v}_i
 \end{equation}
-其中 $\bm{X}_i \in \mathbb{R}^{3 \times 4}$ 为第 $i$ 个顶点的变换矩阵, $\bm{v}_i = \sbmqty{x_i & y_i & z_i & 1}^T$ 为第 $i$ 个顶点的齐次坐标.
+其中, $\bm{X}_i \in \mathbb{R}^{3 \times 4}$ 表示第 $i$ 个顶点的变换矩阵, $\bm{v}_i = [x_i ~ y_i ~ z_i ~ 1]^T$ 代表该顶点的齐次坐标.
 
-我们使用多种损失函数来衡量模板和患者模型之间的差异, 包括距离项、刚度项和特征点项.
+为了有效地量化模板与患者模型之间的差异, 本研究采用了包含距离项、刚度项和特征点项的多元损失函数作为评估标准.
 
 \paragraph{距离项}
-为了使模板和患者模型的顶点尽可能对齐, 我们使用如下的顶点距离损失函数
+此项旨在使模板的顶点与患者模型的顶点尽可能地对齐.
+为了达到这一目标, 顶点距离损失函数定义如下:
 \begin{equation}
   E_d(\mathcal{X}) = \sum_{\bm{v}_i \in \mathcal{S}_v} w_{\bm{v}_i} \dist^2(\mathcal{T}_v, \bm{X}_i \bm{v}_i) + \sum_{\bm{u}_i \in \mathcal{T}_v} w_{\bm{u}_i} \dist^2(\mathcal{X} \mathcal{S}_v, \bm{u}_i)
 \end{equation}
-我们使用法向的内积作为对应关系的可信度用于加权距离, 即 $w_{\bm{v}_i} = \bm{n}_{\bm{v}_i} \cdot \bm{n}_{\bm{u}_j}$, 其中 $\bm{n}_{\bm{v}_i}$ 为模板顶点 $\bm{v}_i$ 的法向, $\bm{n}_{\bm{u}_j}$ 为患者模型上对应顶点 $\bm{u}_j$ 的法向, $w_{\bm{u}_i}$ 同理.
+在该式中, 权重 $w_{\bm{v}_i}$ 由模板顶点 $\bm{v}_i$ 的法向量 $\bm{n}_{\bm{v}_i}$ 与患者模型上对应顶点 $\bm{u}_j$ 的法向量 $\bm{n}_{\bm{u}_j}$ 之间的内积决定, 即 $w_{\bm{v}_i} = \bm{n}_{\bm{v}_i} \cdot \bm{n}_{\bm{u}_j}$.
+类似地, $w_{\bm{u}_i}$ 的定义亦然.
 
 \paragraph{刚度项}
-我们希望形变后的模型仍能在一定程度上保持原有的形状, 为此我们引入了刚度项 $E_s$. 刚度项的计算方法如下
+考虑到在形变匹配过程中, 保持模板原始形状的刚性特征至关重要, 因此提出了刚度项 $E_s$.
+对刚度项的度量如下所示:
 \begin{equation}
   E_s(\mathcal{X}) = \sum_{(\bm{v}_i, \bm{v}_j) \in \mathcal{E}} \norm{(\bm{X}_i - \bm{X}_j) \bm{G}}_F^2
 \end{equation}
-其中 $\mathcal{E}$ 为模板所有边的集合, $\bm{G} = \diag(1, 1, 1, \gamma)$ 为权重矩阵, $\norm{\cdot}_F$ 为 Frobenius 范数.
-$\gamma$ 可用于加权变形的旋转部分相对于变形的平移部分的大小.
-我们取 $\gamma$ 设置为 1.
+其中, $\mathcal{E}$ 表示模板中所有边的集合, $\bm{G} = \diag(1, 1, 1, \gamma)$ 是引入的权重矩阵, 而 $\norm{\cdot}_F$ 是指 Frobenius 范数.
+参数 $\gamma$ 赋予了变换中旋转部分相比于平移部分的权重, 这里我们设定 $\gamma = 1$, 以平衡两者的影响.
 
 \paragraph{特征点项}
-我们还引入了特征点项 $E_l$ 来保证模型的关键特征点对齐.
-它的计算方法非常简单, 即
+在我们的模型优化过程中, 进一步纳入了特征点项 $E_l$ 以确保关键特征点的对齐精度.
+该项的计算方式简洁明了, 具体如下式所示:
 \begin{equation}
   E_l(\mathcal{X}) = \sum_{(\bm{v}_i, \bm{l}_i) \in \mathcal{L}} \dist^2(\bm{l}_i, \bm{X}_i \bm{v}_i)
 \end{equation}
-其中 $\mathcal{L}$ 为人工标注的特征点对.
+上式中 $\mathcal{L}$ 指代的是一组经过人工标注的特征点配对集合.
 
-将以上损失函数加权融合, 我们可以得到最终的优化目标:
+通过对不同的损失函数组件进行加权整合, 我们获得了最终的优化目标函数, 表示为:
 \begin{equation}
   E(\mathcal{X}) = E_d(\mathcal{X}) + \alpha E_s(\mathcal{X}) + \beta E_l(\mathcal{X})
 \end{equation}
-其中, $\alpha$ 和 $\beta$ 为超参数, 用于调节不同损失函数的权重.
+其中的超参数 $\alpha$ 和 $\beta$ 被用来调整多个损失函数组分间的相对重要性.
 
-不同于 Amberg 等人的方法, 为了确保配结果的质量能够满足后续的仿真需求, 我们需要保证结果不能出现自相交的瑕疵.
-损失函数中的刚度项可以有效地减小形变的幅度, 从而减小发生穿模的可能.
-为此, 我们设计了一种自动调节超参数 $\alpha$ 的方法, 使得在优化过程中, 模型始终保持没有自相交.
-即, 如果存在自相交, 则增大 $\alpha_{cur}$ 并重新尝试迭代:
+值得注意的是, 我们的方法与 Amberg 等人提出的方法 \cite{ambergOptimalStepNonrigid2007} 存在区别.
+为了保障配准结果能够满足后续仿真的质量要求, 我们尤为注重避免自相交等瑕疵的产生.
+损失函数中的 ``刚度项'' 在有效减小变形幅度的同时, 也降低了穿模发生的风险.
+特别地, 我们提出了一种自动调节超参数 $\alpha$ 的策略, 确保优化过程中模型始终避免自相交.
+具体流程如下:
 \begin{enumerate}
   \item 初始化 $\mathcal{X}$
-  \item 对于给定的超参数 $\alpha^i \in \Bqty{\alpha^1, \dots, \alpha^n}, \alpha^i < \alpha^{i - 1}$, 尝试 $\alpha_{cur} \in \Alpha(\alpha^i, \alpha^{i - 1})$
+  \item 依次选用超参数 $\alpha^i \in \Bqty{\alpha^1, \dots, \alpha^n}$ (保证 $\alpha^i < \alpha^{i - 1}$)
         \begin{enumerate}
-          \item 通过插值法计算 $\alpha = \alpha_{cur}$ 时, 其他超参数的取值 $\beta_{cur}$, $\nu_{cur}$ 等
-          \item 若 $E(\mathcal{X}^i) < \varepsilon$, 则停止迭代
-          \item 最小化 $E(\mathcal{X}^i)$, 得到 $\mathcal{X}^{i + 1}$
-          \item 检查 $\mathcal{X} \mathcal{S}$ 是否自相交, 若不存在自相交, 则更新 $\mathcal{X} \leftarrow \mathcal{X}^{i + 1}$
+          \item 尝试 $\alpha_{cur} \in \Alpha(\alpha^i, \alpha^{i - 1})$
+                \begin{enumerate}
+                  \item 使用插值法计算 $\alpha = \alpha_{cur}$ 时其他超参数的取值, 例如 $\beta_{cur}$, $\nu_{cur}$
+                  \item 如果当前迭代的损失函数值 $E(\mathcal{X}) < \varepsilon$, 则终止迭代
+                  \item 对损失函数 $E(\mathcal{X})$ 进行最小化处理, 获得更新后的 $\mathcal{X}'$
+                  \item 检查更新后的网格 $\mathcal{X}' \mathcal{S}$ 是否存在自相交情况；若无, 更新 $\mathcal{X} \leftarrow \mathcal{X}'$ 并进行下一 $\alpha^{i + 1}$ 的迭代
+                \end{enumerate}
         \end{enumerate}
 \end{enumerate}
-其中
+其中, $\Alpha(\alpha^i, \alpha^{i - 1})$ 由以下等式定义:
 \begin{equation}
   \Alpha(\alpha^i, \alpha^{i - 1}) = \Bqty{2^{-n} \alpha^i + (1 - 2^{-n}) \alpha^{i - 1} \mid n \in \mathcal{N}}
 \end{equation}
 
+非刚性配准的结果如图 \ref{fig:registration} 所示.
+
+\begin{figure}
+  \centering
+  \subcaptionbox{配准前}{\missingfigure[figwidth = 0.45 \linewidth]{Before registration}}
+  \subcaptionbox{配准后}{\missingfigure[figwidth = 0.45 \linewidth]{After registration}}
+  \caption{非刚性配准}
+  \label{fig:registration}
+\end{figure}
+
 \section{四面体网格生成}
 
-在得到了模板和患者的三角网格表面模型之后, 我们需要将其转换为四面体网格, 以便进行仿真.
-我们使用 TetGen \cite{siTetGenDelaunaybasedQuality2015} 进行这一工作.
-TetGen 能够在保持表面拓扑的情况下, 生成高质量的四面体网格.
+在获取模板和患者的三角面网格表面模型后, 我们需将之转换为四面体网格, 以便于进行仿真分析.
+此过程中, 我们采用了 TetGen \cite{siTetGenDelaunaybasedQuality2015} 软件, 它具备在保持表面顶点的同时生成高质量四面体网格的能力.
+具体而言, 我们首先将通过配准得到的术前骨骼和面部模型融合为一个整体.
+接着, 使用一条穿透模型的光线对其内部进行划分, 之后将得到的数据作为 TetGen 的输入参数.
+四面体网格生成的结果如图 \ref{fig:tetgen} 所示.
+
+\begin{figure}
+  \centering
+  \missingfigure[figwidth = 0.6 \linewidth]{TetGen}
+  \caption{TetGen}
+  \label{fig:tetgen}
+\end{figure}
