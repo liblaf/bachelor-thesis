@@ -2,4 +2,92 @@
 
 \chapter{质量-张量模型}
 
-我们使用基于质量-张量模型 (Mass-Tensor Model, MTM) \cite{cotinHybridElasticModel2000} 的方法来模拟面部软组织的物理行为.
+我们使用基于质量-张量模型 (Mass Tensor Model, MTM) \cite{cotinHybridElasticModel2000} 的方法来模拟面部软组织的物理行为.
+MTM 可以看作是 MSM 和 FEM 结合的产物.
+一方面, MTM 具有与 MSM 相似的简单结构; 另一方面, MTM 具有与 FEM 相仿的生物力学相关性.
+
+MTM 采用 Saint Venant-Kirchhoff 模型, 其应变能密度函数为:
+\begin{equation}
+  W(E) = \frac{\lambda}{2} (\tr(E))^2 + \mu \tr(E^2)
+\end{equation}
+其中 $\lambda, \mu$ 为 Lam\`e 参数, $E$ 为 Lagrangian 有限应变张量, 定义为:
+\begin{equation}
+  E = \frac{1}{2} \pqty{(\grad{u})^T + \grad{u} + (\grad{u})^T \cdot \grad{u}}
+\end{equation}
+其中 $u$ 表示位移场.
+在小位移假设下, Lagrangian 应变张量 $E$ 可线性近似为
+\begin{equation}
+  E = \frac{1}{2} \pqty{\grad{u} + (\grad{u})^T}
+\end{equation}
+我们将建模对象离散化为四面体网格.
+给定一个四面体 $T_i$ 及其四个顶点在无形变状态下的位置 $\bm{P}_0$, $\bm{P}_1$, $\bm{P}_2$, $\bm{P}_3$.
+四面体内部某一点 $\bm{P}$ 的位移场 $\bm{u}$ 可以通过重心坐标线性插值得到:
+\begin{equation}
+  \bm{u}(\bm{P}) = \sum_{j = 0}^3 \alpha_j \bm{u}(\bm{P}_j)
+\end{equation}
+其中 $\alpha_j$ 为 $\bm{P}$ 的重心坐标:
+\begin{equation}
+  \alpha_j(\bm{P}) = - \frac{\bm{M}_j}{6 V_i} \cdot (\bm{P} - \bm{P}_{j + 1})
+\end{equation}
+其中 $V_i$ 为四面体 $T_i$ 的体积, 向量 $\bm{M}_j$ 由以下等式定义:
+\begin{equation}
+  \begin{split}
+    \bm{M}_j^{T_i} & =
+    \begin{bmatrix}
+      M_j^x & M_j^y & M_j^z
+    \end{bmatrix}
+    ^T                                                                                                                                                                     \\
+                   & = \bm{P}_{T_i(j + 1)}^0 \cp \bm{P}_{T_i(j + 2)}^0 + \bm{P}_{T_i(j + 2)}^0 \cp \bm{P}_{T_i(j + 3)}^0 + \bm{P}_{T_i(j + 3)}^0 \cp \bm{P}_{T_i(j + 1)}^0
+  \end{split}
+\end{equation}
+$\bm{M}_j^{T_i}$ 具有显然的几何意义, 其方向与 $\bm{P}_{T_i(j)}^{T_i}$ 相对的三角形面片的外法向量相同, 其模长 $\norm{\bm{M}_j^{T_i}}$ 为该三角形面积的两倍.
+由此我们可以导出该四面体 $T_i$ 内各顶点受力与位移的关系:
+\begin{equation}
+  \bm{f}_j^{T_i}
+  = - V_i \pdv{W}{\bm{u}_j}
+  = \sum_{k = 0}^3 \bm{K}_{jk}^{T_i} \bm{u}_k
+\end{equation}
+其中 $\bm{K}_{jk}^{T_i}$ 为刚度矩阵, 定义为:
+\begin{equation}
+  \bm{K}_{jk}^{T_i} = \frac{1}{36 V_i} \pqty{\lambda_i \bm{M}_k^{T_i} (\bm{M}_j^{T_i})^T + \mu_i \bm{M}_j^{T_i} (\bm{M}_k^{T_i})^T + \mu_i (\bm{M}_j^{T_i} \bm{M}_k^{T_i}) \bm{I}_3}
+\end{equation}
+其中 $V_i$ 为四面体 $T_i$ 的体积, $\lambda_i, \mu_i$ 为四面体 $T_i$ 的 Lam\`e 参数, $\bm{I}_3$ 为 $3 \times 3$ 单位矩阵, $\bm{M}_j^{T_i}$ 的定义如前文所述.
+由此可得整个模型的逐顶点受力与位移的关系可表达为:
+\begin{equation}
+  \bm{f}_j
+  = \sum_{T_i} \bm{f}_j^{T_i}
+  = \sum_{k \in \Psi_j} \bm{K}_{jk} \bm{u}_k
+\end{equation}
+其中
+\begin{equation}
+  \bm{K}_{jk} = \sum_{T_i \in \Lambda_j} \bm{K}_{jk}^{T_i}
+\end{equation}
+如此, MTM 在质点和四面体网格的简洁表达上, 建立了力与位移之间的线性关系.
+
+回到本文的问题, 我们需要将上述模型应用到正颌手术的模拟中.
+为了模拟正颌手术对软组织的影响, 我们需要在力学模型中表达骨骼的变化.
+我们假设与骨骼相邻的软组织与骨骼之间的连接是刚性的, 即在软组织与骨骼之间的连接点上, 软组织的位移与骨骼的位移相同.
+这部分顶点我们称为固定顶点, 而不与骨骼直接相连的软组织的顶点我们称为自由顶点.
+我们已知手术前后的骨骼模型, 因此我们可以通过计算骨骼的位移来计算紧固定顶点的位移.
+
+已知 $\bm{u}_0$ 为固定顶点的位移, 设待求解的自由顶点位移为 $\bm{u}_1$, 则我们可以将整个模型的受力与位移关系表达为:
+\begin{equation}
+  \begin{bmatrix}
+    \bm{K}_{00} & \bm{K}_{01} \\
+    \bm{K}_{10} & \bm{K}_{11}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \bm{u}_0 \\
+    \bm{u}_1
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \bm{f}_0 \\
+    \bm{f}_1
+  \end{bmatrix}
+\end{equation}
+在静止状态下, 由于自由顶点不受外力作用, $\bm{f}_1 = \bm{0}$, 可得:
+\begin{equation}
+  \bm{K}_{10} \bm{u}_0 = - \bm{K}_{11} \bm{u}_1
+\end{equation}
+由于 $\bm{K}_{10}$ 为稀疏矩阵且并不保证正定, 无法使用直接分解的方法求解, 因此我们使用最小残量迭代法 (MINRES) 来求解上述线性问题.
