@@ -1,24 +1,36 @@
 % !TeX root = ../thuthesis-example.tex
 
 \begin{denotation}[3cm]
-  \item[CASS] 计算机辅助手术模拟, Computer-Assisted Surgical Simulation
-  \item[CBCT] 锥形束计算机断层扫描, Cone Beam Computed Tomography
+  % \item[CASS] 计算机辅助手术模拟, Computer-Assisted Surgical Simulation
+  % \item[CBCT] 锥形束计算机断层扫描, Cone Beam Computed Tomography
   \item[CDT] 带约束的德劳内剖分, Constrained Delaunay Tessellation
   \item[CMF] 颅颌面, Craniomaxillofacial
   \item[CT] 电子计算机断层扫描, Computed Tomography
-  \item[FEM] 有限元模型, Finite-Element Model
+  \item[FEM] 有限元模型, Finite Element Model
   \item[ICP] 迭代最近点, Iterative Closest Point
-  \item[MSM] 质点-弹簧模型, Mass-Spring Model
-  \item[MTM] 质量-张量模型, Mass-Tensor Model
-  \item[$\alpha, \beta, \gamma$] 超参数
-  \item[$\bm{u}_i, \bm{v}_j$] 模板模型上的顶点, 患者模型上的顶点
+  \item[MSM] 质点-弹簧模型, Mass Spring Model
+  \item[MTM] 质点-张量模型, Mass Tensor Model
+
+  \item[$\alpha, \beta, \gamma, \nu$] 配准过程的超参数
+  \item[$\bm{u}_i, \bm{v}_j$] 患者模型上的顶点; 模板模型上的顶点
   \item[$\dist(\mathcal{S}, \bm{u}_i)$] 顶点到模型表面的最短距离
-  \item[$\lambda$] Lam\'e 的第一个参数, Lam\'e's First Parameter
   \item[$\mathcal{L}$] 特征点对集合
-  \item[$\mathcal{S}_v, \mathcal{T}_v$] 模板模型, 患者模型的有效区域
+  \item[$\mathcal{S}_o, \mathcal{T}_o$] 模板模型, 患者模型的重叠区域
   \item[$\mathcal{S}, \mathcal{T}$] 模板模型, 患者模型
   \item[$\mathcal{X}, \bm{X}_i$] 逐顶点变换矩阵
-  \item[$\nu$] 泊松比 / Lam\'e 的第二个参数, Poisson's Ratio / Lam\'e's Second Parameter
-  \item[$E(\mathcal{X}), E_d, E_s, E_l$] 损失函数
-  \item[$E$] 杨氏模量, Young's Modulus
+  \item[$\mathrm{NN}(\bm{v}_i)$] 模板顶点 $\bm{v}_i$ 在患者模型 $\mathcal{T}_o$ 中的最近邻对应点
+  \item[$E(\mathcal{X}), E_d, E_s, E_l$] 配准损失函数
+
+  \item[$\alpha_j$] 任意某点 $\bm{x}$ 关于节点 $j$ 的重心坐标
+  \item[$\bm{E}$] Lagrangian 有限应变张量
+  \item[$\bm{f}_i$] 节点 $i$ 所受的力
+  \item[$\bm{K}_{jk}$] 刚度矩阵
+  \item[$\bm{p}_i$] 节点 $i$ 在无应变状态下的位置
+  \item[$\bm{u}, \bm{u}_i$] 位移场; 节点 $i$ 的位移
+  \item[$\lambda, \mu$] Lam\'e 系数, Lam\'e's Parameters
+  \item[$\Lambda_j, \Psi_j$] 包含节点 $j$ 的四面体元素集合; 与节点 $j$ 邻接的节点集合
+  \item[$E, \nu$] 杨氏模量, Young's Modulus; 泊松比, Poisson's Ratio
+  \item[$T_i$] 四面体网格中的第 $i$ 个四面体元素
+  \item[$V_i$] 四面体 $T_i$ 的体积
+  \item[$W$] 有限应变能量密度函数
 \end{denotation}
