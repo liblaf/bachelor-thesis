@@ -3,16 +3,26 @@
 % 中英文摘要和关键字
 
 \begin{abstract}
-  正颌手术是治疗颅颌面畸形的重要手段，而术后外观预测在患者术前决策过程中发挥着至关重要的作用。
-  然而，传统的预测方法主要依赖于医生的主观经验，这种做法往往缺乏客观性和可度量性。
+  全球范围内，每年都有许多患者因患有颅颌面畸形而饱受困扰。
+  这些畸形不仅可能影响患者的基本生理功能，还会对其心理健康和社会交际产生负面影响。
+  正颌手术是治疗颅颌面畸形的重要手段，通过手术可以显著改善患者的生理功能和面部外观。
+  术前决策过程中，术后外观预测是患者和医生关注的核心问题，对手术方案的选择至关重要。
+
+  传统的术后外观预测方法主要依赖于医生的主观经验，这种做法往往缺乏客观性和可度量性，且因个体差异较大，预测结果可能不够精确。
   为克服这些限制，本研究提出了一种基于物理模拟的正颌手术术后外观预测新策略。
-  具体来说，本研究实施了两个核心步骤：
-  \begin{enumerate}
-    \item 设计并开发了一种高精度且高效率的骨骼和面部重建算法，显著提升了重建任务的准确性和自动化水平。
-    \item 利用符合生物力学原理的高效质点-张量模型，对手术后软组织的形态变化进行仿真。
-  \end{enumerate}
+  通过结合高精度的骨骼和面部重建算法以及生物力学仿真模型，本研究旨在提供更为客观、精确的术后外观预测方法。
+
+  具体来说，本研究实现了两个核心步骤：
+  1. 实现了一种高精度且自动化的骨骼和面部重建算法。
+  该算法结合了刚性和非刚性配准方法，通过处理患者头部的 CT 影像数据，能够生成高分辨率和一致拓扑的三维模型。
+  此方法不仅具有高度的准确性，还显著提升了自动化水平，减少了人工干预所带来的误差。
+  2. 利用符合生物力学原理的高效质点-张量模型，对手术后软组织的形态变化进行仿真。
+  该模型考虑了软组织的生物力学特性，通过模拟手术过程中骨骼移动对软组织的牵拉和压迫作用，能够精确预测手术后的面部形态变化。
+  % 仿真过程中，采用并行计算技术，显著提高了计算效率，确保在短时间内获得高质量的预测结果。
+
   实验结果显示，本研究提出的预测策略能够有效地预测正颌手术的术后外观，具备较高的精确度和计算效率。
-  本研究为正颌手术的术后外观预测提供了可行的方法，并有潜力成为临床实践中有效的辅助决策工具。
+  与传统方法相比，该策略在客观性和准确性方面具有显著优势，为正颌手术的术后外观预测提供了可行的方法，并有潜力成为临床实践中有效的辅助决策工具。
+  未来，本研究还将进一步优化模型，结合更多的生物力学数据和临床案例，以提升预测模型的准确性和实用性。
 
   % 关键词用“英文逗号”分隔，输出时会自动处理为正确的分隔符
   \thusetup{
@@ -21,16 +31,27 @@
 \end{abstract}
 
 \begin{abstract*}
-  Orthognathic surgery is a pivotal intervention for correcting cranio-maxillofacial anomalies, with the prediction of post-operative appearance assuming a critical role in the pre-operative planning phase.
-  Traditional methods of prediction primarily depend on the subjective experience of clinicians, usually lacking in objectivity and quantifiability.
-  Addressing these deficiencies, this study introduces an innovative strategy for predicting facial appearance after orthognathic surgery using physical simulation.
-  This approach is composed of two principal components:
+  Globally, many patients suffer from craniofacial deformities each year, impacting not only their basic physiological functionalities but also their mental health and social interactions.
+  Orthognathic surgery is a crucial method for treating these deformities, significantly enhancing both physiological functionalities and facial appearance.
+  In the pre-operative decision-making process, predicting post-operative appearance is a core concern for both patients and doctors and is essential for selecting the appropriate surgical plan.
+
+  Traditional methods for predicting post-operative appearance primarily rely on the subjective experience of doctors.
+  This approach often lacks objectivity and measurability, and due to individual differences, the predictions may not be sufficiently accurate.
+  To overcome these limitations, this research proposes a new strategy based on physical simulation for predicting post-operative appearance.
+  By combining high-precision skeletal and facial reconstruction algorithms with biomechanical models, this research aims to provide a more objective and accurate method for prediction.
+
+  Specifically, this research achieves two core steps:
   \begin{enumerate}
-    \item The development of a high-precision and high-efficiency algorithm for skull and facial reconstruction, which markedly enhances the accuracy and level of automation in the reconstruction process.
-    \item The application of an advanced Mass Tensor Model, grounded in biomechanical principles, to simulate the post-surgical morphological alterations of soft tissues.
+    \item A high-precision, automatic algorithm for skeletal and facial reconstruction.
+          This algorithm combines rigid and non-rigid registration methods, processes CT imaging data of patients' heads, and generates high-resolution three-dimensional models with consistent topology.
+          This method not only achieves high accuracy but also significantly enhances automation, reducing errors caused by manual intervention.
+    \item An efficient mass-tensor model that adheres to biomechanical principles is used to simulate the morphological changes of soft tissues post-surgery.
+          This model considers the biomechanical properties of soft tissues and can accurately predict post-operative facial morphological changes by simulating the effects of bone movement on soft tissues during surgery.
   \end{enumerate}
-  Evaluations indicate that the proposed method reliably predicts post-operative facial appearance with notable precision and efficiency.
-  This methodology offers a practical solution for anticipating post-surgical outcomes in orthognathic surgery and holds promise as an effective tool for decision-making in clinical applications.
+
+  The experimental results demonstrate that the proposed prediction strategy can effectively predict the post-operative appearance of orthognathic surgery with high accuracy and computational efficiency.
+  Compared to traditional methods, this strategy offers significant advantages in terms of objectivity and accuracy, providing a feasible method for predicting post-operative appearance in orthognathic surgery and the potential to become an effective auxiliary decision-making tool in clinical practice.
+  In the future, this research will further optimize the model by incorporating more biomechanical data and clinical cases to enhance the accuracy and practicality of the prediction model.
 
   % Use comma as separator when inputting
   \thusetup{
