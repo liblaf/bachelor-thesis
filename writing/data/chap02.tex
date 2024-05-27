@@ -32,9 +32,16 @@ TetGen 以 Delaunay 分割算法为核心，确保了其在理论上的正确性
 当面对封闭的三角形网格时，该函数能实现模型的理想划分，即使是对于存在众多缺陷的几何形状，算法依旧能展现出杰出的性能。该划分函数指导带约束的Delaunay分割（Constrained Delaunay Tessellation，CDT）过程，确保最终结果满足输入边界的需求。
 
 在最近的一项研究中，Zhang Xiaoyan 等学者 \cite{zhangEFacetemplateMethodEfficiently2016} 提出了一种创新的 eFace-Template 半自动化技术，用于高效而精确地重建特定患者的面部软组织三维模型。
-此项技术的创新点在于使用了一个包含解剖学细节的模板模型，并将该模板变形至与目标几何形状相匹配，从而得到患者面部软组织的体积模型。
+eFace-Template 的框架如图 \ref{fig:zhangEFacetemplateMethodEfficiently2016} 所示，此项技术的创新点在于使用了一个包含解剖学细节的模板模型，并将该模板变形至与目标几何形状相匹配，从而得到患者面部软组织的体积模型。
 处理流程融合了标记驱动的混合形状变形与稠密表面配准方法，并应用了薄板样条（Thin Plate Spline，TPS）的插值方式以增强模型的泛化能力。
 该方法在模型的重建精度、解剖学的准确性以及网格质量等方面都达到了较高水平。
+
+\begin{figure}
+  \centering
+  \includegraphics[width = \linewidth]{related-work/zhangEFacetemplateMethodEfficiently2016.png}
+  \caption{eFace-Template 技术框架 \cite{zhangEFacetemplateMethodEfficiently2016}}
+  \label{fig:zhangEFacetemplateMethodEfficiently2016}
+\end{figure}
 
 \section{整形手术模拟研究进展}
 
@@ -47,16 +54,33 @@ TetGen 以 Delaunay 分割算法为核心，确保了其在理论上的正确性
 该模型的核心在于以参数化方法驱动，集成了人类头骨结构、面部几何形状的建模，能够精确地捕获面部特征以及其背后的骨架结构。
 特别是模型中引入的 trait 分量，对于模拟骨骼结构变化所引起的面部特征改变至关重要，这对于精确预测正颌手术患者术后面部外观的变化具有非常关键的意义。
 
+\begin{figure}
+  \centering
+  \includegraphics[width = \linewidth]{related-work/qiuSCULPTORSkeletonconsistentFace2022a.png}
+  \caption{SCULPTOR 模型概览 \cite{qiuSCULPTORSkeletonconsistentFace2022a}}
+  \label{fig:qiuSCULPTORSkeletonconsistentFace2022a}
+\end{figure}
+
 在计算机视觉的研究领域内，深度学习技术已经取得了令人瞩目的成就，尤其在图像分类、目标检测和语义分割等任务上有卓越的表现。
 近年来，众多研究者也开始探索将此技术应用于手术模拟的可能性。
 Ma Lei 等研究人员 \cite{maSimulationPostoperativeFacial2023} 开发出一种称为 FSC-Net 的新型面部模型预测网络。
-该网络旨在学习从骨骼形态变化到面部外形变化之间的复杂且非线性的关系。
+FSC-Net 的框架如图 \ref{fig:jacobsonRobustInsideoutsideSegmentation2013} 所示，该网络旨在学习从骨骼形态变化到面部外形变化之间的复杂且非线性的关系。
 值得注意的是，FSC-Net 基于点变换网络结构，采用术前后成对数据进行弱监督学习来优化网络参数，这一过程无需严格的顶点对应匹配。
 同时，为了提高建模的准确性，尤其是下颌部位，网络采用了以距离为基础的形状损失函数。
 为了保持网格顶点的一致性并避免尖锐或不切实际的变形，FSC-Net 对顶点位移进行约束，以计算局部顶点损失。
 实验评估显示，FSC-Net 在处理速度上比传统的有限元方法提高了 15 倍，同时还保持了与有限元方法相近的精度。
 
-在近一步的研究中，Ma Lei 等学者 \cite{maBidirectionalPredictionFacial2023} 在 P2P-Net \cite{yinP2PNETBidirectionalPoint2018} 的基础上进行了扩展，开发了一种新型深度学习模型，称为双向点对点卷积网络（P2P-Conv)。
+\begin{figure}
+  \centering
+  \includegraphics[width = \linewidth]{related-work/jacobsonRobustInsideoutsideSegmentation2013.png}
+  \caption{
+    FSC-Net 框架概述 \cite{jacobsonRobustInsideoutsideSegmentation2013}
+    % 。N：降采样后术前面部点云中的点数。MLP：多层感知器。
+  }
+  \label{fig:jacobsonRobustInsideoutsideSegmentation2013}
+\end{figure}
+
+在近一步的研究中，Ma Lei 等学者 \cite{maBidirectionalPredictionFacial2023} 在 P2P-Net \cite{yinP2PNETBidirectionalPoint2018} 的基础上进行了扩展，开发了一种新型深度学习模型，称为双向点对点卷积网络（P2P-Conv）。
 这一模型专为解决面部和颅骨之间形态转换的问题而设计，旨在协助正颌外科手术规划。
 P2P-Conv 不仅保留了 P2P-Net 的优势，还整合了动态点卷积（PointConv）技术，有效地提取了局部和全局空间信息。
 模型训练时，该框架采用了多子集数据增广技术，通过分割面部和颅骨顶点为多个子集数据来增强训练过程。
@@ -97,7 +121,15 @@ Mollemans 的研究团队 \cite{mollemansPredictingSoftTissue2007} 创新性地�
 此后，Kim 等研究者 \cite{kimNewSofttissueSimulation2010} 使用了横向各向同性的 MTM，探索如何进行面部软组织行为的预测，并提出了一种同时满足生物力学原理与高效率仿真需求的软组织模拟方法。
 
 在类似研究的进一步深化中，Ichim 及其同事 \cite{ichimPhacePhysicsbasedFace2017} 创新性地提出了 Phace --- 这是一种基于物理原理的面部动画技术。
+Phace 建立在一个精心构建的通用面部模板之上，如图 \ref{fig:ichimPhacePhysicsbasedFace2017} 所示，其中包含了组织和骨骼的体积表示、嵌入四面体网格的肌肉模型、一组混合形状基等信息。
 与传统的模拟方法不同，Phace 通过最小化被动肌肉、主动肌肉与骨骼这些刚体结构交互作用过程中的势能，实现对于面部表情动态变化的精确计算。
 而且，Phace 通过将碰撞处理机制与仿真模型整合，有效规避了传统动画技术如混合形状建模中常见的穿模问题。
 通过引入的全新肌肉激活模型，Phace 能够有效地复现复杂的面部表情。
 Phace 所展现出的应用潜力极为广泛，它不仅适合于艺术动画制作的场景，还可服务于模拟整形手术过程中的面部重塑以及脸部与外力或物体相互作用的动态模拟。
+
+\begin{figure}
+  \centering
+  \includegraphics[width = \linewidth]{related-work/ichimPhacePhysicsbasedFace2017.png}
+  \caption{Phace 模板构成 \cite{ichimPhacePhysicsbasedFace2017}}
+  \label{fig:ichimPhacePhysicsbasedFace2017}
+\end{figure}

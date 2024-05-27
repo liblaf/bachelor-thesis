@@ -131,8 +131,8 @@ $\Psi_j$ 代表了与顶点 $j$ 邻接的顶点集，$\Lambda_j$ 则表示囊括
   \end{bmatrix}
 \end{equation}
 在静态平衡条件下，考虑到自由顶点没有外力作用，即 $\bm{f}_1 = \bm{0}$，可以推导出以下关系：
-\begin{equation}
+\begin{equation} \label{eq:mtm-solve}
   \bm{K}_{11} \bm{u}_1 = - \bm{K}_{10} \bm{u}_0
 \end{equation}
 鉴于矩阵 $\bm{K}_{10}$ 的稀疏性质以及其不保证为正定矩阵，常规直接分解方法对于求解此类线性系统并不适用。
-因此，我们采用最小残差迭代法 (MINRES) 进行求解，以确保收敛性和计算效率。
+因此，我们采用最小残差迭代法（MINRES）进行求解，以确保收敛性和计算效率。
