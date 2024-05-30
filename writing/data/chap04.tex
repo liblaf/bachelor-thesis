@@ -3,11 +3,23 @@
 \chapter{质点-张量模型}
 \label{cha:mtm}
 
-\section{质点-张量模型}
+为了对正颌手术进行模拟，我们需要构建合适的力学模型来建模颅骨的变化引起的软组织变化。
+为此，我们将软组织近似为均匀且各向同性的材料，建模为四面体网格。
+颅骨的变化作为固定边界条件，直接影响到与之相连的软组织的变化。
+这一变化通过软组织内部的相互作用进一步传递，最终影响到整个面部的外形。
 
-本研究采用基于质点-张量模型（Mass Tensor Model，MTM）\cite{cotinHybridElasticModel2000} 来模拟面部软组织的物理行为。
-MTM 既具有与质点-弹簧模型（Mass Spring Model，MSM）的相似的简洁结构表达，又能达到与有限元模型（Finite Element Method，简称 FEM）相近的生物力学相关性。
-因此 MTM 不仅拥有了 MSM 的高效与易实现特点，同时准确性也不输 FEM。
+本章将详细介绍质点-张量模型（Mass Tensor Model，MTM）\cite{cotinHybridElasticModel2000} 的基本原理，以及如何将其应用于正颌手术模拟中。
+MTM 既具有与质点-弹簧模型（Mass Spring Model，MSM）的相似的简洁结构表达，又能达到与有限元模型（Finite Element Method，FEM）相近的生物力学相关性\cite{mollemansPredictingSoftTissue2007}。
+因此 MTM 不仅拥有 MSM 的高效与易实现特点，同时准确性也不输 FEM。
+
+在本章中，第 \ref{sec:mtm:energy} 小节将探讨连续介质上能量与位移的关系，第 \ref{sec:mtm:discretization} 小节将介绍如何将连续介质上的应变能离散化至四面体网格上，第 \ref{sec:mtm:force} 小节将在能量与位移关系的基础上进一步推导出四面体网格上的逐顶点受力，最后第 \ref{sec:mtm:boundary} 小节将介绍如何将颅骨作为固定边界条件，并求解整个系统的平衡状态。
+
+\section{Saint Venant-Kirchhoff 应变能}
+\label{sec:mtm:energy}
+
+% 本研究采用基于质点-张量模型（Mass Tensor Model，MTM）\cite{cotinHybridElasticModel2000} 来模拟面部软组织的物理行为。
+% MTM 既具有与质点-弹簧模型（Mass Spring Model，MSM）的相似的简洁结构表达，又能达到与有限元模型（Finite Element Method，简称 FEM）相近的生物力学相关性。
+% 因此 MTM 不仅拥有了 MSM 的高效与易实现特点，同时准确性也不输 FEM。
 
 MTM 基于 Saint Venant-Kirchhoff 应变能模型，具体的能量密度函数可表达为：
 \begin{equation} \label{eq:mtm-energy}
@@ -23,15 +35,16 @@ MTM 基于 Saint Venant-Kirchhoff 应变能模型，具体的能量密度函数�
   \bm{E} = \frac{1}{2} \pqty{\grad{\bm{u}} + (\grad{\bm{u}})^T}
 \end{equation}
 
-\subsection{体积离散化}
+\section{体积离散化}
+\label{sec:mtm:discretization}
 
 在进行数字模拟的过程中，将建模对象进行离散化处理是一种常见且有效的手段，其中四面体网格由于其拓扑的简单性和对复杂几何的较好适应性，成为离散化的理想选择。
 考虑一个任意的四面体元素 $T_i$，其在无形变状态下的四个顶点位置分别表示为向量 $\bm{p}_0$, $\bm{p}_1$, $\bm{p}_2$, $\bm{p}_3$。
-四面体内部任意一点 $\bm{x}$ 的位移场 $\bm{u}$ 可以通过顶点位移的重心坐标线性插值来确定：
+四面体内部任意一点 $\bm{x}$ 的位移 $\bm{u}$ 可以通过顶点位移的重心坐标线性插值来确定：
 \begin{equation}
   \bm{u}(\bm{x}) = \sum_{j = 0}^3 \alpha_j \bm{u}_j
 \end{equation}
-其中，$\alpha_j$ 代表点 $\bm{x}$ 关于顶点 $\bm{p}_j$ 的重心坐标，表达式为：
+其中，$\bm{u}_j$ 表示顶点 $\bm{p}_j$ 的位移，$\alpha_j$ 代表点 $\bm{x}$ 关于顶点 $\bm{p}_j$ 的重心坐标，表达式为：
 \begin{equation}
   \alpha_j(\bm{x}) = - \frac{\bm{m}_j}{6 V_i} \cdot (\bm{x} - \bm{p}_{j + 1})
 \end{equation}
@@ -52,7 +65,7 @@ MTM 基于 Saint Venant-Kirchhoff 应变能模型，具体的能量密度函数�
 \end{equation}
 向量 $\bm{m}_j$ 的几何意义较为明显，它的方向与点 $\bm{p}_{j}$ 相对的三角形面片的外法线相同，模长 $\norm{\bm{m}_j}$ 则等同于该三角形面积的两倍。
 
-\subsection{四面体的应变能}
+% \subsection{四面体的应变能}
 
 为了便于模型的实际应用，进一步讨论四面体的应变能是必要的。
 依据应变能密度函数 $W$ 表达式，\eqref{eq:mtm-energy} 可以改写为：
@@ -66,7 +79,7 @@ MTM 基于 Saint Venant-Kirchhoff 应变能模型，具体的能量密度函数�
   \end{split}
 \end{equation}
 通过上述方程，我们可以更容易地将四面体的应变能表达为位移场的梯度、散度和旋度的函数。
-基于上一小节的讨论，我们进一步可以推导出位移场的梯度 ($\grad{\bm{u}}$)、散度 ($\divergence{\bm{u}}$) 以及旋度 ($\curl{\bm{u}}$) 如下所示：
+基于前文的讨论，我们进一步可以推导出位移场的梯度 ($\grad{\bm{u}}$)、散度 ($\divergence{\bm{u}}$) 以及旋度 ($\curl{\bm{u}}$) 如下所示：
 \begin{align}
   \grad{\bm{u}}
    & = \sum_{j = 0}^3 \grad{\alpha_j} \bm{u}_j
@@ -79,7 +92,8 @@ MTM 基于 Saint Venant-Kirchhoff 应变能模型，具体的能量密度函数�
   = \sum_{j = 0}^3 - \frac{\bm{m}_j}{6 V_i} \cp \bm{u}_j
 \end{align}
 
-\subsection{逐顶点受力分析}
+\section{逐顶点受力分析}
+\label{sec:mtm:force}
 
 为了阐述四面体 $T_i$ 内顶点的受力与位移之间的关系，我们继续以下推导：
 \begin{equation}
@@ -102,10 +116,11 @@ MTM 基于 Saint Venant-Kirchhoff 应变能模型，具体的能量密度函数�
 \begin{equation}
   \bm{K}_{jk} = \sum_{T_i \in \Lambda_j} \bm{K}_{jk}^{T_i}
 \end{equation}
-$\Psi_j$ 代表了与顶点 $j$ 邻接的顶点集，$\Lambda_j$ 则表示囊括顶点 $j$ 的四面体集合。
+$\Psi_j$ 代表了与顶点 $j$ 邻接的顶点集，$\Lambda_j$ 则表示包含顶点 $j$ 的四面体集合。
 基于此，MTM 在基于质点和四面体的简洁表达上建立了力与位移的线性关系。
 
 \section{边界条件}
+\label{sec:mtm:boundary}
 
 针对本文研究问题，我们需要将以上模型运用于正颌外科手术模拟之中。
 为了描述正颌手术对软组织影响的模拟过程，力学模型必须能够反映骨骼变化对软组织的作用。
@@ -113,7 +128,9 @@ $\Psi_j$ 代表了与顶点 $j$ 邻接的顶点集，$\Lambda_j$ 则表示囊括
 这些点定义为固定顶点；而那些不与骨骼直接相连的软组织顶点，我们定义为自由顶点。
 鉴于手术前后骨骼模型的数据已知，我们可以通过计算骨骼位移来推断固定顶点的位移情况。
 
-我们考虑已知的固定顶点，其位移表示为 $\bm{u}_0$，同时求解剩余自由顶点的位移 $\bm{u}_1$。
+\newpage
+
+我们考虑已知固定顶点，其位移表示为 $\bm{u}_0$，需要求解剩余自由顶点的位移 $\bm{u}_1$。
 为此，我们构建了模型的全局刚度矩阵，并表述了整个系统的力-位移关系如下：
 \begin{equation}
   \begin{bmatrix}
@@ -134,5 +151,5 @@ $\Psi_j$ 代表了与顶点 $j$ 邻接的顶点集，$\Lambda_j$ 则表示囊括
 \begin{equation} \label{eq:mtm-solve}
   \bm{K}_{11} \bm{u}_1 = - \bm{K}_{10} \bm{u}_0
 \end{equation}
-鉴于矩阵 $\bm{K}_{10}$ 的稀疏性质以及其不保证为正定矩阵，常规直接分解方法对于求解此类线性系统并不适用。
+鉴于矩阵 $\bm{K}_{10}$ 的稀疏性质并且其不保证为正定矩阵，常规直接分解方法对于求解此类线性系统并不适用。
 因此，我们采用最小残差迭代法（MINRES）进行求解，以确保收敛性和计算效率。

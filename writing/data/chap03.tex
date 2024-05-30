@@ -4,8 +4,10 @@
 \label{cha:reconstruction}
 
 精确和高效的正颌外科手术模拟，其先决条件是从医疗成像数据中准确重建出三维的面部与骨骼模型。
-为了获得手术前后骨骼的变化，我们需要获得手术前后骨骼顶点的一一对应关系。
-因此，我们还需要将模板模型与患者模型进行配准以获得手术前后同拓扑的网格模型。
+一方面，CT 数据包含了一些正颌手术模拟所不需要的结构（如颈椎等），和难以直接提取的结构（如上下颌的分界、牙齿的咬合面）；
+另一方面，为了获得手术前后骨骼的变化，我们需要获得手术前后骨骼顶点的一一对应关系。
+因此，我们需要一个固定拓扑且结构清晰的模板模型，并将其与患者模型进行配准以获得手术前后同拓扑的网格模型。
+
 本章详尽地阐述了该三维模型重建的方法和流程，具体内容包括：
 \begin{enumerate}
   \item 提取 CT 图像数据以形成面部与骨骼表面模型的三角网格表示，
@@ -15,39 +17,94 @@
 \end{enumerate}
 经过以上步骤，我们能够生成手术前后拓扑基本一致的三角网格模型，并且将该模型划分为高质量的四面体网格。
 
-本文所采用的 CT 数据分辨率为 \numproduct{512 x 512 x 364} 体素，每个体素的尺寸为 \qtyproduct{0.4395 x 0.4395 x 0.6000}{\milli\meter}。
-
 \section{模板模型的构建}
 
-为满足本研究的需求，我们以 SCULPTOR \cite{qiuSCULPTORSkeletonconsistentFace2022a} 开源的骨骼及面部模板为基础，构筑了所需的模板模型。
+为满足本研究的需求，我们以 SCULPTOR \cite{qiuSCULPTORSkeletonconsistentFace2022a} 开源的骨骼及面部模板模型为基础，构筑了所需的模板模型。
 初始阶段，我们手动移除 SCULPTOR 模板中的非必要部分，如颈部和复杂的口唇区域。
 随后，利用 MeshFix 工具 \cite{atteneLightweightApproachRepairing2010} 填补了模板中的空洞，这些空洞主要位于眼部、口部以及颈部的精细区域，并解决了因自相交缺陷导致的穿模问题。
 最后，我们对模型应用了 Taubin 平滑 \cite{vollmerImprovedLaplacianSmoothing1999}，以降低模型中的锐利缺陷。
+模板模型如图 \ref{fig:landmarks} 所示。
+其中面部模型由 \num{10391} 个顶点和 \num{20778} 个三角形面片组成，上下颌骨模型分别由 \numlist{9476; 17575} 个顶点及 \numlist{18948; 35162} 个三角形面片组成。
+
+\section{颅骨与面部模型的提取}
+
+本节主要讲述如何从 CT 体素数据提取三角网格表面模型。
+图 \ref{fig:ct} 展示了一例 CT 数据，其分辨率为 \numproduct{512 x 512 x 360} 体素，每个体素的尺寸为 \qtyproduct{0.4395 x 0.4395 x 0.6000}{\milli\meter}。
+
+\begin{figure}
+  \centering
+  \includegraphics[height = 0.3 \linewidth]{register/ct-front.pdf} \quad
+  \includegraphics[height = 0.3 \linewidth]{register/ct-lateral.pdf}
+  \caption{CT 数据}
+  \label{fig:ct}
+\end{figure}
+
+首先，我们对体素数据施加 Gaussian 平滑处理，以滤除 CT 扫描中的过锐缺陷。
+这使得我们在几乎不损失细节的情况下，有效减少了等值取面中不影响手术模拟的结构（如图 \ref{fig:contour} 中的颏孔）。
+具体来说，与 2D 图像上的 Gaussian 模糊类似，平滑后的每个体素的 CT 值由原影像中半径 $R$ 内的体素加权平均得到，权重由高斯函数（式 \eqref{eq:gaussian}）确定。
+此处我们选取半径范围 $R = 1.5$，标准差 $\sigma = 2.0$。
+\begin{equation} \label{eq:gaussian}
+  G(x, y, z) = \frac{1}{\pqty{2 \pi \sigma^2}^{3 / 2}} \exp(- \frac{x^2 + y^2 + z^2}{2 \sigma^2})
+\end{equation}
+
+从图 \ref{fig:ct} 中，我们可以观察到不同组织之间的 CT 值存在较大差异。
+骨骼的 CT 值一般超过 \num{300}，而空气的 CT 值约为 \num{-1000}。
+因此，我们可以通过等值曲面来分割骨骼、软组织与空气。
+骨骼与软组织的分界面即为骨骼表面，我们选取阈值为 \num{200}；
+而软组织与空气的分界面即为面部表面，我们选取阈值为 \num{-200}。
+最后，我们根据曲面的连通性，保留最大的连通分量作为我们的结果。
+图 \ref{fig:contour} 展示了一组等值曲面的结果。
+
+\begin{figure}
+  \centering
+  \subcaptionbox{无 Gaussian 平滑}{
+    \includegraphics[height = 0.23 \linewidth]{register/contour-face-gaussian-off.pdf}
+    \includegraphics[height = 0.23 \linewidth]{register/contour-skull-gaussian-off.pdf}
+  }
+  \subcaptionbox{有 Gaussian 平滑}{
+    \includegraphics[height = 0.23 \linewidth]{register/contour-face-gaussian-on.pdf}
+    \includegraphics[height = 0.23 \linewidth]{register/contour-skull-gaussian-on.pdf}
+  }
+  \caption{等值曲面剖面图。\textcolor{red}{红色}为去除的多余曲面。}
+  \label{fig:contour}
+\end{figure}
 
 \section{刚性配准}
 
-本节主要讲述如何从 CT 体素数据提取三角网格表面模型，并进行模型之间的刚性配准。
+本节主要讲述如何进行模型之间的刚性配准。
 
-首先，我们对体素数据施加 Gaussian 平滑处理，以滤除 CT 扫描中由散射和噪声所引入的过锐缺陷。
-之后，按照预设阈值对 CT 值进行分割，并使用 VTK Contour Filter 方法提取骨骼和面部的等值面，其中骨骼和软组织的 CT 阈值分别设置为 \num{200} 和 \num{-200}。
-
-进一步，在模板和患者的三维模型的骨骼表面上分别标定了若干特征点，如图 \ref{fig:landmarks} 所展示的 10 个和 9 个特征点。
+我们在模板和患者的三维模型的骨骼表面上分别标定了若干特征点，如图 \ref{fig:landmarks} 所展示的 10 个面部和 9 个颅骨特征点。
 该步骤的目标是在模板与患者间建立精确的一对一特征点映射关系。
 
 \begin{figure}
   \centering
-  \subcaptionbox{10 个面部特征点\label{fig:landmarks-face}}{\includegraphics[width = 0.3 \linewidth]{landmarks/face-landmarks.pdf}}
+  \subcaptionbox{10 个面部特征点\label{fig:landmarks-face}}{\includegraphics[width = 0.3 \linewidth]{landmarks/face-landmarks.pdf}} \quad
   \subcaptionbox{9 个骨骼特征点\label{fig:landmarks-skull}}{\includegraphics[width = 0.3 \linewidth]{landmarks/skull-landmarks.pdf}}
-  \caption{特征点}
+  \caption{模板模型与特征点}
   \label{fig:landmarks}
 \end{figure}
 
-为了获得一组初始的刚性变换参数，即全局的平移、缩放与旋转参数，本研究采纳了标准的 Procrustes 分析方法 \cite{rossProcrustesAnalysis2004}。
-Procrustes 分析的核心目标在于通过反复迭代的过程，最小化两组特征点之间的总平方距离。
+为了获得一组初始的刚性变换参数，即全局的平移、缩放与旋转参数，本研究使用了 trimesh \cite{trimesh} 中实现的 Procrustes 分析 \cite{rossProcrustesAnalysis2004} 算法。
+Procrustes 分析的核心目标在于通过反复迭代的过程，最小化两组特征点之间的欧式距离。
+我们使用了 。
+
 在此基础之上，本研究进一步引入了迭代最近点（Iterative Closest Point，ICP）算法，对模型进行精细的刚性配准。
 该步骤的主要目的在于减小由人工标注特征点过程中可能产生的误差。
-具体的刚性配准结果如图 \ref{fig:align} 所展示。
-值得注意的是，CT 数据往往具有相近的空间位态，因此对于多组 CT 扫描，我们可以通过单次 Procrustes 分析为所有模型建立一个相同的初始变换参数，再通过 ICP 算法进行进一步的提升配准的精度。
+ICP 算法的基本思想是：通过迭代地寻找两个模型之间对应点对的最近距离，并基于这些对应点对估计出最佳的全局变换，从而使源模型尽可能地与目标几何对齐。
+具体来说，ICP 算法的流程如下：
+\begin{enumerate}
+  \item \textbf{下采样：} 从源模型与目标几何中均匀采样 \num{1000} 个顶点作为配准依据。由于 CT 数据的分辨率较高，我们可以通过这种方式大大减少计算量。
+  \item \textbf{估计初始变换：} 根据源模型与目标几何的边界框估计出初始的变换参数。
+  \item \label{enum:icp-correspondence} \textbf{寻找对应点对：} 对于源点云中的每个点，找到目标点云中距离其最近的点，形成对应点对。
+  \item \textbf{估计刚体变换：} 基于对应点对，使用 Procrustes 分析计算出最佳的刚体变换（包括旋转、平移与缩放）。
+  \item \label{enum:icp-update} \textbf{更新源模型：} 将上一步得到的全局变换应用于源模型，使其与目标几何更加接近。
+  \item \textbf{迭代：} 重复步骤 \ref{enum:icp-correspondence} 到 \ref{enum:icp-update}，直到达到预定的终止条件。此处我们选取终止条件为 Procrustes 分析的损失小于 \num{1e-5} 或迭代次数超过 \num{100}。
+\end{enumerate}
+
+图 \ref{fig:align} 展示了一组刚性配准的结果。
+值得注意的是，CT 数据往往具有相近的空间位态。
+因此，对于多组 CT 扫描，我们可以通过对其中一组 CT 标注特征点，并进行 Procrustes 分析，得到一个初始的全局变换作为所有 CT 的初始变换。
+在此初始变换基础上，每一组 CT 可以分别通过 ICP 算法进行进一步的提升配准的精度。
 
 \begin{figure}
   \centering
@@ -60,7 +117,7 @@ Procrustes 分析的核心目标在于通过反复迭代的过程，最小化两
 \section{非刚性配准}
 
 在完成了初始的刚性配准工作后，我们需要进行非刚性配准（non-rigid registration），以将模板模型变形至与患者一致。
-我们采用了由 Amberg 等人提出的非刚性配准算法 \cite{ambergOptimalStepNonrigid2007} 作为理基础。
+我们采用了由 Amberg 等人提出的非刚性配准算法 \cite{ambergOptimalStepNonrigid2007} 作为基础。
 该算法将 ICP 扩展至非刚性形变来使模型与目标几何匹配。
 在初始阶段，通过使用最邻近点来建立模板与目标患者模型间顶点的对应关系。
 继而，该算法通过最小化能量函数 $E$ 来解算每个顶点的变换矩阵 $\bm{X}_i$。
@@ -172,17 +229,23 @@ Procrustes 分析的核心目标在于通过反复迭代的过程，最小化两
 \section{四面体网格生成}
 
 在获得模板与患者的三角面网格构型后，我们需将其细分为四面体网格，以适应下一步的仿真分析需求。
-在这一过程中，采用了 TetGen 工具 \cite{siTetGenDelaunaybasedQuality2015}，其被证实能够生成高品质的四面体网格。
+在这一过程中，采用了 TetGen 工具 \cite{siTetGenDelaunaybasedQuality2015}。
+TetGen 是一个用于生成三维四面体网格的开源软件，其核心原理是通过 Delaunay 剖分算法和逐步插入点的方法构建高质量的四面体网格。
+TetGen 首先在输入的模型中创建初始四面体剖分，然后通过优化算法不断插入和调整点的位置，确保生成的四面体满足 Delaunay 条件，即每个四面体的外接球内不包含其他点，从而最大化四面体的角度和体积的均匀性。
+为了进一步优化四面体网格的质量，TetGen 引入了多种优化质量的后处理技术。
+例如，采用局部加密和网格平滑技术，通过插入 Steiner 点来细化网格，改善网格局部区域的质量。
+% 此外，TetGen 还提供了对低质量四面体的识别和改进功能，通过调整网格节点的位置和拓扑结构，消除过于扁平或狭长的四面体，保证整体网格的稳定性和均匀性。
+这些优化技术使得 TetGen 生成的四面体网格具有较高的质量，适合于在有限元分析、计算流体力学和科学计算等领域中的应用。
 遗憾的是，TetGen 并不能处理含有自相交三角面的输入网格，因此必须对输入模型进行预处理。
 
-我们选用 MeshFix 修复工具 \cite{atteneLightweightApproachRepairing2010}，以消除自相交的问题。
+我们使用 MeshFix 工具 \cite{atteneLightweightApproachRepairing2010}，以消除自相交的问题。
 修复流程首先独立对面部、上颌骨和下颌骨模型进行处理。
 考虑到模板中上下颌骨之间的相交现象，我们将各自修复的结果进行布尔并操作，从而合成一个完整的颅骨模型。
-尽管 MeshFix 和布尔操作可能会改变模型的拓扑结构，而不能保证手术前后拓扑结构的一致性，这些变动仅在局部发生。
+尽管 MeshFix 和布尔操作可能会改变模型的拓扑结构，不能保证手术前后拓扑结构的一致性，但这些变动仅在局部发生。
 因此，通过比对手术前和修复后的模型，仍能够识别出拓扑结构保持不变的顶点，利用这些顶点可以追踪手术前后模型之间的对应关系和相应顶点的位移。
 至于其余顶点的位移，可通过在 TetGen 所生成四面体网格的骨骼表面插值获得。
 鉴于骨骼的刚性特性，我们采用最近邻插值法确保插值结果的准确性。
-如图 \ref{fig:tetra} 所示是生成的四面体网格的剖面图。
+如图 \ref{fig:tetra} 所示是生成的四面体网格的剖面图，图中的四面体网格包含了 \num{89268} 个顶点和 \num{334892} 个四面体元素。
 
 \begin{figure}
   \centering
