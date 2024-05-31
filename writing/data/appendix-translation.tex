@@ -415,7 +415,7 @@
 
 \begin{figure}
   \centering
-  \includegraphics[width = 0.5 \linewidth]{translation/12.png}
+  \includegraphics[width = \linewidth]{translation/12.png}
   \caption{
     通过比较相对误差随迭代次数的减少，我们观察到牛顿法比我们的局部/全局方法收敛得更快。然而，这并不反映每次迭代的成本，因为每次牛顿迭代都需要求解一个变化的线性系统。观察相对误差随计算时间的减少，我们注意到我们的局部/全局方法在相对误差达到\num{e-10}时表现出更好的性能，这使得我们的方法对于交互式应用特别有吸引力。在这些曲线中，相对误差定义为相对于最优解的归一化误差$(\epsilon(\vb{q}_i) - \epsilon(q*)) / (\epsilon(\vb{q}_0) - \epsilon(\vb{q}^*))$，并且是针对一个扭曲条例子（左）进行测量的，该例子具有\num{4290}个自由度和\num{4099}个四面体应变约束。
   }
