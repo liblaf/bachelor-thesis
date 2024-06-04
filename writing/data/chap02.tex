@@ -31,7 +31,7 @@ TetGen 以 Delaunay 分割算法为核心，确保了其在理论上的正确性
 通过将缠绕数（winding number）概念拓展到任意三角形网格，该算法定义了一个可用于输入模型的划分函数。
 当面对封闭的三角形网格时，该函数能实现模型的理想划分，即使是对于存在众多缺陷的几何形状，算法依旧能展现出杰出的性能。该划分函数指导带约束的Delaunay分割（Constrained Delaunay Tessellation，CDT）过程，确保最终结果满足输入边界的需求。
 
-在最近的一项研究中，Zhang Xiaoyan 等学者 \cite{zhangEFacetemplateMethodEfficiently2016} 提出了一种创新的 eFace-Template 半自动化技术，用于高效而精确地重建特定患者的面部软组织三维模型。
+在最近的一项研究中，Zhang 等学者 \cite{zhangEFacetemplateMethodEfficiently2016} 提出了一种创新的 eFace-Template 半自动化技术，用于高效而精确地重建特定患者的面部软组织三维模型。
 eFace-Template 的框架如图 \ref{fig:zhangEFacetemplateMethodEfficiently2016} 所示，此项技术的创新点在于使用了一个包含解剖学细节的模板模型，并将该模板变形至与目标几何形状相匹配，从而得到患者面部软组织的体积模型。
 处理流程融合了标记驱动的混合形状变形与稠密表面配准方法，并应用了薄板样条（Thin Plate Spline，TPS）的插值方式以增强模型的泛化能力。
 该方法在模型的重建精度、解剖学的准确性以及网格质量等方面都达到了较高水平。
@@ -50,7 +50,7 @@ eFace-Template 的框架如图 \ref{fig:zhangEFacetemplateMethodEfficiently2016}
 
 \subsection{数据驱动的方法}
 
-在计算机视觉的研究领域中，Zesong Qiu 等研究员 \cite{qiuSCULPTORSkeletonconsistentFace2022a} 提出了一个颇具创新性的三维参数化面部模型，被称为 SCULPTOR，其独特之处在于模型能够表达人类的骨骼结构。SCULPTOR 模型以 LUCY 数据集作为基础，将面部模型按不同维度进行解构，这些维度包括形状、姿态、表情等，从而构建了一种混合形状的表达形式。
+在计算机视觉的研究领域中，Qiu 等研究员 \cite{qiuSCULPTORSkeletonconsistentFace2022a} 提出了一个颇具创新性的三维参数化面部模型，被称为 SCULPTOR，其独特之处在于模型能够表达人类的骨骼结构。SCULPTOR 模型以 LUCY 数据集作为基础，将面部模型按不同维度进行解构，这些维度包括形状、姿态、表情等，从而构建了一种混合形状的表达形式。
 该模型的核心在于以参数化方法驱动，集成了人类头骨结构、面部几何形状的建模，能够精确地捕获面部特征以及其背后的骨架结构。
 特别是模型中引入的 trait 分量，对于模拟骨骼结构变化所引起的面部特征改变至关重要，这对于精确预测正颌手术患者术后面部外观的变化具有非常关键的意义。
 
@@ -63,7 +63,7 @@ eFace-Template 的框架如图 \ref{fig:zhangEFacetemplateMethodEfficiently2016}
 
 在计算机视觉的研究领域内，深度学习技术已经取得了令人瞩目的成就，尤其在图像分类、目标检测和语义分割等任务上有卓越的表现。
 近年来，众多研究者也开始探索将此技术应用于手术模拟的可能性。
-Ma Lei 等研究人员 \cite{maSimulationPostoperativeFacial2023} 开发出一种称为 FSC-Net 的新型面部模型预测网络。
+Ma 等研究人员 \cite{maSimulationPostoperativeFacial2023} 开发出一种称为 FSC-Net 的新型面部模型预测网络。
 FSC-Net 的框架如图 \ref{fig:maBidirectionalPredictionFacial2023} 所示，该网络旨在学习从骨骼形态变化到面部外形变化之间的复杂且非线性的关系。
 值得注意的是，FSC-Net 基于点变换网络结构，采用术前后成对数据进行弱监督学习来优化网络参数，这一过程无需严格的顶点对应匹配。
 同时，为了提高建模的准确性，尤其是下颌部位，网络采用了以距离为基础的形状损失函数。
@@ -80,7 +80,7 @@ FSC-Net 的框架如图 \ref{fig:maBidirectionalPredictionFacial2023} 所示，�
   \label{fig:maBidirectionalPredictionFacial2023}
 \end{figure}
 
-在近一步的研究中，Ma Lei 等学者 \cite{maBidirectionalPredictionFacial2023} 在 P2P-Net \cite{yinP2PNETBidirectionalPoint2018} 的基础上进行了扩展，开发了一种新型深度学习模型，称为双向点对点卷积网络（P2P-Conv）。
+在近一步的研究中，Ma 等学者 \cite{maBidirectionalPredictionFacial2023} 在 P2P-Net \cite{yinP2PNETBidirectionalPoint2018} 的基础上进行了扩展，开发了一种新型深度学习模型，称为双向点对点卷积网络（P2P-Conv）。
 这一模型专为解决面部和颅骨之间形态转换的问题而设计，旨在协助正颌外科手术规划。
 P2P-Conv 不仅保留了 P2P-Net 的优势，还整合了动态点卷积（PointConv）技术，有效地提取了局部和全局空间信息。
 模型训练时，该框架采用了多子集数据增广技术，通过分割面部和颅骨顶点为多个子集数据来增强训练过程。
@@ -91,7 +91,7 @@ P2P-Conv 不仅保留了 P2P-Net 的优势，还整合了动态点卷积（Point
 \subsection{物理仿真方法的研究进展}
 
 关于面部软组织计算建模技术的研究已经吸引了广泛的关注，并取得了一系列深入的成果。
-根据使用的建模方法不同，这些研究大致可以分为三大类：质点-弹簧模型（Mass Spring Model，MSM)、有限元模型（Finite Element Model，FEM）及质点-张量模型（Mass Tensor Model，MTM)。
+根据使用的建模方法不同，这些研究大致可以分为三大类：质点-弹簧模型（Mass Spring Model，MSM）、有限元模型（Finite Element Model，FEM）及质点-张量模型（Mass Tensor Model，MTM）。
 
 在这三种模型中，由于计算效率上的显著优势，MSM 常被应用于实时面部动画制作。
 Terzopoulos \cite{terzopoulosPhysicallyBasedFacial1990} 以及 Lee \cite{leeRealisticModelingFacial1995} 在该领域起到了开拓性的作用，他们开发的基于线性弹性肌肉的 MSM 能够高效地模拟面部动画。
